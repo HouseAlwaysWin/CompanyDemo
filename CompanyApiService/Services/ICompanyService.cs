@@ -11,6 +11,6 @@ namespace CompanyApiService.Services
 {
     public interface ICompanyService
     {
-        Jsend<string> AddCompany(CompanyModel data);
+        Jsend AddCompany(CompanyModel data);
     }
 }
