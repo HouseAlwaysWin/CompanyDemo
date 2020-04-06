@@ -11,7 +11,7 @@ namespace DBAccess.Repositories.Interfaces
         IEnumerable<EmployeeT> All();
         void Delete(int id);
         void Delete(EmployeeT entity);
-        EmployeeT Find(int id);
+        EmployeeT FindByID(int id);
         EmployeeT FindByName(string name);
         void Update(EmployeeT entity);
 

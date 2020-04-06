@@ -11,7 +11,7 @@ namespace DBAccess.Repositories.Interfaces
         IEnumerable<ProductT> All();
         void Delete(int id);
         void Delete(ProductT entity);
-        ProductT Find(int id);
+        ProductT FindByID(int id);
         ProductT FindByName(string name);
         void Update(ProductT entity);
 

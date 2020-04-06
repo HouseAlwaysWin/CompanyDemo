@@ -27,10 +27,6 @@ namespace CompanyApiService.App_Start
             // OPTIONAL: Register the Autofac filter provider.
             builder.RegisterWebApiFilterProvider(config);
 
-            //builder.RegisterType<UnitOfWork>()
-            //   .As<IUnitOfWork>()
-            //   .InstancePerLifetimeScope();
-
             builder.Register(u => new UnitOfWork(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString()))
                 .As<IUnitOfWork>()
                 .SingleInstance();
@@ -38,6 +34,15 @@ namespace CompanyApiService.App_Start
             builder.RegisterType<CompanyService>()
                 .As<ICompanyService>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmployeeService>()
+               .As<IEmployeeService>()
+               .InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductService>()
+               .As<IProductService>()
+               .InstancePerLifetimeScope();
+
 
 
             var container = builder.Build();

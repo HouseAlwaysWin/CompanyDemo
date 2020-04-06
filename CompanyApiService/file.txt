@@ -1,0 +1,17 @@
+2020-04-06 13:59:02.4120|ERROR|CompanyApiService.Services.EmployeeService|System.Data.SqlClient.SqlException (0x80131904): 接近 ')' 之處的語法不正確。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   於 Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader) 於 C:\projects\dapper\Dapper\SqlMapper.cs: 行 2797
+   於 Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) 於 C:\projects\dapper\Dapper\SqlMapper.cs: 行 568
+   於 Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) 於 C:\projects\dapper\Dapper\SqlMapper.cs: 行 441
+   於 DBAccess.Repositories.EmployeeTRepository.Add(EmployeeT entity) 於 D:\Projects\CompanyDemo\DBAccess\Repositories\EmployeeTRepository.cs: 行 19
+   於 CompanyApiService.Services.EmployeeService.AddEmployee(EmployeeModel data) 於 D:\Projects\CompanyDemo\CompanyApiService\Services\EmployeeService.cs: 行 24
+ClientConnectionId:2599e641-4fce-467f-9188-486b6b541e03
+Error Number:102,State:1,Class:15

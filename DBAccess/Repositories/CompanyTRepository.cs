@@ -77,7 +77,7 @@ namespace DBAccess.Repositories
                           param: new { CompanyName = name }, transaction: Transaction)
                           .FirstOrDefault();
         }
-      
+
         public void Update(CompanyT entity)
         {
             Connection.Execute(
@@ -89,8 +89,7 @@ namespace DBAccess.Repositories
                         Address = @Address,
                         WebsiteURL = @WebsiteURL,
                         Owner = @Owner,
-                        CreateDate = GETUTCDATE(),
-                        EditedDate = @EditedDate
+                        EditedDate = GETUTCDATE()
                     WHERE CompanyID = @CompanyID",
                param: new
                {
@@ -101,7 +100,6 @@ namespace DBAccess.Repositories
                    Address = entity.Address,
                    WebsiteURL = entity.WebsiteURL,
                    Owner = entity.Owner,
-                   EditedDate = entity.EditedDate
                }, transaction: Transaction);
         }
     }

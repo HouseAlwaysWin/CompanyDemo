@@ -7,8 +7,8 @@ CREATE TABLE CompanyT(
   Address varchar(100) NULL,
   WebsiteURL varchar(320) NULL,
   Owner varchar(50) NOT NULL,
-  CreatedDate datetime NOT NULL DEFAULT GETDATE(),
-  EditedDate datetime NOT NULL DEFAULT GETDATE()
+  CreatedDate datetime NOT NULL DEFAULT GETUTCDATE(),
+  EditedDate datetime NOT NULL DEFAULT GETUTCDATE()
 )
 
 CREATE TABLE EmployeeT(
@@ -20,8 +20,8 @@ CREATE TABLE EmployeeT(
 	ResignedDate datetime NULL,
 	IsResigned bit NOT NULL Default 0,
 	Salary int NOT NULL,
-	CreatedDate datetime NOT NULL DEFAULT GETDATE(),
-	EditedDate datetime NOT NULL DEFAULT GETDATE()
+	CreatedDate datetime NOT NULL DEFAULT GETUTCDATE(),
+	EditedDate datetime NOT NULL DEFAULT GETUTCDATE()
 )
 
 CREATE TABLE ProductT(
@@ -30,8 +30,8 @@ CREATE TABLE ProductT(
 	ProductType varchar(50) NOT NULL,
 	Price decimal(2,2) NOT NULL,
 	Unit varchar(10) NULL,
-	CreatedDate datetime NOT NULL DEFAULT GETDATE(),
-	EditedDate datetime NOT NULL DEFAULT GETDATE()
+	CreatedDate datetime NOT NULL DEFAULT GETUTCDATE(),
+	EditedDate datetime NOT NULL DEFAULT GETUTCDATE()
 )
 
 CREATE TABLE CompanyT_EmployeeT(
