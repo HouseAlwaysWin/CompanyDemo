@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompanyApiService.Services
+namespace CompanyApiService.Services.Interfaces
 {
     public interface IProductService
     {
@@ -19,7 +19,7 @@ namespace CompanyApiService.Services
         Jsend InsertUpdateProduct(ProductModel data);
 
 
-        Jsend DeleteProductByID(int id);
+        Jsend DeleteProduct(int id);
 
         Jsend DeleteProduct(ProductModel data);
     }

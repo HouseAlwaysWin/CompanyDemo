@@ -1,11 +1,6 @@
 ﻿using CompanyApiService.Models;
-using CompanyApiService.Services;
+using CompanyApiService.Services.Interfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace CompanyApiService.Controllers
@@ -31,5 +26,84 @@ namespace CompanyApiService.Controllers
             string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             return BadRequest(resultString);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetCompanyByID(int id)
+        {
+            var result = _employeeService.FindEmployeeByID(id);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetCompanyByName(string name)
+        {
+            var result = _employeeService.FindEmployeeByName(name);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpPatch]
+        public IHttpActionResult Update(EmployeeModel data)
+        {
+            var result = _employeeService.UpdateEmployee(data);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpPut]
+        public IHttpActionResult InsertUpdate(EmployeeModel data)
+        {
+            var result = _employeeService.InsertUpdateEmployee(data);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            var result = _employeeService.DeleteEmployee(id);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult Delete(EmployeeModel data)
+        {
+            var result = _employeeService.DeleteEmployee(data);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
     }
 }

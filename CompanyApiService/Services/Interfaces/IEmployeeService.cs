@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompanyApiService.Services
+namespace CompanyApiService.Services.Interfaces
 {
     public interface IEmployeeService
     {
@@ -19,7 +19,7 @@ namespace CompanyApiService.Services
         Jsend InsertUpdateEmployee(EmployeeModel data);
 
 
-        Jsend DeleteEmployeeByID(int id);
+        Jsend DeleteEmployee(int id);
 
         Jsend DeleteEmployee(EmployeeModel data);
     }

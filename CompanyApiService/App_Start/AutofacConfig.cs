@@ -1,13 +1,10 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using CompanyApiService.Services;
+using CompanyApiService.Services.Interfaces;
 using DBAccess;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Http;
 
 namespace CompanyApiService.App_Start

@@ -203,12 +203,14 @@
     <Compile Include="Models\JsendResult.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Validators\CompanyValidator.cs" />
+    <Compile Include="Models\Validators\EmployeeValidator.cs" />
+    <Compile Include="Models\Validators\ProductValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
-    <Compile Include="Services\ICompanyService.cs" />
-    <Compile Include="Services\IEmployeeService.cs" />
-    <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Services\Interfaces\ICompanyService.cs" />
+    <Compile Include="Services\Interfaces\IEmployeeService.cs" />
+    <Compile Include="Services\Interfaces\IProductService.cs" />
     <Compile Include="Services\ProductService.cs" />
   </ItemGroup>
   <ItemGroup>

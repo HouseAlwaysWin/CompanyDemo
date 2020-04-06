@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace CompanyApiService.Services
+namespace CompanyApiService.Services.Interfaces
 {
     public interface ICompanyService
     {

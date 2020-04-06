@@ -20,14 +20,7 @@ namespace DBAccess
         public UnitOfWork(string connectionString)
         {
             _connection = new SqlConnection(connectionString);
-            try
-            {
-                _connection.Open();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            _connection.Open();
             _transaction = _connection.BeginTransaction();
         }
 

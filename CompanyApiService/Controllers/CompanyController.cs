@@ -1,12 +1,6 @@
 ﻿using CompanyApiService.Models;
-using CompanyApiService.Services;
-using DBAccess.Entities;
+using CompanyApiService.Services.Interfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace CompanyApiService.Controllers

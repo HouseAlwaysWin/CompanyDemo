@@ -1,14 +1,12 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Models.Validators;
+using CompanyApiService.Services.Interfaces;
 using DBAccess;
 using DBAccess.Entities;
 using FluentValidation.Results;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
-using System.Web.Http;
 
 namespace CompanyApiService.Services
 {
