@@ -28,6 +28,7 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
+        [Route("api/Product/GetCompanyByID")]
         public IHttpActionResult GetCompanyByID(int id)
         {
             var result = _ProductService.FindProductByID(id);

@@ -44,6 +44,7 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
+        [Route("api/Company/GetCompanyByName")]
         public IHttpActionResult GetCompanyByName(string name)
         {
             var result = _companyService.FindComapnyByName(name);

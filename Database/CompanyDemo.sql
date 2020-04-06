@@ -1,8 +1,8 @@
 CREATE TABLE CompanyT(
   CompanyID int NOT NULL IDENTITY CONSTRAINT PK_CompanyT_CompanyID PRIMARY KEY CLUSTERED,
-  CompanyName varchar(50) NOT NULL,
-  CompanyCode varchar(50) NOT NULL,
-  TaxID varchar(8) NOT NULL,
+  CompanyName varchar(50) UNIQUE NOT NULL,
+  CompanyCode varchar(50) UNIQUE NOT NULL,
+  TaxID varchar(8) UNIQUE NOT NULL,
   Phone varchar(20) NULL,
   Address varchar(100) NULL,
   WebsiteURL varchar(320) NULL,

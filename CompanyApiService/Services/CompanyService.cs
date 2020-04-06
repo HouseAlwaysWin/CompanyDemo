@@ -23,6 +23,9 @@ namespace CompanyApiService.Services
         {
             if (data == null) return JsendResult.Error("Company data can't be null");
 
+            var checkNameUnique = _uow.CompanyTRepository.FindByName(data.CompanyName);
+            if (checkNameUnique != null) return JsendResult.Error("CompanyName has already had");
+
             var validator = new CompanyValidator();
             ValidationResult validateResult = validator.Validate(data);
             if (validateResult.IsValid)
@@ -138,6 +141,7 @@ namespace CompanyApiService.Services
                     _uow.CompanyTRepository.Update(
                         new CompanyT
                         {
+                            CompanyID = data.CompanyID,
                             CompanyName = data.CompanyName,
                             CompanyCode = data.CompanyCode,
                             TaxID = data.TaxID,
@@ -186,16 +190,20 @@ namespace CompanyApiService.Services
                                 Address = data.Address
                             });
                     }
-                    _uow.CompanyTRepository.Update(
-                        new CompanyT
-                        {
-                            CompanyName = data.CompanyName,
-                            CompanyCode = data.CompanyCode,
-                            TaxID = data.TaxID,
-                            Phone = data.Phone,
-                            Owner = data.Owner,
-                            Address = data.Address
-                        });
+                    else
+                    {
+                        _uow.CompanyTRepository.Update(
+                            new CompanyT
+                            {
+                                CompanyID = data.CompanyID,
+                                CompanyName = data.CompanyName,
+                                CompanyCode = data.CompanyCode,
+                                TaxID = data.TaxID,
+                                Phone = data.Phone,
+                                Owner = data.Owner,
+                                Address = data.Address
+                            });
+                    }
                     _uow.Commit();
                 }
                 catch (SqlException ex)

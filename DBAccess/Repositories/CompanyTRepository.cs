@@ -93,8 +93,9 @@ namespace DBAccess.Repositories
                     WHERE CompanyID = @CompanyID",
                param: new
                {
+                   CompanyID = entity.CompanyID,
                    CompanyName = entity.CompanyName,
-                   ComapnyCode = entity.CompanyCode,
+                   CompanyCode = entity.CompanyCode,
                    TaxID = entity.TaxID,
                    Phone = entity.Phone,
                    Address = entity.Address,

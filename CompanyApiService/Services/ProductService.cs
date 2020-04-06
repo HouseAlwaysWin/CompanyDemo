@@ -141,14 +141,17 @@ namespace CompanyApiService.Services
                             Unit = data.Unit
                         });
                     }
-
-                    _uow.ProductTRepository.Update(new ProductT
+                    else
                     {
-                        ProductName = data.ProductName,
-                        ProductType = data.ProductType,
-                        Price = data.Price,
-                        Unit = data.Unit
-                    });
+                        _uow.ProductTRepository.Update(new ProductT
+                        {
+                            ProductID = data.ProductID,
+                            ProductName = data.ProductName,
+                            ProductType = data.ProductType,
+                            Price = data.Price,
+                            Unit = data.Unit
+                        });
+                    }
                     _uow.Commit();
                 }
                 catch (SqlException ex)

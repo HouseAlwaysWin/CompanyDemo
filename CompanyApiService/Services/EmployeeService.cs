@@ -147,17 +147,20 @@ namespace CompanyApiService.Services
                             CompanyID = data.CompanyID
                         });
                     }
-
-                    _uow.EmployeeTRepository.Update(new EmployeeT
+                    else
                     {
-                        EmployeeName = data.EmployeeName,
-                        Email = data.Email,
-                        BrithdayDate = data.BrithdayDate,
-                        SignInDate = data.SignInDate,
-                        ResignedDate = data.ResignedDate,
-                        IsResigned = data.IsResigned,
-                        Salary = data.Salary,
-                    });
+                        _uow.EmployeeTRepository.Update(new EmployeeT
+                        {
+                            EmployeeID = data.EmployeeID,
+                            EmployeeName = data.EmployeeName,
+                            Email = data.Email,
+                            BrithdayDate = data.BrithdayDate,
+                            SignInDate = data.SignInDate,
+                            ResignedDate = data.ResignedDate,
+                            IsResigned = data.IsResigned,
+                            Salary = data.Salary,
+                        });
+                    }
                     _uow.Commit();
                 }
                 catch (SqlException ex)
@@ -184,6 +187,7 @@ namespace CompanyApiService.Services
                 {
                     _uow.EmployeeTRepository.Update(new EmployeeT
                     {
+                        EmployeeID = data.EmployeeID,
                         EmployeeName = data.EmployeeName,
                         Email = data.Email,
                         BrithdayDate = data.BrithdayDate,
