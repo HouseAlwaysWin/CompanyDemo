@@ -12,5 +12,17 @@ namespace CompanyApiService.Services
     public interface ICompanyService
     {
         Jsend AddCompany(CompanyModel data);
+
+        Jsend FindComapnyByName(string name);
+
+        Jsend FindCompanyByID(int Id);
+
+        Jsend UpdateCompany(CompanyModel data);
+        Jsend InsertUpdateCompany(CompanyModel data);
+
+
+        Jsend DeleteCompanyByID(int id);
+
+        Jsend DeleteCompany(CompanyModel data);
     }
 }

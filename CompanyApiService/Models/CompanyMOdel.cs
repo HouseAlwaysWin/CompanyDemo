@@ -7,6 +7,7 @@ namespace CompanyApiService.Models
 {
     public class CompanyModel
     {
+        public int CompanyID { get; set; }
         public string CompanyName { get; set; }
         public string CompanyCode { get; set; }
         public string TaxID { get; set; }

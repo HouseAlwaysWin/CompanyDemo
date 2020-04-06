@@ -62,7 +62,7 @@ namespace DBAccess.Repositories
             Delete(entity.CompanyID);
         }
 
-        public CompanyT Find(int id)
+        public CompanyT FindByID(int id)
         {
             return Connection.Query<CompanyT>(
                 "SELECT * FROM CompanyT WHERE CompanyID = @CompanyID",
@@ -77,7 +77,7 @@ namespace DBAccess.Repositories
                           param: new { CompanyName = name }, transaction: Transaction)
                           .FirstOrDefault();
         }
-
+      
         public void Update(CompanyT entity)
         {
             Connection.Execute(

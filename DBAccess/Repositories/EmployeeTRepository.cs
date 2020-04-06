@@ -15,7 +15,7 @@ namespace DBAccess.Repositories
 
         public void Add(EmployeeT entity)
         {
-            throw new NotImplementedException();
+
         }
 
         public IEnumerable<EmployeeT> All()

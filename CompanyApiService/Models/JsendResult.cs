@@ -80,7 +80,7 @@ namespace CompanyApiService.Models
 
         public static Jsend Success(T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             return new Jsend()
             {
                 status = JsendResultStatus.success.ToString().ToLower(),
@@ -99,7 +99,7 @@ namespace CompanyApiService.Models
 
         public static Jsend Fail(T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
             return new Jsend()
             {
@@ -119,7 +119,7 @@ namespace CompanyApiService.Models
 
         public static Jsend Error(string message, string code, T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data);
+            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
             return new Jsend()
             {

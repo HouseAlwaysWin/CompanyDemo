@@ -11,9 +11,8 @@ namespace DBAccess.Repositories.Interfaces
         IEnumerable<CompanyT> All();
         void Delete(int id);
         void Delete(CompanyT entity);
-        CompanyT Find(int id);
+        CompanyT FindByID(int id);
         CompanyT FindByName(string name);
         void Update(CompanyT entity);
-
     }
 }
