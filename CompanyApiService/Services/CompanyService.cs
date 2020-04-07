@@ -128,6 +128,22 @@ namespace CompanyApiService.Services
         }
 
 
+        public Jsend FindCompanyListByPage(int current, int itemsPerPages)
+        {
+            (int total, IEnumerable<CompanyT> list) result = (0, null);
+            try
+            {
+                result = _uow.CompanyTRepository.FindAllByPagination(current, itemsPerPages);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult.Error("Queay data occured error");
+            }
+            return JsendResult<(int, IEnumerable<CompanyT>)>.Success(result);
+        }
+
         public Jsend UpdateCompany(CompanyModel data)
         {
             if (data == null) return JsendResult.Error("Company data can't be null");

@@ -11,6 +11,8 @@ namespace CompanyApiService.Services.Interfaces
 {
     public interface ICompanyService
     {
+
+        Jsend FindCompanyListByPage(int current, int itemsPerPages);
         Jsend AddCompany(CompanyModel data);
 
         Jsend FindComapnyByName(string name);

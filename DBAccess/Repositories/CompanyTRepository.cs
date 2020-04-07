@@ -46,9 +46,33 @@ namespace DBAccess.Repositories
                             }, transaction: Transaction);
         }
 
+        /// <summary>
+        /// 取得全部公司列表(1000筆)
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<CompanyT> All()
         {
-            return Connection.Query<CompanyT>("SELECT * FROM CompanyT", transaction: Transaction).ToList();
+            return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
+        }
+
+        public (int Total, IEnumerable<CompanyT>) FindAllByPagination(int currentPage, int itemsPerPages)
+        {
+            var result = Connection.QueryMultiple(@"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
+                    SELECT * FROM CompanyT 
+                        ORDER BY CompanyID DESC 
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPages ROWS ONLY",
+                new
+                {
+                    ItemsPerPages = itemsPerPages,
+                    CurrentPage = currentPage
+                }, transaction: Transaction);
+
+            var total = result.ReadSingle<int>();
+            var list = result.Read<CompanyT>();
+            return (total, list);
         }
 
         public void Delete(int id)

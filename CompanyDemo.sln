@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{7D6A1984-7E87-4C80-BFCD-D6DD5EB2C24B}"
 	ProjectSection(SolutionItems) = preProject
 		..\CompanyDemo.sql = ..\CompanyDemo.sql
+		Database\Membership.sql = Database\Membership.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyDemo", "CompanyDemo\CompanyDemo.csproj", "{32BE0742-2A3F-42E2-A3C4-AA0BE172BBDB}"

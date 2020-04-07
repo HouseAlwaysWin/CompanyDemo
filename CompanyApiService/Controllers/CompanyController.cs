@@ -57,6 +57,20 @@ namespace CompanyApiService.Controllers
             return BadRequest(resultString);
         }
 
+        [HttpGet]
+        [Route("api/Company/GetCompanyAllByPage")]
+        public IHttpActionResult GetCompanyAllByPage(int current, int itemsPerPages)
+        {
+            var result = _companyService.FindCompanyListByPage(current, itemsPerPages);
+            if (result.status == JsendResultStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
         [HttpPatch]
         public IHttpActionResult Update(CompanyModel data)
         {
