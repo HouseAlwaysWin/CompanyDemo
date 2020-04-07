@@ -2,6 +2,7 @@
 using CompanyApiService.Models.Validators;
 using CompanyApiService.Services.Interfaces;
 using DBAccess;
+using DBAccess.DTO;
 using DBAccess.Entities;
 using FluentValidation.Results;
 using System.Collections.Generic;
@@ -130,7 +131,7 @@ namespace CompanyApiService.Services
 
         public Jsend FindCompanyListByPage(int current, int itemsPerPages)
         {
-            (int total, IEnumerable<CompanyT> list) result = (0, null);
+            EntityWithTotalCount<CompanyT> result = null;
             try
             {
                 result = _uow.CompanyTRepository.FindAllByPagination(current, itemsPerPages);
@@ -141,7 +142,7 @@ namespace CompanyApiService.Services
                 _logger.Error(ex);
                 return JsendResult.Error("Queay data occured error");
             }
-            return JsendResult<(int, IEnumerable<CompanyT>)>.Success(result);
+            return JsendResult<EntityWithTotalCount<CompanyT>>.Success(result);
         }
 
         public Jsend UpdateCompany(CompanyModel data)

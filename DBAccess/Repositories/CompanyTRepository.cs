@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DBAccess.DTO;
 using DBAccess.Entities;
 using DBAccess.Repositories.Interfaces;
 using System;
@@ -55,9 +56,10 @@ namespace DBAccess.Repositories
             return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
         }
 
-        public (int Total, IEnumerable<CompanyT>) FindAllByPagination(int currentPage, int itemsPerPages)
+        public EntityWithTotalCount<CompanyT> FindAllByPagination(int currentPage, int itemsPerPages)
         {
-            var result = Connection.QueryMultiple(@"
+
+            var sqlResult = Connection.QueryMultiple(@"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
                     SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
                     SELECT * FROM CompanyT 
@@ -69,10 +71,12 @@ namespace DBAccess.Repositories
                     ItemsPerPages = itemsPerPages,
                     CurrentPage = currentPage
                 }, transaction: Transaction);
-
-            var total = result.ReadSingle<int>();
-            var list = result.Read<CompanyT>();
-            return (total, list);
+            var result = new EntityWithTotalCount<CompanyT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<CompanyT>()
+            };
+            return result;
         }
 
         public void Delete(int id)

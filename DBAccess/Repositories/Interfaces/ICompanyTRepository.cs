@@ -1,4 +1,5 @@
-﻿using DBAccess.Entities;
+﻿using DBAccess.DTO;
+using DBAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace DBAccess.Repositories.Interfaces
     {
         void Add(CompanyT entity);
         IEnumerable<CompanyT> All();
-        (int Total, IEnumerable<CompanyT>) FindAllByPagination(int currentPage, int itemsPerPages);
+        EntityWithTotalCount<CompanyT> FindAllByPagination(int currentPage, int itemsPerPages);
         void Delete(int id);
         void Delete(CompanyT entity);
         CompanyT FindByID(int id);

@@ -80,7 +80,7 @@ namespace CompanyApiService.Models
 
         public static Jsend Success(T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            string jsonData = JsonConvert.SerializeObject(data);
             return new Jsend()
             {
                 status = JsendResultStatus.success.ToString().ToLower(),
