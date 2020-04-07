@@ -1,4 +1,6 @@
 ﻿using CompanyApiService.Models;
+using DBAccess.Entities;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,14 @@ namespace CompanyApiService.Services.Interfaces
 {
     public interface IProductService
     {
-        Jsend AddProduct(ProductModel data);
+        Jsend<List<ValidationFailure>> AddProduct(ProductModel data);
 
-        Jsend FindProductByName(string name);
+        Jsend<ProductT> FindProductByName(string name);
 
-        Jsend FindProductByID(int Id);
+        Jsend<ProductT> FindProductByID(int Id);
 
-        Jsend UpdateProduct(ProductModel data);
-        Jsend InsertUpdateProduct(ProductModel data);
+        Jsend<List<ValidationFailure>> UpdateProduct(ProductModel data);
+        Jsend<List<ValidationFailure>> InsertUpdateProduct(ProductModel data);
 
 
         Jsend DeleteProduct(int id);

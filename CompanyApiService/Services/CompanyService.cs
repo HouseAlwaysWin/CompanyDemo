@@ -20,12 +20,12 @@ namespace CompanyApiService.Services
             _uow = uow;
         }
 
-        public Jsend AddCompany(CompanyModel data)
+        public Jsend<List<ValidationFailure>> AddCompany(CompanyModel data)
         {
-            if (data == null) return JsendResult.Error("Company data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Company data can't be null");
 
             var checkNameUnique = _uow.CompanyTRepository.FindByName(data.CompanyName);
-            if (checkNameUnique != null) return JsendResult.Error("CompanyName has already had");
+            if (checkNameUnique != null) return JsendResult<List<ValidationFailure>>.Error("CompanyName has already had");
 
             var validator = new CompanyValidator();
             ValidationResult validateResult = validator.Validate(data);
@@ -48,10 +48,10 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("Insert data error");
+                    return JsendResult<List<ValidationFailure>>.Error("Insert data error");
                 }
 
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
 
@@ -93,9 +93,9 @@ namespace CompanyApiService.Services
             return JsendResult.Success();
         }
 
-        public Jsend FindComapnyByName(string name)
+        public Jsend<CompanyT> FindComapnyByName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return JsendResult.Error("name can't be null");
+            if (string.IsNullOrWhiteSpace(name)) return JsendResult<CompanyT>.Error("name can't be null");
             CompanyT result = null;
             try
             {
@@ -105,13 +105,13 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("Queay data occured error");
+                return JsendResult<CompanyT>.Error("Queay data occured error");
             }
 
             return JsendResult<CompanyT>.Success(result);
         }
 
-        public Jsend FindCompanyByID(int id)
+        public Jsend<CompanyT> FindCompanyByID(int id)
         {
             CompanyT result = null;
             try
@@ -122,14 +122,14 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("Queay data occured error");
+                return JsendResult<CompanyT>.Error("Queay data occured error");
             }
 
             return JsendResult<CompanyT>.Success(result);
         }
 
 
-        public Jsend FindCompanyListByPage(int current, int itemsPerPages)
+        public Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByPage(int current, int itemsPerPages)
         {
             EntityWithTotalCount<CompanyT> result = null;
             try
@@ -140,14 +140,14 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("Queay data occured error");
+                return JsendResult<EntityWithTotalCount<CompanyT>>.Error("Queay data occured error");
             }
             return JsendResult<EntityWithTotalCount<CompanyT>>.Success(result);
         }
 
-        public Jsend UpdateCompany(CompanyModel data)
+        public Jsend<List<ValidationFailure>> UpdateCompany(CompanyModel data)
         {
-            if (data == null) return JsendResult.Error("Company data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Company data can't be null");
 
             var validator = new CompanyValidator();
             ValidationResult validateResult = validator.Validate(data);
@@ -171,10 +171,10 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("Queay data occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("Queay data occured error");
                 }
 
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
 
@@ -183,9 +183,9 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend InsertUpdateCompany(CompanyModel data)
+        public Jsend<List<ValidationFailure>> InsertUpdateCompany(CompanyModel data)
         {
-            if (data == null) return JsendResult.Error("Company data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Company data can't be null");
 
             var validator = new CompanyValidator();
             ValidationResult validateResult = validator.Validate(data);
@@ -226,10 +226,10 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("Queay data occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("Queay data occured error");
                 }
 
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
 

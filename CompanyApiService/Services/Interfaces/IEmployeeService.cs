@@ -1,4 +1,6 @@
 ﻿using CompanyApiService.Models;
+using DBAccess.Entities;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,14 @@ namespace CompanyApiService.Services.Interfaces
 {
     public interface IEmployeeService
     {
-        Jsend AddEmployee(EmployeeModel data);
+        Jsend<List<ValidationFailure>> AddEmployee(EmployeeModel data);
 
-        Jsend FindEmployeeByName(string name);
+        Jsend<EmployeeT> FindEmployeeByName(string name);
 
-        Jsend FindEmployeeByID(int Id);
+        Jsend<EmployeeT> FindEmployeeByID(int Id);
 
-        Jsend UpdateEmployee(EmployeeModel data);
-        Jsend InsertUpdateEmployee(EmployeeModel data);
+        Jsend<List<ValidationFailure>> UpdateEmployee(EmployeeModel data);
+        Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data);
 
 
         Jsend DeleteEmployee(int id);

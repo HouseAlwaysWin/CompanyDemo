@@ -18,9 +18,9 @@ namespace CompanyApiService.Services
         {
             _uow = uow;
         }
-        public Jsend AddProduct(ProductModel data)
+        public Jsend<List<ValidationFailure>> AddProduct(ProductModel data)
         {
-            if (data == null) return JsendResult.Error("AddProduct() data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("AddProduct() data can't be null");
 
             var validator = new ProductValidator();
             ValidationResult validateResult = validator.Validate(data);
@@ -36,12 +36,12 @@ namespace CompanyApiService.Services
                         Unit = data.Unit
                     });
                     _uow.Commit();
-                    return JsendResult.Success();
+                    return JsendResult<List<ValidationFailure>>.Success();
                 }
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("AddProduct Insert Product occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("AddProduct Insert Product occured error");
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -86,7 +86,7 @@ namespace CompanyApiService.Services
             return JsendResult.Success();
         }
 
-        public Jsend FindProductByID(int id)
+        public Jsend<ProductT> FindProductByID(int id)
         {
             ProductT result = null;
 
@@ -98,12 +98,12 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("FindProductByID() Query data occured error.");
+                return JsendResult<ProductT>.Error("FindProductByID() Query data occured error.");
             }
             return JsendResult<ProductT>.Success(result);
         }
 
-        public Jsend FindProductByName(string name)
+        public Jsend<ProductT> FindProductByName(string name)
         {
             ProductT result = null;
 
@@ -115,14 +115,14 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("FindProductByName() occured error");
+                return JsendResult<ProductT>.Error("FindProductByName() occured error");
             }
             return JsendResult<ProductT>.Success(result);
         }
 
-        public Jsend InsertUpdateProduct(ProductModel data)
+        public Jsend<List<ValidationFailure>> InsertUpdateProduct(ProductModel data)
         {
-            if (data == null) return JsendResult.Error("Product data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Product data can't be null");
             var validator = new ProductValidator();
             ValidationResult validateResult = validator.Validate(data);
 
@@ -157,9 +157,9 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("InsertUpdateProduct() InsertUpdate data occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("InsertUpdateProduct() InsertUpdate data occured error");
                 }
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
 
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -167,9 +167,9 @@ namespace CompanyApiService.Services
             return JsendResult<List<ValidationFailure>>.Fail(failures);
         }
 
-        public Jsend UpdateProduct(ProductModel data)
+        public Jsend<List<ValidationFailure>> UpdateProduct(ProductModel data)
         {
-            if (data == null) return JsendResult.Error("Product data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Product data can't be null");
             var validator = new ProductValidator();
             ValidationResult validateResult = validator.Validate(data);
             if (validateResult.IsValid)
@@ -188,9 +188,9 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("InsertUpdateProduct() InsertUpdate data occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("InsertUpdateProduct() InsertUpdate data occured error");
                 }
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
 
             List<ValidationFailure> failures = validateResult.Errors.ToList();

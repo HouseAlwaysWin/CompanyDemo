@@ -18,9 +18,9 @@ namespace CompanyApiService.Services
         {
             _uow = uow;
         }
-        public Jsend AddEmployee(EmployeeModel data)
+        public Jsend<List<ValidationFailure>> AddEmployee(EmployeeModel data)
         {
-            if (data == null) return JsendResult.Error("Employee data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Employee data can't be null");
 
             var validator = new EmployeeValidator();
             ValidationResult validateResult = validator.Validate(data);
@@ -39,12 +39,12 @@ namespace CompanyApiService.Services
                         CompanyID = data.CompanyID
                     });
                     _uow.Commit();
-                    return JsendResult.Success();
+                    return JsendResult<List<ValidationFailure>>.Success();
                 }
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("Insert Employee occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("Insert Employee occured error");
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -89,7 +89,7 @@ namespace CompanyApiService.Services
             return JsendResult.Success();
         }
 
-        public Jsend FindEmployeeByID(int id)
+        public Jsend<EmployeeT> FindEmployeeByID(int id)
         {
             EmployeeT result = null;
 
@@ -101,12 +101,12 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("");
+                return JsendResult<EmployeeT>.Error("");
             }
             return JsendResult<EmployeeT>.Success(result);
         }
 
-        public Jsend FindEmployeeByName(string name)
+        public Jsend<EmployeeT> FindEmployeeByName(string name)
         {
             EmployeeT result = null;
 
@@ -118,14 +118,14 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult.Error("FindEmployeeByName() occured error");
+                return JsendResult<EmployeeT>.Error("FindEmployeeByName() occured error");
             }
             return JsendResult<EmployeeT>.Success(result);
         }
 
-        public Jsend InsertUpdateEmployee(EmployeeModel data)
+        public Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data)
         {
-            if (data == null) return JsendResult.Error("Employee data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Employee data can't be null");
             var validator = new EmployeeValidator();
             ValidationResult validateResult = validator.Validate(data);
 
@@ -166,9 +166,9 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("InsertUpdateEmployee() InsertUpdate data occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("InsertUpdateEmployee() InsertUpdate data occured error");
                 }
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
 
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -176,9 +176,9 @@ namespace CompanyApiService.Services
             return JsendResult<List<ValidationFailure>>.Fail(failures);
         }
 
-        public Jsend UpdateEmployee(EmployeeModel data)
+        public Jsend<List<ValidationFailure>> UpdateEmployee(EmployeeModel data)
         {
-            if (data == null) return JsendResult.Error("Employee data can't be null");
+            if (data == null) return JsendResult<List<ValidationFailure>>.Error("Employee data can't be null");
             var validator = new EmployeeValidator();
             ValidationResult validateResult = validator.Validate(data);
             if (validateResult.IsValid)
@@ -201,9 +201,9 @@ namespace CompanyApiService.Services
                 catch (SqlException ex)
                 {
                     _logger.Error(ex);
-                    return JsendResult.Error("InsertUpdateEmployee() InsertUpdate data occured error");
+                    return JsendResult<List<ValidationFailure>>.Error("InsertUpdateEmployee() InsertUpdate data occured error");
                 }
-                return JsendResult.Success();
+                return JsendResult<List<ValidationFailure>>.Success();
             }
 
             List<ValidationFailure> failures = validateResult.Errors.ToList();
