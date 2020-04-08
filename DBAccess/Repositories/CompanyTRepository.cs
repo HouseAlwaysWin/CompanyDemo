@@ -56,20 +56,21 @@ namespace DBAccess.Repositories
             return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
         }
 
-        public EntityWithTotalCount<CompanyT> FindAllByPagination(int currentPage, int itemsPerPages)
+        public EntityWithTotalCount<CompanyT> FindAllByPagination(int currentPage, int itemsPerPages, bool isDesc = false, string sortBy = "CompanyID")
         {
+            var sortType = isDesc ? "DESC" : "ASC";
 
             var sqlResult = Connection.QueryMultiple(@"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
                     SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
                     SELECT * FROM CompanyT 
-                        ORDER BY CompanyID DESC 
+                        ORDER BY " + sortBy + " " + sortType + @"
                         OFFSET @Start ROWS
                         FETCH NEXT @ItemsPerPages ROWS ONLY",
                 new
                 {
                     ItemsPerPages = itemsPerPages,
-                    CurrentPage = currentPage
+                    CurrentPage = currentPage,
                 }, transaction: Transaction);
             var result = new EntityWithTotalCount<CompanyT>
             {

@@ -8,9 +8,9 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CompanyDemo.Controllers.Api
+namespace CompanyDemo.Controllers.Base
 {
-    public class ApiBaseController : Controller
+    public class BaseController : Controller
     {
         /// <summary>
         /// 預設序列化為Json時

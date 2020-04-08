@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    @Styles.Render("~/Content/element")
+}
+
+
+<div class="container" id="companyListVue">
+
+
+    <!-- The Modal -->
+    <div class="modal" id="insertUpdate">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" v-if="modalType === 'insert'">新增</h4>
+                    <h4 class="modal-title" v-else>更新</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <validation-observer v-slot="{ handleSubmit }">
+                        <form @@submit.prevent="handleSubmit(modalSubmit)">
+                            <div class="form-group">
+                                <label for="companyName">公司名稱</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="companyName" v-model="companyData.companyName" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+                                </validation-provider>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="companyCode">代碼</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="companyCode" v-model="companyData.companyCode" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+
+                                </validation-provider>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">聯絡電話</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="phone" v-model="companyData.phone" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+
+                                </validation-provider>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taxId">統編</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="taxId" v-model="companyData.taxId" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+
+                                </validation-provider>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">地址</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="address" v-model="companyData.address" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+
+                                </validation-provider>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="webUrl">網址</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="webUrl" v-model="companyData.webUrl" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+
+                                </validation-provider>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="owner">負責人</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="owner" v-model="companyData.owner" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+
+                                </validation-provider>
+                            </div>
+                            <button class="btn btn-primary" type="submit" >送出</button>
+                        </form>
+                    </validation-observer>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
+        <div class="col custom-table-width">
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertUpdate" v-on:click="setModalType('insert')">新增</button>
+            <h4>公司列表</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>公司ID</th>
+                            <th>公司名稱</th>
+                            <th>代碼</th>
+                            <th>聯絡電話</th>
+                            <th>統編</th>
+                            <th>地址</th>
+                            <th>網址</th>
+                            <th>負責人</th>
+                            <th>職員列表</th>
+                            <th>產品列表</th>
+                            <th>更新</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(data,index) in companyList.List">
+                        <tr>
+                            <td>{{ index+1  }}</td>
+                            <td>{{ data.CompanyID }}</td>
+                            <td>{{ data.CompanyName }}</td>
+                            <td>{{ data.CompanyCode }}</td>
+                            <td>{{ data.TaxID }}</td>
+                            <td>{{ data.Phone }}</td>
+                            <td>{{ data.Address }}</td>
+                            <td>{{ data.WebsiteURL }}</td>
+                            <td>{{ data.Owner }}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#insertUpdate" v-on:click="setModalType('update')">更新</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger">刪除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div>
+                    <el-pagination @@current-change="findListByPage"
+                                   layout="prev,pager,next,jumper"
+                                   :current-page.sync="currentPage"
+                                   :page-size="itemsPerPage"
+                                   :total="companyList.TotalCount"
+                                   :background="true">
+                    </el-pagination>
+                </div>
+                @*<nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/vue")
+    @Scripts.Render("~/bundles/home")
+}

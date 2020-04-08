@@ -11,7 +11,7 @@ namespace CompanyDemo.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Company");
         }
 
         public ActionResult ProductList()

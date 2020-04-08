@@ -17,7 +17,7 @@
 <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/Home/Index">前台</a>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+        @*<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">*@
         @Html.Partial("_LoginPartial")
         @*<ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
@@ -31,23 +31,53 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            @*<a class="nav-link active" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:currentColor;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    公司資料列表 <span class="sr-only">(current)</span>
+                                </a>*@
+                            <a href="#companyMeun" class="nav-link" data-toggle="collapse">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:currentColor;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                公司資料列表 <span class="sr-only">(current)</span>
+                                更改公司選單 <span class="sr-only">(current)</span>
                             </a>
+
+                            <div id="companyMeun" class="collapse ">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="/Company/Index">公司</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="">員工</a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="#productMeun" data-toggle="collapse">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:currentColor;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                                 產品資料列表
                             </a>
+                            <div id="productMeun" class="collapse ">
+                                <ul class="list-group">
+                                    <li class="list-group-item">1</li>
+                                    <li class="list-group-item">1</li>
+                                    <li class="list-group-item">1</li>
+                                </ul>
+                            </div>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="#productReport" data-toggle="collapse">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:currentColor;"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                                 產品資料列表
                             </a>
+                            <div id="productReport" class="collapse">
+                                <ul class="list-group">
+                                    <li class="list-group-item">1</li>
+                                    <li class="list-group-item">1</li>
+                                    <li class="list-group-item">1</li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
 

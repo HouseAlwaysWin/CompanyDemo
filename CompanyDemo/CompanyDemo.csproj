@@ -47,8 +47,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.8.6.2\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
@@ -170,8 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Api\ApiBaseController.cs" />
-    <Compile Include="Controllers\Api\CompanyController.cs" />
+    <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -190,6 +195,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JsendResult.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Validators\CompanyValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -244,6 +250,9 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\polyfill.min.js" />
+    <Content Include="Scripts\veevalidate\locale\zh_TW.js" />
+    <Content Include="Scripts\veevalidate\vee-validate.full.js" />
+    <Content Include="Scripts\veevalidate\vee-validate.full.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Scripts\vue.min.js" />
     <Content Include="Web.config" />
@@ -280,6 +289,55 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Scripts\veevalidate\locale\ar.json" />
+    <Content Include="Scripts\veevalidate\locale\az.json" />
+    <Content Include="Scripts\veevalidate\locale\bg.json" />
+    <Content Include="Scripts\veevalidate\locale\ca.json" />
+    <Content Include="Scripts\veevalidate\locale\cs.json" />
+    <Content Include="Scripts\veevalidate\locale\da.json" />
+    <Content Include="Scripts\veevalidate\locale\de.json" />
+    <Content Include="Scripts\veevalidate\locale\el.json" />
+    <Content Include="Scripts\veevalidate\locale\en.json" />
+    <Content Include="Scripts\veevalidate\locale\es.json" />
+    <Content Include="Scripts\veevalidate\locale\et.json" />
+    <Content Include="Scripts\veevalidate\locale\eu.json" />
+    <Content Include="Scripts\veevalidate\locale\fa.json" />
+    <Content Include="Scripts\veevalidate\locale\fi.json" />
+    <Content Include="Scripts\veevalidate\locale\fr.json" />
+    <Content Include="Scripts\veevalidate\locale\he.json" />
+    <Content Include="Scripts\veevalidate\locale\hr.json" />
+    <Content Include="Scripts\veevalidate\locale\hu.json" />
+    <Content Include="Scripts\veevalidate\locale\id.json" />
+    <Content Include="Scripts\veevalidate\locale\it.json" />
+    <Content Include="Scripts\veevalidate\locale\ja.json" />
+    <Content Include="Scripts\veevalidate\locale\ka.json" />
+    <Content Include="Scripts\veevalidate\locale\ko.json" />
+    <Content Include="Scripts\veevalidate\locale\lt.json" />
+    <Content Include="Scripts\veevalidate\locale\lv.json" />
+    <Content Include="Scripts\veevalidate\locale\mn.json" />
+    <Content Include="Scripts\veevalidate\locale\ms_MY.json" />
+    <Content Include="Scripts\veevalidate\locale\nb_NO.json" />
+    <Content Include="Scripts\veevalidate\locale\ne.json" />
+    <Content Include="Scripts\veevalidate\locale\nl.json" />
+    <Content Include="Scripts\veevalidate\locale\nn_NO.json" />
+    <Content Include="Scripts\veevalidate\locale\pl.json" />
+    <Content Include="Scripts\veevalidate\locale\pt_BR.json" />
+    <Content Include="Scripts\veevalidate\locale\pt_PT.json" />
+    <Content Include="Scripts\veevalidate\locale\ro.json" />
+    <Content Include="Scripts\veevalidate\locale\ru.json" />
+    <Content Include="Scripts\veevalidate\locale\sk.json" />
+    <Content Include="Scripts\veevalidate\locale\sl.json" />
+    <Content Include="Scripts\veevalidate\locale\sq.json" />
+    <Content Include="Scripts\veevalidate\locale\sr.json" />
+    <Content Include="Scripts\veevalidate\locale\sr_Latin.json" />
+    <Content Include="Scripts\veevalidate\locale\sv.json" />
+    <Content Include="Scripts\veevalidate\locale\th.json" />
+    <Content Include="Scripts\veevalidate\locale\tr.json" />
+    <Content Include="Scripts\veevalidate\locale\uk.json" />
+    <Content Include="Scripts\veevalidate\locale\vi.json" />
+    <Content Include="Scripts\veevalidate\locale\zh_CN.json" />
+    <Content Include="Scripts\veevalidate\locale\zh_TW.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

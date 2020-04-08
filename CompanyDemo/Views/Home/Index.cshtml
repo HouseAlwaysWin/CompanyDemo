@@ -3,8 +3,10 @@
     @Styles.Render("~/Content/element")
 }
 <div class="container" id="companyListVue">
-    <div class="row" v-cloak>
+    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
         <div class="col custom-table-width">
+
+            <button type="button" class="btn btn-primary">新增</button>
             <h4>公司列表</h4>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
@@ -19,11 +21,15 @@
                             <th>地址</th>
                             <th>網址</th>
                             <th>負責人</th>
+                            <th>職員列表</th>
+                            <th>產品列表</th>
+                            <th>更新</th>
+                            <th>刪除</th>
                         </tr>
                     </thead>
                     <tbody v-for="(data,index) in companyList.List">
                         <tr>
-                            <td>{{ index }}</td>
+                            <td>{{ index+1  }}</td>
                             <td>{{ data.CompanyID }}</td>
                             <td>{{ data.CompanyName }}</td>
                             <td>{{ data.CompanyCode }}</td>
@@ -32,6 +38,14 @@
                             <td>{{ data.Address }}</td>
                             <td>{{ data.WebsiteURL }}</td>
                             <td>{{ data.Owner }}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-info">更新</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger">新增</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

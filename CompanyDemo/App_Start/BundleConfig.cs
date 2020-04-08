@@ -19,6 +19,8 @@ namespace CompanyDemo
                        "~/Scripts/polyfll*",
                        "~/Scripts/axios*",
                        "~/Scripts/vue*",
+                       "~/Scripts/veevalidate/locale/zh_TW.js",
+                       "~/Scripts/veevalidate/vee-validate*",
                        "~/Scripts/element-ui/element-ui.js",
                        "~/Scripts/element-ui/locale/zh_TW.js"));
 
