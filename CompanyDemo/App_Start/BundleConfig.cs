@@ -15,8 +15,17 @@ namespace CompanyDemo
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/vue").Include(
+                       "~/Scripts/moment*",
+                       "~/Scripts/polyfll*",
                        "~/Scripts/axios*",
-                       "~/Scripts/vue*"));
+                       "~/Scripts/vue*",
+                       "~/Scripts/element-ui/element-ui.js",
+                       "~/Scripts/element-ui/locale/zh_TW.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+                "~/Scripts/home/companyList.js"));
+
+
 
             // 使用開發版本的 Modernizr 進行開發並學習。然後，當您
             // 準備好可進行生產時，請使用 https://modernizr.com 的建置工具，只挑選您需要的測試。
@@ -29,6 +38,12 @@ namespace CompanyDemo
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/element").Include(
+                      "~/Content/element-ui/element-ui-style.min.css"
+                      ));
+
+
         }
     }
 }

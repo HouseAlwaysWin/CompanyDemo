@@ -49,6 +49,29 @@ namespace CompanyDemo.Controllers.Api
             return Content(json, "application/json", Encoding.UTF8);
         }
 
+        public ActionResult Jsend<T>(Jsend<T> data)
+        {
+            switch (data.status)
+            {
+                case "success":
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    break;
+
+                case "fail":
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+
+                case "error":
+                    Response.TrySkipIisCustomErrors = true;
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+            }
+
+            var json = JsonConvert.SerializeObject(data);
+            return Content(json, "application/json", Encoding.UTF8);
+        }
+
         /// <summary>
         /// 轉換Long為String，避免JS造成精度遺失
         /// </summary>

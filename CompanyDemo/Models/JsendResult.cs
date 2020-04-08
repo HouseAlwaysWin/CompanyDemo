@@ -21,6 +21,13 @@ namespace CompanyDemo.Models
         public string code { get; set; }
     }
 
+    public class Jsend<T>
+    {
+        public string status { get; set; }
+        public T data { get; set; }
+        public string message { get; set; }
+        public string code { get; set; }
+    }
 
     public static class JsendResult
     {
@@ -33,6 +40,7 @@ namespace CompanyDemo.Models
                 data = data
             };
         }
+
 
         public static Jsend Success()
         {
@@ -75,57 +83,58 @@ namespace CompanyDemo.Models
         }
     }
 
+
+
+
     public static class JsendResult<T>
     {
 
-        public static Jsend Success(T data)
+        public static Jsend<T> Success(T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            return new Jsend()
+            return new Jsend<T>()
             {
                 status = JsendResultStatus.success.ToString().ToLower(),
-                data = jsonData
-            };
-        }
-
-        public static Jsend Success()
-        {
-            return new Jsend()
-            {
-                status = JsendResultStatus.success.ToString().ToLower(),
+                data = data
             };
         }
 
 
-        public static Jsend Fail(T data)
+        public static Jsend<T> Success()
         {
-            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return new Jsend<T>()
+            {
+                status = JsendResultStatus.success.ToString().ToLower(),
+            };
+        }
 
-            return new Jsend()
+
+        public static Jsend<T> Fail(T data)
+        {
+
+            return new Jsend<T>()
             {
                 status = JsendResultStatus.fail.ToString(),
-                data = jsonData
+                data = data
             };
         }
 
-        public static Jsend Error(string message)
+        public static Jsend<T> Error(string message)
         {
-            return new Jsend()
+            return new Jsend<T>()
             {
                 status = JsendResultStatus.error.ToString(),
                 message = message,
             };
         }
 
-        public static Jsend Error(string message, string code, T data)
+        public static Jsend<T> Error(string message, string code, T data)
         {
-            string jsonData = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-            return new Jsend()
+            return new Jsend<T>()
             {
                 status = JsendResultStatus.error.ToString(),
                 message = message,
-                data = jsonData,
+                data = data,
                 code = code
             };
         }

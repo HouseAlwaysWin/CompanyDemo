@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace CompanyApiService.Models
 {
+
     public class CompanyModel
     {
         public int CompanyID { get; set; }
@@ -15,7 +18,9 @@ namespace CompanyApiService.Models
         public string Address { get; set; }
         public string WebsiteURL { get; set; }
         public string Owner { get; set; }
+
         public DateTime CreatedDate { get; set; }
+
         public DateTime EditedDate { get; set; }
     }
 }
