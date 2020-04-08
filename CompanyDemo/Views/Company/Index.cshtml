@@ -43,7 +43,7 @@
 
                             <div class="form-group">
                                 <label for="phone">聯絡電話</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
+                                <validation-provider rules="required|min:6|numeric" v-slot="{ errors }">
                                     <input type="text" class="form-control" id="phone" v-model="companyData.phone" />
                                     <span class="text-danger">{{ errors[0]}}</span>
 
@@ -52,7 +52,7 @@
 
                             <div class="form-group">
                                 <label for="taxId">統編</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
+                                <validation-provider rules="required|length:8|numeric" v-slot="{ errors }">
                                     <input type="text" class="form-control" id="taxId" v-model="companyData.taxId" />
                                     <span class="text-danger">{{ errors[0]}}</span>
 
@@ -85,7 +85,7 @@
 
                                 </validation-provider>
                             </div>
-                            <button class="btn btn-primary" type="submit" >送出</button>
+                            <button class="btn btn-primary" type="submit">送出</button>
                         </form>
                     </validation-observer>
                 </div>
