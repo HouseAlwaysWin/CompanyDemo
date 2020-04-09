@@ -13,14 +13,14 @@ namespace CompanyDemo.Helpers
     public class RequestHelper
     {
 
-        public static O MakeGetWebRequest<I, O>(string url, string contentType = "application/json")
+        public static T MakeGetWebRequest<T>(string url, string contentType = "application/json")
         {
             using (var wc = new WebClient())
             {
                 wc.Encoding = Encoding.UTF8;
                 wc.Headers[HttpRequestHeader.ContentType] = contentType;
                 var result = wc.DownloadString(url);
-                return JsonConvert.DeserializeObject<O>(result);
+                return JsonConvert.DeserializeObject<T>(result);
             }
         }
 

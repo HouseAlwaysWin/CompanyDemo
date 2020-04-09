@@ -1,4 +1,5 @@
-﻿using DBAccess.Entities;
+﻿using DBAccess.DTO;
+using DBAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,8 @@ namespace DBAccess.Repositories.Interfaces
         void Delete(int id);
         void Delete(EmployeeT entity);
         EmployeeT FindByID(int id);
+        EntityWithTotalCount<EmployeeT> FindAllByID(int currentPage, int itemsPerPages, int? searchText, bool isDesc = false, string sortBy = "EmployeeID");
+        EntityWithTotalCount<EmployeeT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "EmployeeID");
         EmployeeT FindByName(string name);
         void Update(EmployeeT entity);
 

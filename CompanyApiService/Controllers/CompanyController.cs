@@ -30,10 +30,38 @@ namespace CompanyApiService.Controllers
         }
 
 
+        //[HttpGet]
+        //public IHttpActionResult GetCompanyByID(int id)
+        //{
+        //    var result = _companyService.FindCompanyByID(id);
+        //    if (result.status == JsendResultStatus.success.ToString())
+        //    {
+        //        return Ok(result);
+        //    }
+
+        //    string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        //    return BadRequest(resultString);
+        //}
+
+        //[HttpGet]
+        //[Route("api/Company/GetCompanyByName")]
+        //public IHttpActionResult GetCompanyByName(string name)
+        //{
+        //    var result = _companyService.FindComapnyByName(name);
+        //    if (result.status == JsendResultStatus.success.ToString())
+        //    {
+        //        return Ok(result);
+        //    }
+
+        //    string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        //    return BadRequest(resultString);
+        //}
+
         [HttpGet]
-        public IHttpActionResult GetCompanyByID(int id)
+        [Route("api/Company/GetCompanyListByID")]
+        public IHttpActionResult GetCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID")
         {
-            var result = _companyService.FindCompanyByID(id);
+            var result = _companyService.FindCompanyListByID(current, itemsPerPages, isDesc, searchText, sortBy);
             if (result.status == JsendResultStatus.success.ToString())
             {
                 return Ok(result);
@@ -44,24 +72,10 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
-        [Route("api/Company/GetCompanyByName")]
-        public IHttpActionResult GetCompanyByName(string name)
+        [Route("api/Company/GetCompanyListByName")]
+        public IHttpActionResult GetCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID")
         {
-            var result = _companyService.FindComapnyByName(name);
-            if (result.status == JsendResultStatus.success.ToString())
-            {
-                return Ok(result);
-            }
-
-            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            return BadRequest(resultString);
-        }
-
-        [HttpGet]
-        [Route("api/Company/GetCompanyAllByPage")]
-        public IHttpActionResult GetCompanyAllByPage(int current, int itemsPerPages)
-        {
-            var result = _companyService.FindCompanyListByPage(current, itemsPerPages);
+            var result = _companyService.FindCompanyListByName(current, itemsPerPages, isDesc, searchText, sortBy);
             if (result.status == JsendResultStatus.success.ToString())
             {
                 return Ok(result);

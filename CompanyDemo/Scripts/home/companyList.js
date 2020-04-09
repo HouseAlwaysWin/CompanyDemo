@@ -18,7 +18,7 @@ VeeValidate.localize({
 });
 VeeValidate.localize('zh_TW', zh_TW);
 
-var companyList = new Vue({
+var companyVue = new Vue({
     el: "#companyListVue",
     data: {
         companyList: [],
@@ -28,6 +28,7 @@ var companyList = new Vue({
         loading: false,
         modalType: '',
         companyData: {
+            companyID: '',
             companyName: '',
             companyCode: '',
             phone: '',
@@ -35,24 +36,25 @@ var companyList = new Vue({
             address: '',
             webUrl: '',
             owner: ''
-        }
+        },
+        selectSearchType: 'CompanyID',
+        selectSearchOptions: [
+            { value: 'CompanyID', name: '公司ID' },
+            { value: 'CompanyName', name: '公司名稱' },
+        ],
+        searchText: ''
+
     },
     created: function () {
         var self = this;
         self.loading = true;
-        axios.get("https://localhost:44361/Company/GetCompanyList?page=1")
-            .then(function (result) {
-                console.log(result.data.data);
-                self.companyList = result.data.data;
-                self.loading = false;
-            }).catch(function (error) {
-                console.log(error);
-            })
+        self.searchBy();
     },
     methods: {
-        resetCompanyModel: function () {
+        resetStatus: function () {
             var self = this;
             self.companyData = {
+                companyID: '',
                 companyName: '',
                 companyCode: '',
                 phone: '',
@@ -61,6 +63,7 @@ var companyList = new Vue({
                 webUrl: '',
                 owner: ''
             };
+            self.$refs.observerRef.reset();
         },
         modalSubmit: function () {
             var self = this;
@@ -69,13 +72,13 @@ var companyList = new Vue({
 
             var url = '';
             if (self.modalType === 'insert') {
-                url = "https://localhost:44361/Company/AddCompany";
+                url = "/Company/AddCompany";
             } else {
-                url = "https://localhost:44361/Company/UpdateCompany";
+                url = "/Company/UpdateCompany";
             }
 
-            axios.post(url, {
-                CompanyID: data.companyName,
+            var postData = {
+                CompanyID: data.companyID,
                 CompanyName: data.companyName,
                 CompanyCode: data.companyCode,
                 TaxID: data.taxId,
@@ -83,84 +86,113 @@ var companyList = new Vue({
                 Address: data.address,
                 WebsiteURL: data.webUrl,
                 Owner: data.owner
-            }).then(function (result) {
+            };
+
+            axios.post(url, postData
+            ).then(function (result) {
                 console.log(result);
                 console.log(result.data.data);
+                $("#insertUpdate").modal("hide");
+
                 self.loading = false;
-                self.resetCompanyModel();
+                self.resetStatus();
+
+                self.selectSearchType = "CompanyName";
+                self.searchText = self.companyData.CompanyName;
+                self.searchBy();
             }).catch(function (error) {
                 console.log(error);
                 self.loading = false;
             })
 
         },
-        //addNewCompany: function () {
-        //    var self = this;
-        //    var data = self.companyData;
-        //    self.loading = true;
+        deleteSubmit: function (data) {
+            var self = this;
+            Swal.fire({
+                title: '確定要刪除?',
+                text: "刪除後會連帶會員一起刪除並且無法復原!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是',
+                cancelButtonText: '否'
+            }).then((result) => {
+                if (result.value) {
+                    self.loading = true;
+                    var postData = data;
+                    axios.post("/Company/DeleteCompanyByID",
+                        {
+                            id: postData.CompanyID
+                        }).then(function (result) {
+                            console.log(result);
+                            console.log(result.data.data);
 
-        //    axios.post("https://localhost:44361/Company/AddCompany", {
-        //        CompanyID: data.companyName,
-        //        CompanyName: data.companyName,
-        //        CompanyCode: data.companyCode,
-        //        TaxID: data.taxId,
-        //        Phone: data.phone,
-        //        Address: data.address,
-        //        WebsiteURL: data.webUrl,
-        //        Owner: data.owner
-        //    }).then(function (result) {
-        //        console.log(result);
-        //        console.log(result.data.data);
-        //        self.loading = false;
-        //    }).catch(function (error) {
-        //        console.log(error);
-        //        self.loading = false;
-        //    })
-        //},
-        //updateCompany: function () {
-        //    var self = this;
+                            self.loading = false;
+                            self.resetStatus();
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            ).then(function (result) {
+                                self.searchBy();
+                            });
 
-        //    var data = self.companyData;
-        //    self.loading = true;
+                        }).catch(function (error) {
+                            console.log(error);
+                            self.loading = false;
+                        })
 
-        //    axios.post("https://localhost:44361/Company/UpdateCompany", {
-        //        CompanyID: data.companyName,
-        //        CompanyCode: data.companyCode,
-        //        TaxID: data.taxId,
-        //        Phone: data.phone,
-        //        Address: data.address,
-        //        WebsiteURL: data.webUrl,
-        //        Owner: data.owner
-        //    }).then(function (result) {
-        //        console.log(result.data.data);
-        //        self.loading = false;
-        //    }).catch(function (error) {
-        //        console.log(error);
-        //        self.loading = false;
-        //    })
-
-        //},
-        setModalType: function (type) {
+                }
+            })
+        },
+        setModalType: function (type, data) {
             var self = this;
             self.modalType = type;
+            console.log(data);
+            if (type === 'update') {
+                self.companyData = {
+                    companyID: data.CompanyID,
+                    companyName: data.CompanyName,
+                    companyCode: data.CompanyCode,
+                    phone: data.Phone,
+                    taxId: data.TaxID,
+                    address: data.Address,
+                    webUrl: data.WebsiteURL,
+                    owner: data.Owner
+                };
+            }
         },
-        findListByPage: function (page) {
+        searchBy: function () {
             var self = this;
-            self.loading = true;
 
-            axios.get("https://localhost:44361/Company/GetCompanyList?page=" + page)
+            var url = '';
+            if (self.selectSearchType === "CompanyID") {
+                url = "https://localhost:44361/Company/GetCompanyListByID";
+            } else {
+                url = "https://localhost:44361/Company/GetCompanyListByName";
+            }
+
+            axios.get(url,
+                {
+                    params: {
+                        page: self.currentPage,
+                        searchText: self.searchText,
+                        //isDesc: false,
+                    }
+                })
                 .then(function (result) {
                     console.log(result.data.data);
                     self.companyList = result.data.data;
-                    self.currentPage = page;
                     self.loading = false;
 
                 }).catch(function (error) {
                     console.log(error);
                     self.loading = false;
+                });
 
-                })
         },
+
     },
     computed: {
         totalPages: function () {

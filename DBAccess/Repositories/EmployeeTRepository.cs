@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DBAccess.DTO;
 using DBAccess.Entities;
 using DBAccess.Repositories.Interfaces;
 using System;
@@ -77,6 +78,50 @@ namespace DBAccess.Repositories
                 @"DELETE FROM EmployeeT WHERE EmployeeID = @EmployeeID
                   DELETE FROM CompanyT_EmployeeT WHERE EmployeeID = @EmployeeID",
                   param: new { EmployeeID = entity.EmployeeID }, transaction: Transaction);
+        }
+
+        public EntityWithTotalCount<EmployeeT> FindAllByID(int currentPage, int itemsPerPages, int? searchText, bool isDesc = false, string sortBy = "EmployeeID")
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    SELECT COUNT(*) FROM EmployeeT WITH(NOLOCK)
+                    SELECT * FROM EmployeeT  
+                        {0}
+                        ORDER BY   " + sortBy + "  " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+
+            if (searchText != null)
+            {
+                sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchID");
+            }
+            else
+            {
+                sqlString = string.Format(sqlString, string.Empty);
+            }
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPages = itemsPerPages,
+                    CurrentPage = currentPage,
+                    SearchID = searchText,
+                    SortBy = sortBy,
+                    SortType = sortType
+                }, transaction: Transaction);
+            var result = new EntityWithTotalCount<EmployeeT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<EmployeeT>()
+            };
+            return result;
+        }
+
+        public EntityWithTotalCount<EmployeeT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "EmployeeID")
+        {
+            throw new NotImplementedException();
         }
 
         public EmployeeT FindByID(int id)

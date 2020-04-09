@@ -178,6 +178,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -191,6 +192,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\GenericPaginationModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JsendResult.cs" />
@@ -250,6 +252,12 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\polyfill.min.js" />
+    <Content Include="Scripts\sweetalert2\sweetalert2.all.js" />
+    <Content Include="Scripts\sweetalert2\sweetalert2.all.min.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.css" />
+    <Content Include="Scripts\sweetalert2\sweetalert2.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.min.css" />
+    <Content Include="Scripts\sweetalert2\sweetalert2.min.js" />
     <Content Include="Scripts\veevalidate\locale\zh_TW.js" />
     <Content Include="Scripts\veevalidate\vee-validate.full.js" />
     <Content Include="Scripts\veevalidate\vee-validate.full.min.js" />
@@ -342,6 +350,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Services\" />
+    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

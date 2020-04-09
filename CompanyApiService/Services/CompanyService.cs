@@ -41,6 +41,7 @@ namespace CompanyApiService.Services
                             TaxID = data.TaxID,
                             Phone = data.Phone,
                             Owner = data.Owner,
+                            WebsiteURL = data.WebsiteURL,
                             Address = data.Address
                         });
                     _uow.Commit();
@@ -129,12 +130,12 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByPage(int current, int itemsPerPages)
+        public Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID")
         {
             EntityWithTotalCount<CompanyT> result = null;
             try
             {
-                result = _uow.CompanyTRepository.FindAllByPagination(current, itemsPerPages);
+                result = _uow.CompanyTRepository.FindAllByID(current, itemsPerPages, searchText, isDesc, sortBy);
                 _uow.Commit();
             }
             catch (SqlException ex)
@@ -144,6 +145,24 @@ namespace CompanyApiService.Services
             }
             return JsendResult<EntityWithTotalCount<CompanyT>>.Success(result);
         }
+
+
+        public Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID")
+        {
+            EntityWithTotalCount<CompanyT> result = null;
+            try
+            {
+                result = _uow.CompanyTRepository.FindAllByName(current, itemsPerPages, searchText, isDesc, sortBy);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<EntityWithTotalCount<CompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<EntityWithTotalCount<CompanyT>>.Success(result);
+        }
+
 
         public Jsend<List<ValidationFailure>> UpdateCompany(CompanyModel data)
         {
@@ -164,7 +183,8 @@ namespace CompanyApiService.Services
                             TaxID = data.TaxID,
                             Phone = data.Phone,
                             Owner = data.Owner,
-                            Address = data.Address
+                            Address = data.Address,
+                            WebsiteURL = data.WebsiteURL
                         });
                     _uow.Commit();
                 }
@@ -204,6 +224,7 @@ namespace CompanyApiService.Services
                                 TaxID = data.TaxID,
                                 Phone = data.Phone,
                                 Owner = data.Owner,
+                                WebsiteURL = data.WebsiteURL,
                                 Address = data.Address
                             });
                     }
@@ -218,6 +239,7 @@ namespace CompanyApiService.Services
                                 TaxID = data.TaxID,
                                 Phone = data.Phone,
                                 Owner = data.Owner,
+                                WebsiteURL = data.WebsiteURL,
                                 Address = data.Address
                             });
                     }

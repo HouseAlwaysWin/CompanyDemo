@@ -56,21 +56,75 @@ namespace DBAccess.Repositories
             return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
         }
 
-        public EntityWithTotalCount<CompanyT> FindAllByPagination(int currentPage, int itemsPerPages, bool isDesc = false, string sortBy = "CompanyID")
+        public EntityWithTotalCount<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText = null, bool isDesc = false, string sortBy = "CompanyID")
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
-            var sqlResult = Connection.QueryMultiple(@"
+            var sqlString = @"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
                     SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
                     SELECT * FROM CompanyT 
-                        ORDER BY " + sortBy + " " + sortType + @"
+                        {0}
+                        ORDER BY   " + sortBy + "  " + sortType + @"
                         OFFSET @Start ROWS
-                        FETCH NEXT @ItemsPerPages ROWS ONLY",
+                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+
+            if (searchText != null)
+            {
+                sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchID");
+            }
+            else
+            {
+                sqlString = string.Format(sqlString, string.Empty);
+            }
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
                 new
                 {
                     ItemsPerPages = itemsPerPages,
                     CurrentPage = currentPage,
+                    SearchID = searchText,
+                    SortBy = sortBy,
+                    SortType = sortType
+                }, transaction: Transaction);
+            var result = new EntityWithTotalCount<CompanyT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<CompanyT>()
+            };
+            return result;
+        }
+
+        public EntityWithTotalCount<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID")
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
+                    SELECT * FROM CompanyT 
+                        {0}
+                        ORDER BY   " + sortBy + "  " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                sqlString = string.Format(sqlString, $" WHERE  CompanyName = @SearchText");
+            }
+            else
+            {
+                sqlString = string.Format(sqlString, string.Empty);
+            }
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPages = itemsPerPages,
+                    CurrentPage = currentPage,
+                    SearchText = searchText,
+                    SortBy = sortBy,
+                    SortType = sortType
                 }, transaction: Transaction);
             var result = new EntityWithTotalCount<CompanyT>
             {

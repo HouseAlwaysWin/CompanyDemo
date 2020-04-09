@@ -10,7 +10,8 @@ namespace DBAccess.Repositories.Interfaces
     {
         void Add(CompanyT entity);
         IEnumerable<CompanyT> All();
-        EntityWithTotalCount<CompanyT> FindAllByPagination(int currentPage, int itemsPerPages, bool isDesc = false, string sortBy = "CompanyID");
+        EntityWithTotalCount<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText, bool isDesc = false, string sortBy = "CompanyID");
+        EntityWithTotalCount<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID");
         void Delete(int id);
         void Delete(CompanyT entity);
         CompanyT FindByID(int id);

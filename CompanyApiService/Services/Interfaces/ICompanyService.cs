@@ -14,7 +14,8 @@ namespace CompanyApiService.Services.Interfaces
     public interface ICompanyService
     {
 
-        Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByPage(int current, int itemsPerPages);
+        Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID");
+        Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID");
         Jsend<List<ValidationFailure>> AddCompany(CompanyModel data);
 
         Jsend<CompanyT> FindComapnyByName(string name);

@@ -12,8 +12,14 @@ using System.Web.Mvc;
 
 namespace CompanyDemo.Controllers
 {
-    public class CompanyController : BaseController
+    public class EmployeeController : BaseController
     {
+        // GET: Employee
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult GetCompanyListByID(int page, int? searchText, bool isDesc = false, string sortBy = "CompanyID")
         {
@@ -138,12 +144,6 @@ namespace CompanyDemo.Controllers
             var data = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
                             $"https://localhost:44319/api/Company", new CompanyModel { CompanyID = id }, "DELETE");
             return Jsend(data);
-        }
-
-
-        public ActionResult Index()
-        {
-            return View();
         }
     }
 }

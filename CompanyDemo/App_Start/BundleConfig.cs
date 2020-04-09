@@ -37,6 +37,11 @@ namespace CompanyDemo
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/sweetalert2").Include(
+                       "~/Scripts/sweetalert2/sweetalert2*"));
+
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
@@ -44,6 +49,7 @@ namespace CompanyDemo
             bundles.Add(new StyleBundle("~/Content/element").Include(
                       "~/Content/element-ui/element-ui-style.min.css"
                       ));
+
 
 
         }
