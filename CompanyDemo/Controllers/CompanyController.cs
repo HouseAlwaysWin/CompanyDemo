@@ -70,7 +70,7 @@ namespace CompanyDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/Company?id={id}");
+                    $"https://localhost:44319/api/Company?id={id}");
                 return Jsend(result);
             }
             catch (WebException ex)

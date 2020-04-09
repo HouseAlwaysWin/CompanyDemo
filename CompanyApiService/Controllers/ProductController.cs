@@ -28,8 +28,8 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
-        [Route("api/Product/GetCompanyByID")]
-        public IHttpActionResult GetCompanyByID(int id)
+        [Route("api/Product/GetProductByID")]
+        public IHttpActionResult GetProductByID(int id)
         {
             var result = _ProductService.FindProductByID(id);
             if (result.status == JsendResultStatus.success.ToString())
@@ -42,7 +42,8 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetCompanyByName(string name)
+        [Route("api/Product/GetProductByName")]
+        public IHttpActionResult GetProductByName(string name)
         {
             var result = _ProductService.FindProductByName(name);
             if (result.status == JsendResultStatus.success.ToString())

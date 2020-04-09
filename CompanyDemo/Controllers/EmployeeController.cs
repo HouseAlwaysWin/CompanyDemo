@@ -10,7 +10,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CompanyDemo.Controllers
+namespace EmployeeDemo.Controllers
 {
     public class EmployeeController : BaseController
     {
@@ -21,91 +21,91 @@ namespace CompanyDemo.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetCompanyListByID(int page, int? searchText, bool isDesc = false, string sortBy = "CompanyID")
+        public ActionResult GetEmployeeListByID(int page, int? searchText, bool isDesc = false, string sortBy = "EmployeeID")
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/GetCompanyListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<EmployeeModel>>>(
+                    $"https://localhost:44319/api/Employee/GetEmployeeListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
             }
         }
 
         [HttpGet]
-        public ActionResult GetCompanyListByName(int page, string searchText, bool isDesc = false, string sortBy = "CompanyID")
+        public ActionResult GetEmployeeListByName(int page, string searchText, bool isDesc = false, string sortBy = "EmployeeID")
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/GetCompanyListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<EmployeeModel>>>(
+                    $"https://localhost:44319/api/Employee/GetEmployeeListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
-            }
-        }
-
-
-        [HttpGet]
-        public ActionResult GetCompanyByName(string name)
-        {
-            try
-            {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<CompanyModel>>(
-                    $"https://localhost:44319/api/Company/GetCompanyByName?name={name}");
-                return Jsend(result);
-            }
-            catch (WebException ex)
-            {
-                Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
             }
         }
 
 
         [HttpGet]
-        public ActionResult GetCompanyByID(string id)
+        public ActionResult GetEmployeeByName(string name)
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/Company?id={id}");
+                var result = RequestHelper.MakeGetWebRequest<Jsend<EmployeeModel>>(
+                    $"https://localhost:44319/api/Employee/GetEmployeeByName?name={name}");
                 return Jsend(result);
             }
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult GetEmployeeByID(string id)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<EmployeeModel>>>(
+                    $"https://localhost:44319/api/Employee/?id={id}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
             }
         }
 
 
         [HttpPost]
-        public ActionResult AddCompany(CompanyModel data)
+        public ActionResult AddEmployee(EmployeeModel data)
         {
-            if (data == null) return Jsend(JsendResult<List<ValidationFailure>>.Error("Company data can't be null"));
-            var validator = new CompanyValidator();
+            if (data == null) return Jsend(JsendResult<List<ValidationFailure>>.Error("Employee data can't be null"));
+            var validator = new EmployeeValidator();
             ValidationResult validateResult = validator.Validate(data);
 
             if (validateResult.IsValid)
             {
                 try
                 {
-                    var result = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                        $"https://localhost:44319/api/Company", data);
+                    var result = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
+                        $"https://localhost:44319/api/Employee", data);
                     return Jsend(result);
                 }
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
-                    return Jsend(JsendResult.Error("Add Company occured error"));
+                    return Jsend(JsendResult.Error("Add Employee occured error"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -114,24 +114,24 @@ namespace CompanyDemo.Controllers
 
 
         [HttpPost]
-        public ActionResult UpdateCompany(CompanyModel data)
+        public ActionResult UpdateEmployee(EmployeeModel data)
         {
-            if (data == null) return Jsend(JsendResult<List<ValidationFailure>>.Error("Company data can't be null"));
-            var validator = new CompanyValidator();
+            if (data == null) return Jsend(JsendResult<List<ValidationFailure>>.Error("Employee data can't be null"));
+            var validator = new EmployeeValidator();
             ValidationResult validateResult = validator.Validate(data);
 
             if (validateResult.IsValid)
             {
                 try
                 {
-                    var result = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                    $"https://localhost:44319/api/Company", data, "PUT");
+                    var result = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
+                    $"https://localhost:44319/api/Employee", data, "PUT");
                     return Jsend(result);
                 }
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
-                    return Jsend(JsendResult.Error("Add Company occured error"));
+                    return Jsend(JsendResult.Error("Add Employee occured error"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -139,10 +139,10 @@ namespace CompanyDemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteCompanyByID(int id)
+        public ActionResult DeleteEmployeeByID(int id)
         {
-            var data = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                            $"https://localhost:44319/api/Company", new CompanyModel { CompanyID = id }, "DELETE");
+            var data = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
+                            $"https://localhost:44319/api/Employee", new EmployeeModel { EmployeeID = id }, "DELETE");
             return Jsend(data);
         }
     }
