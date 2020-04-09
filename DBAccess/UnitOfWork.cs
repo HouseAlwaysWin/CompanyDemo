@@ -15,6 +15,10 @@ namespace DBAccess
         private ICompanyTRepository _companyTRepository;
         private IEmployeeTRepository _employeeTRepository;
         private IProductTRepository _productTRepository;
+
+        private IExternalLoginRepository _externalLoginRepository;
+        private IRoleRepository _roleRepository;
+        private IUserRepository _userRepository;
         private bool _disposed;
 
         public UnitOfWork(string connectionString)
@@ -38,6 +42,24 @@ namespace DBAccess
         {
             get { return _productTRepository ?? (_productTRepository = new ProductTRepository(_transaction)); }
         }
+
+
+        public IExternalLoginRepository ExternalLoginRepository
+        {
+            get { return _externalLoginRepository ?? (_externalLoginRepository = new ExternalLoginRepository(_transaction)); }
+        }
+
+        public IRoleRepository RoleRepository
+        {
+            get { return _roleRepository ?? (_roleRepository = new RoleRepository(_transaction)); }
+        }
+
+        public IUserRepository UserRepository
+        {
+            get { return _userRepository ?? (_userRepository = new UserRepository(_transaction)); }
+        }
+
+
         public void Commit()
         {
             try

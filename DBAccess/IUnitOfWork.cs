@@ -10,6 +10,9 @@ namespace DBAccess
         ICompanyTRepository CompanyTRepository { get; }
         IEmployeeTRepository EmployeeTRepository { get; }
         IProductTRepository ProductTRepository { get; }
+        IExternalLoginRepository ExternalLoginRepository { get; }
+        IRoleRepository RoleRepository { get; }
+        IUserRepository UserRepository { get; }
 
         void Commit();
 
