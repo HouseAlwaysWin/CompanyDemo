@@ -80,22 +80,46 @@ namespace DBAccess.Repositories
                   param: new { EmployeeID = entity.EmployeeID }, transaction: Transaction);
         }
 
-        public EntityWithTotalCount<EmployeeT> FindAllByID(int currentPage, int itemsPerPages, int? searchText, bool isDesc = false, string sortBy = "EmployeeID")
+        public EntityWithTotalCount<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, int? searchText, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
             var sqlString = @"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
                     SELECT COUNT(*) FROM EmployeeT WITH(NOLOCK)
-                    SELECT * FROM EmployeeT  
+                    SELECT E.[EmployeeID]
+                          ,E.[EmployeeName]
+                          ,E.[Email]
+                          ,E.[BirthdayDate]
+                          ,E.[SignInDate]
+                          ,E.[ResignedDate]
+                          ,E.[IsResigned]
+                          ,E.[Salary]
+                          ,E.[CreatedDate]
+                          ,E.[EditedDate]
+                        FROM EmployeeT  AS E
+                        LEFT JOIN CompanyT_EmployeeT AS CE ON CE.CompanyID = @CompanyID
                         {0}
-                        ORDER BY   " + sortBy + "  " + sortType + @"
+                        ORDER BY   E.EmployeeID " + sortType + @"
                         OFFSET @Start ROWS
-                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+                        FETCH NEXT @ItemsPerPages ROWS ONLY
+                   SELECT  [CompanyID]
+                          ,[CompanyName]
+                          ,[CompanyCode]
+                          ,[TaxID]
+                          ,[Phone]
+                          ,[Address]
+                          ,[WebsiteURL]
+                          ,[Owner]
+                          ,[CreatedDate]
+                          ,[EditedDate]
+                         FROM [CompanyDB].[dbo].[CompanyT]
+                         WHERE CompanyID = @CompanyID
+";
 
             if (searchText != null)
             {
-                sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchID");
+                sqlString = string.Format(sqlString, $" WHERE  E.EmployeeID = @SearchText");
             }
             else
             {
@@ -107,14 +131,15 @@ namespace DBAccess.Repositories
                 {
                     ItemsPerPages = itemsPerPages,
                     CurrentPage = currentPage,
-                    SearchID = searchText,
-                    SortBy = sortBy,
-                    SortType = sortType
+                    SearchText = searchText,
+                    SortType = sortType,
+                    CompanyID = companyID
                 }, transaction: Transaction);
-            var result = new EntityWithTotalCount<EmployeeT>
+            var result = new EntityWithTotalCount<EmployeeT, CompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
-                List = sqlResult.Read<EmployeeT>()
+                List = sqlResult.Read<EmployeeT>(),
+                MapData = sqlResult.ReadFirstOrDefault<CompanyT>()
             };
             return result;
         }

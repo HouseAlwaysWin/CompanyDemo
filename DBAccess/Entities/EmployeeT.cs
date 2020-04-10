@@ -8,6 +8,7 @@ namespace DBAccess.Entities
     {
         public int EmployeeID { get; set; }
         public int CompanyID { get; set; }
+        public string CompanyName { get; set; }
         public string EmployeeName { get; set; }
         public string Email { get; set; }
         public DateTime BrithdayDate { get; set; }

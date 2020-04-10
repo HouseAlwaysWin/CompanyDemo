@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DBAccess.DTO
+namespace CompanyDemo.Models
 {
     public class EntityWithTotalCount<T>
     {
@@ -18,4 +17,5 @@ namespace DBAccess.DTO
         public IEnumerable<T> List { get; set; }
         public T2 MapData { get; set; }
     }
+
 }

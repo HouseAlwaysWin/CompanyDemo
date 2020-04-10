@@ -193,7 +193,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
-    <Compile Include="Models\GenericPaginationModel.cs" />
+    <Compile Include="Models\EntityWithTotalCount.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JsendResult.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

@@ -71,7 +71,7 @@ namespace DBAccess.Repositories
 
             if (searchText != null)
             {
-                sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchID");
+                sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchText");
             }
             else
             {
@@ -83,7 +83,7 @@ namespace DBAccess.Repositories
                 {
                     ItemsPerPages = itemsPerPages,
                     CurrentPage = currentPage,
-                    SearchID = searchText,
+                    SearchText = searchText,
                     SortBy = sortBy,
                     SortType = sortType
                 }, transaction: Transaction);

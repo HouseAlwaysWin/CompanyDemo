@@ -25,7 +25,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<EmployeeModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel>>>(
                     $"https://localhost:44319/api/Employee/GetEmployeeListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
@@ -41,7 +41,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<EmployeeModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel>>>(
                     $"https://localhost:44319/api/Employee/GetEmployeeListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
@@ -75,7 +75,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<GenericPaginationModel<EmployeeModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel>>>(
                     $"https://localhost:44319/api/Employee/?id={id}");
                 return Jsend(result);
             }
@@ -83,6 +83,23 @@ namespace EmployeeDemo.Controllers
             {
                 Console.WriteLine(ex);
                 return Jsend(JsendResult.Error("GetEmployeeList occured error"));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult GetListByCompanyID(int id, int currentPage, bool isDesc)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel, CompanyModel>>>(
+                    $"https://localhost:44319/api/Employee/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&searchID=&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("GetListByCompanyID occured error"));
             }
         }
 

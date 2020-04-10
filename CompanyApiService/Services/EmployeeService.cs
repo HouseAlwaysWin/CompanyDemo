@@ -2,6 +2,7 @@
 using CompanyApiService.Models.Validators;
 using CompanyApiService.Services.Interfaces;
 using DBAccess;
+using DBAccess.DTO;
 using DBAccess.Entities;
 using FluentValidation.Results;
 using System.Collections.Generic;
@@ -121,6 +122,23 @@ namespace CompanyApiService.Services
                 return JsendResult<EmployeeT>.Error("FindEmployeeByName() occured error");
             }
             return JsendResult<EmployeeT>.Success(result);
+        }
+
+
+        public Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, int? searchID, bool isDesc)
+        {
+            EntityWithTotalCount<EmployeeT, CompanyT> result = null;
+            try
+            {
+                result = _uow.EmployeeTRepository.FindAllByCompanyID(id, current, itemsPerPages, searchID, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<EntityWithTotalCount<EmployeeT, CompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<EntityWithTotalCount<EmployeeT, CompanyT>>.Success(result);
         }
 
         public Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data)
