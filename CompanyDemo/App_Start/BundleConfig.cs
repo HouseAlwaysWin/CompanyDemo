@@ -15,7 +15,7 @@ namespace CompanyDemo
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/vue").Include(
-                       "~/Scripts/moment*",
+                       "~/Scripts/moment.min.js",
                        "~/Scripts/polyfll*",
                        "~/Scripts/axios*",
                        "~/Scripts/vue*",

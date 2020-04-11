@@ -33,7 +33,7 @@ namespace CompanyApiService.Services
                     {
                         EmployeeName = data.EmployeeName,
                         Email = data.Email,
-                        BrithdayDate = data.BrithdayDate,
+                        BirthdayDate = data.BirthdayDate,
                         SignInDate = data.SignInDate,
                         ResignedDate = data.ResignedDate,
                         IsResigned = data.IsResigned,
@@ -125,12 +125,12 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, int? searchID, bool isDesc)
+        public Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc)
         {
             EntityWithTotalCount<EmployeeT, CompanyT> result = null;
             try
             {
-                result = _uow.EmployeeTRepository.FindAllByCompanyID(id, current, itemsPerPages, searchID, isDesc);
+                result = _uow.EmployeeTRepository.FindAllByCompanyID(id, current, itemsPerPages, isDesc);
                 _uow.Commit();
             }
             catch (SqlException ex)
@@ -158,7 +158,7 @@ namespace CompanyApiService.Services
                         {
                             EmployeeName = data.EmployeeName,
                             Email = data.Email,
-                            BrithdayDate = data.BrithdayDate,
+                            BirthdayDate = data.BirthdayDate,
                             SignInDate = data.SignInDate,
                             ResignedDate = data.ResignedDate,
                             IsResigned = data.IsResigned,
@@ -172,7 +172,7 @@ namespace CompanyApiService.Services
                             EmployeeID = data.EmployeeID,
                             EmployeeName = data.EmployeeName,
                             Email = data.Email,
-                            BrithdayDate = data.BrithdayDate,
+                            BirthdayDate = data.BirthdayDate,
                             SignInDate = data.SignInDate,
                             ResignedDate = data.ResignedDate,
                             IsResigned = data.IsResigned,
@@ -208,7 +208,7 @@ namespace CompanyApiService.Services
                         EmployeeID = data.EmployeeID,
                         EmployeeName = data.EmployeeName,
                         Email = data.Email,
-                        BrithdayDate = data.BrithdayDate,
+                        BirthdayDate = data.BirthdayDate,
                         SignInDate = data.SignInDate,
                         ResignedDate = data.ResignedDate,
                         IsResigned = data.IsResigned,

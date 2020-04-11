@@ -93,7 +93,7 @@ namespace EmployeeDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel, CompanyModel>>>(
-                    $"https://localhost:44319/api/Employee/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&searchID=&isDesc={isDesc}");
+                    $"https://localhost:44319/api/Employee/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -122,7 +122,6 @@ namespace EmployeeDemo.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
-                    return Jsend(JsendResult.Error("Add Employee occured error"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -148,7 +147,6 @@ namespace EmployeeDemo.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
-                    return Jsend(JsendResult.Error("Add Employee occured error"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();

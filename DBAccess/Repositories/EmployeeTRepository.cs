@@ -50,7 +50,7 @@ namespace DBAccess.Repositories
                          {
                              EmployeeName = entity.EmployeeName,
                              Email = entity.Email,
-                             BirthdayDate = entity.BrithdayDate,
+                             BirthdayDate = entity.BirthdayDate,
                              SignInDate = entity.SignInDate,
                              ResignedDate = entity.ResignedDate,
                              IsResigned = entity.IsResigned,
@@ -80,7 +80,7 @@ namespace DBAccess.Repositories
                   param: new { EmployeeID = entity.EmployeeID }, transaction: Transaction);
         }
 
-        public EntityWithTotalCount<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, int? searchText, bool isDesc = false)
+        public EntityWithTotalCount<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -98,8 +98,8 @@ namespace DBAccess.Repositories
                           ,E.[CreatedDate]
                           ,E.[EditedDate]
                         FROM EmployeeT  AS E
-                        LEFT JOIN CompanyT_EmployeeT AS CE ON CE.CompanyID = @CompanyID
-                        {0}
+                        JOIN CompanyT_EmployeeT AS CE ON CE.EmployeeID = E.EmployeeID
+                        WHERE CE.CompanyID = @CompanyID
                         ORDER BY   E.EmployeeID " + sortType + @"
                         OFFSET @Start ROWS
                         FETCH NEXT @ItemsPerPages ROWS ONLY
@@ -117,21 +117,11 @@ namespace DBAccess.Repositories
                          WHERE CompanyID = @CompanyID
 ";
 
-            if (searchText != null)
-            {
-                sqlString = string.Format(sqlString, $" WHERE  E.EmployeeID = @SearchText");
-            }
-            else
-            {
-                sqlString = string.Format(sqlString, string.Empty);
-            }
-
             var sqlResult = Connection.QueryMultiple(sqlString,
                 new
                 {
                     ItemsPerPages = itemsPerPages,
                     CurrentPage = currentPage,
-                    SearchText = searchText,
                     SortType = sortType,
                     CompanyID = companyID
                 }, transaction: Transaction);
@@ -177,15 +167,16 @@ namespace DBAccess.Repositories
                         IsResigned = @IsResigned,
                         Salary = @Salary,
                         EditedDate = GETUTCDATE() 
-                    WHERE CompanyID = @CompanyID",
+                    WHERE EmployeeID = @EmployeeID",
                param: new
                {
+                   EmployeeID = entity.EmployeeID,
                    EmployeeName = entity.EmployeeName,
                    Email = entity.Email,
-                   BirthdayDate = entity.BrithdayDate,
+                   BirthdayDate = entity.BirthdayDate,
                    SignInDate = entity.SignInDate,
                    ResignedDate = entity.ResignedDate,
-                   IsRegistered = entity.IsResigned,
+                   IsResigned = entity.IsResigned,
                    Salary = entity.Salary,
                }, transaction: Transaction);
         }

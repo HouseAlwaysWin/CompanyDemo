@@ -42,9 +42,9 @@ namespace CompanyApiService.Controllers
 
         [HttpGet]
         [Route("api/Employee/GetListByCompanyID")]
-        public IHttpActionResult GetListByCompanyID(int id, int currentPage, int itemsPerPage, int? searchID, bool isDesc)
+        public IHttpActionResult GetListByCompanyID(int id, int currentPage, int itemsPerPage, bool isDesc)
         {
-            var result = _employeeService.FindCompanyListByID(id, currentPage, itemsPerPage, searchID, isDesc);
+            var result = _employeeService.FindCompanyListByID(id, currentPage, itemsPerPage, isDesc);
             if (result.status == JsendResultStatus.success.ToString())
             {
                 return Ok(result);

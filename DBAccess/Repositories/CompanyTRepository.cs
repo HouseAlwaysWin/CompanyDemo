@@ -136,7 +136,14 @@ namespace DBAccess.Repositories
 
         public void Delete(int id)
         {
-            Connection.Execute("DELETE FROM CompanyT WHERE CompanyID = @CompanyID",
+            Connection.Execute(@"
+              DELETE FROM [EmployeeT] WHERE EmployeeID IN (
+              SELECT E.EmployeeID
+              FROM [CompanyDB].[dbo].[CompanyT_EmployeeT] AS CE
+              JOIN [CompanyDB].[dbo].[EmployeeT] AS E ON CE.EmployeeID = E.[EmployeeID]
+              WHERE CE.CompanyID  = @CompanyID)
+              DELETE FROM CompanyT WHERE CompanyID = @CompanyID
+                ",
                param: new { CompanyID = id }, transaction: Transaction);
         }
 

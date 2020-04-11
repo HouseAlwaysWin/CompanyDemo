@@ -13,7 +13,7 @@ namespace DBAccess.Repositories.Interfaces
         void Delete(int id);
         void Delete(EmployeeT entity);
         EmployeeT FindByID(int id);
-        EntityWithTotalCount<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, int? searchText, bool isDesc = false);
+        EntityWithTotalCount<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false);
         EntityWithTotalCount<EmployeeT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "EmployeeID");
         EmployeeT FindByName(string name);
         void Update(EmployeeT entity);

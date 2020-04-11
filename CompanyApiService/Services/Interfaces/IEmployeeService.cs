@@ -18,7 +18,7 @@ namespace CompanyApiService.Services.Interfaces
 
         Jsend<EmployeeT> FindEmployeeByID(int Id);
 
-        Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, int? searchID, bool isDesc);
+        Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc);
 
         Jsend<List<ValidationFailure>> UpdateEmployee(EmployeeModel data);
         Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data);

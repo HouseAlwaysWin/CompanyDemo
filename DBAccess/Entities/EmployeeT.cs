@@ -11,7 +11,7 @@ namespace DBAccess.Entities
         public string CompanyName { get; set; }
         public string EmployeeName { get; set; }
         public string Email { get; set; }
-        public DateTime BrithdayDate { get; set; }
+        public DateTime BirthdayDate { get; set; }
         public DateTime SignInDate { get; set; }
         public DateTime ResignedDate { get; set; }
         public bool IsResigned { get; set; }

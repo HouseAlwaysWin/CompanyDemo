@@ -54,12 +54,10 @@ var companyVue = new Vue({
             currentPage: 1,
             totalCount: 0,
             modalType: '',
-            mapData: null,
+            mapCompany: null,
             data: {
-                companyID: '',
                 employeeID: '',
                 employeeName: '',
-                fromCompanyName: '',
                 email: '',
                 birthday: '',
                 signInDate: '',
@@ -108,6 +106,7 @@ var companyVue = new Vue({
         self.companySearchBy();
     },
     methods: {
+        //#region 公司 */
         resetStatus: function () {
             var self = this;
             self.companyInfo.companyData = {
@@ -120,7 +119,7 @@ var companyVue = new Vue({
                 webUrl: '',
                 owner: ''
             };
-            self.$refs.observerRef.reset();
+            self.$refs.companyModalRef.reset();
         },
         modalSubmit: function () {
             var self = this;
@@ -156,54 +155,30 @@ var companyVue = new Vue({
 
                 self.companyInfo.selectSearchType = "CompanyName";
                 self.companyInfo.searchText = self.companyInfo.companyData.CompanyName;
-                self.searchBy();
+                self.companySearchBy();
             }).catch(function (error) {
                 console.log(error);
                 self.loading = false;
             })
 
         },
-        employeeModalSubmit: function () {
+        setCompanyModalType: function (type, data) {
             var self = this;
-            var data = self.employeeInfo.data;
-            self.loading = true;
-
-            var url = '';
-            if (self.companyInfo.modalType === 'insert') {
-                url = "/Employee/AddEmployee";
-            } else {
-                url = "/Employee/UpdateEmployee";
+            self.companyInfo.modalType = type;
+            console.log(data);
+            if (type === 'update') {
+                self.companyInfo.companyData = {
+                    companyID: data.CompanyID,
+                    companyName: data.CompanyName,
+                    companyCode: data.CompanyCode,
+                    phone: data.Phone,
+                    taxId: data.TaxID,
+                    address: data.Address,
+                    webUrl: data.WebsiteURL,
+                    owner: data.Owner
+                };
             }
-
-            var postData = {
-                CompanyID: self.companyID,
-                EmployeeID: self.employeeID,
-                EmployeeName: self.employeeName,
-                CompanyName: self.fromCompanyName,
-                Email: self.email,
-                BirthdayDate: self.birthday,
-                SignInDate: self.signInDate,
-                ResignedDate: self.resignedDate,
-                IsResigned: self.isResigned,
-                Salary: self.salary
-            };
-
-            axios.post(url, postData
-            ).then(function (result) {
-                console.log(result);
-                console.log(result.data.data);
-                $("#insertUpdate").modal("hide");
-
-                self.loading = false;
-                self.resetStatus();
-
-                self.searchBy();
-            }).catch(function (error) {
-                console.log(error);
-                self.loading = false;
-            })
         },
-
         deleteSubmit: function (data) {
             var self = this;
             Swal.fire({
@@ -244,44 +219,6 @@ var companyVue = new Vue({
                 }
             })
         },
-
-        deleteEmployeeSubmit: function (data) {
-
-        },
-        setCompanyModalType: function (type, data) {
-            var self = this;
-            self.companyInfo.modalType = type;
-            console.log(data);
-            if (type === 'update') {
-                self.companyData = {
-                    companyID: data.CompanyID,
-                    companyName: data.CompanyName,
-                    companyCode: data.CompanyCode,
-                    phone: data.Phone,
-                    taxId: data.TaxID,
-                    address: data.Address,
-                    webUrl: data.WebsiteURL,
-                    owner: data.Owner
-                };
-            }
-        },
-        setCompanyModalType: function (type, data) {
-            var self = this;
-            self.employeeInfo.modalType = type;
-            console.log(data);
-            if (type === 'update') {
-                self.companyData = {
-                    companyID: data.CompanyID,
-                    companyName: data.CompanyName,
-                    companyCode: data.CompanyCode,
-                    phone: data.Phone,
-                    taxId: data.TaxID,
-                    address: data.Address,
-                    webUrl: data.WebsiteURL,
-                    owner: data.Owner
-                };
-            }
-        },
         companySearchBy: function () {
             var self = this;
 
@@ -311,31 +248,154 @@ var companyVue = new Vue({
                 });
 
         },
-        employeeSearchBy: function () {
 
+
+        resetEmployeeStatus: function () {
+            var self = this;
+            self.employeeInfo.data = {
+                employeeID: '',
+                employeeName: '',
+                fromCompanyName: '',
+                email: '',
+                birthday: '',
+                signInDate: '',
+                resignedDate: '',
+                isResigned: false,
+                salary: 0
+            };
+            //self.employeeInfo.list = [];
+            self.$refs.employeeModalRef.reset();
         },
 
-        getEmployeesByCompanyID: function (id) {
+        employeeModalSubmit: function () {
+            var self = this;
+
+            var url = '';
+            if (self.employeeInfo.modalType === 'insert') {
+                url = "/Employee/AddEmployee";
+            } else {
+                url = "/Employee/UpdateEmployee";
+            }
+
+            var data = this.employeeInfo.data;
+
+            var postData = {
+                CompanyID: self.employeeInfo.mapCompany.CompanyID,
+                EmployeeID: data.employeeID,
+                EmployeeName: data.employeeName,
+                CompanyName: data.fromCompanyName,
+                Email: data.email,
+                BirthdayDate: data.birthday,
+                SignInDate: data.signInDate,
+                ResignedDate: data.resignedDate,
+                IsResigned: data.isResigned,
+                Salary: data.salary
+            };
+
+            self.loading = true;
+            axios.post(url, postData
+            ).then(function (result) {
+                console.log(result);
+                console.log(result.data.data);
+                $("#employeeInsertUpdate").modal("hide");
+
+                self.loading = false;
+                self.resetEmployeeStatus();
+                self.getEmployeesByCompanyID();
+            }).catch(function (error) {
+                var response = error.response;
+                console.log(response);
+                //Swal.fire(
+                //    response.message
+                //)
+
+                self.loading = false;
+            })
+        },
+
+
+
+        deleteEmployeeSubmit: function (data) {
+            var self = this;
+            Swal.fire({
+                title: '確定要刪除?',
+                text: "刪除後無法復原!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是',
+                cancelButtonText: '否'
+            }).then((result) => {
+                if (result.value) {
+                    self.loading = true;
+                    var postData = data;
+                    axios.post("/Employee/DeleteEmployeeByID",
+                        {
+                            id: postData.EmployeeID
+                        }).then(function (result) {
+                            self.loading = false;
+                            Swal.fire(
+                                '刪除!',
+                                '你的資料已刪除',
+                                'success'
+                            ).then(function (result) {
+                                self.resetEmployeeStatus();
+                                self.getEmployeesByCompanyID();
+                            });
+
+                        }).catch(function (error) {
+                            console.log(error);
+                            self.loading = false;
+                        })
+
+                }
+            })
+        },
+
+        setEmployeeModalType: function (type, data) {
+            var self = this;
+            self.employeeInfo.modalType = type;
+            console.log(data);
+            if (type === 'update') {
+                self.employeeInfo.data = {
+                    employeeID: data.EmployeeID,
+                    employeeName: data.EmployeeName,
+                    email: data.Email,
+                    birthday: data.BirthdayDate,
+                    signInDate: data.SignInDate,
+                    resignedDate: data.ResignedDate,
+                    isResigned: data.IsResigned,
+                    salary: data.Salary
+                };
+            }
+            self.$refs.employeeModalRef.reset();
+        },
+
+        getEmployeesByCompanyID: function (data) {
             var self = this;
             self.showArea = {
                 companyInfo: false,
                 employeeInfo: true
             };
-            self = this.employeeInfo;
+            var dataInfo = this.employeeInfo.data;
+            if (!Number.isInteger(data)) {
+                self.employeeInfo.mapCompany = data;
+            }
 
             axios.get("https://localhost:44361/Employee/GetListByCompanyID", {
                 params: {
-                    id: id,
-                    currentPage: self.currentPage,
+                    id: self.employeeInfo.mapCompany.CompanyID,
+                    currentPage: self.employeeInfo.currentPage,
                     isDesc: false
                 }
             }).then(function (result) {
                 console.log(result)
-                self.list = result.data.data.List;
-                self.totalCount = result.data.data.TotalCount;
-                self.mapData = result.data.data.MapData;
+                self.employeeInfo.list = result.data.data.List;
+                self.employeeInfo.totalCount = result.data.data.TotalCount;
             }).catch(function (error) {
-
+                var response = error.response.data;
+                console.log(response);
             });
         },
         getProductsByCompanyID: function (id) {
@@ -347,13 +407,23 @@ var companyVue = new Vue({
                 companyInfo: true,
                 employeeInfo: false
             }
-        }
+            self.resetEmployeeStatus();
+        },
+        setDateFormat: function (date) {
+            var self = this;
+            return moment(date).format('MMMM Do YYYY');
+        },
+
 
     },
     computed: {
         totalPages: function () {
             var self = this;
             return Math.ceil(self.companyInfo.companyList.totalCount / self.companyInfo.companyList.itemsPerPage);
+        },
+        employeeTotalPages: function () {
+            var self = this;
+            return Math.ceil(self.employeeInfo.totalCount / self.employeeInfo.itemsPerPage);
         },
     },
 });
