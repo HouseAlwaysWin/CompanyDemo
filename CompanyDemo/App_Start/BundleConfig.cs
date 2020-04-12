@@ -24,8 +24,8 @@ namespace CompanyDemo
                        "~/Scripts/element-ui/element-ui.js",
                        "~/Scripts/element-ui/locale/zh_TW.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/home").Include(
-                "~/Scripts/home/companyList.js"));
+            bundles.Add(new ScriptBundle("~/bundles/company").Include(
+                "~/Scripts/company/companyVue.js"));
 
 
 

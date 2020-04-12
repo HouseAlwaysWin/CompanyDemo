@@ -239,7 +239,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\element-ui\element-ui.js" />
     <Content Include="Scripts\element-ui\locale\zh_TW.js" />
-    <Content Include="Scripts\home\companyList.js" />
+    <Content Include="Scripts\company\companyVue.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
