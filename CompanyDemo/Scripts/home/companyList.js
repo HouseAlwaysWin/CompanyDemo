@@ -280,6 +280,21 @@ var companyVue = new Vue({
             self.$refs.employeeModalRef.reset();
         },
 
+        employeeResetData: function () {
+            var self = this;
+            self.employeeInfo.data = {
+                employeeID: '',
+                employeeName: '',
+                email: '',
+                birthday: '',
+                signInDate: '',
+                resignedDate: '',
+                isResigned: false,
+                salary: 0
+            }
+            self.$refs.employeeModalRef.reset();
+        },
+
         employeeModalSubmit: function () {
             var self = this;
 
@@ -392,7 +407,6 @@ var companyVue = new Vue({
         },
         getEmployeesByCompanyID: function () {
             var self = this;
-
             axios.get("https://localhost:44361/Employee/GetListByCompanyID", {
                 params: {
                     id: self.employeeInfo.mapCompany.CompanyID,

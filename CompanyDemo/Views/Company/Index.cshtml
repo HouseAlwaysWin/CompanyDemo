@@ -224,7 +224,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title" v-if="employeeInfo.modalType === 'insert'">新增員工</h4>
                         <h4 class="modal-title" v-else>更新員工{{ companyInfo.companyData.companyName}}</h4>
-                        <button type="button" class="close" data-dismiss="modal" v-on:click="resetEmployeeStatus">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" v-on:click="employeeResetData">&times;</button>
                     </div>
 
                     <!-- Modal body -->
