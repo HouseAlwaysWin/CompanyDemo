@@ -1,11 +1,10 @@
-﻿using Dapper;
-using DBAccess.Entities;
+﻿using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
+using Dapper;
 using DBAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace DBAccess.Repositories
 {
@@ -82,6 +81,61 @@ namespace DBAccess.Repositories
                                       @"SELECT * FROM ProductT WHERE ProductName = @ProductName",
                                       param: new { ProductName = name }, transaction: Transaction)
                                       .FirstOrDefault();
+        }
+
+
+        public OneToManyMap<ProductT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    SELECT COUNT(*) FROM ProductT WITH(NOLOCK)
+                    SELECT E.[EmployeeID]
+                          ,E.[EmployeeName]
+                          ,E.[Email]
+                          ,E.[BirthdayDate]
+                          ,E.[SignInDate]
+                          ,E.[ResignedDate]
+                          ,E.[IsResigned]
+                          ,E.[Salary]
+                          ,E.[CreatedDate]
+                          ,E.[EditedDate]
+                        FROM ProductT  AS E
+                        JOIN ProductT_EmployeeT AS CE ON CE.ProductT = E.ProductT
+                        WHERE CE.CompanyID = @CompanyID
+                        ORDER BY   E.ProductID " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPages ROWS ONLY
+                   SELECT  [CompanyID]
+                          ,[CompanyName]
+                          ,[CompanyCode]
+                          ,[TaxID]
+                          ,[Phone]
+                          ,[Address]
+                          ,[WebsiteURL]
+                          ,[Owner]
+                          ,[CreatedDate]
+                          ,[EditedDate]
+                         FROM [CompanyDB].[dbo].[CompanyT]
+                         WHERE CompanyID = @CompanyID
+";
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPages = itemsPerPages,
+                    CurrentPage = currentPage,
+                    SortType = sortType,
+                    CompanyID = companyID
+                }, transaction: Transaction);
+            var result = new OneToManyMap<ProductT, CompanyT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<ProductT>(),
+                MapData = sqlResult.ReadFirstOrDefault<CompanyT>()
+            };
+            return result;
         }
 
         public void Update(ProductT entity)

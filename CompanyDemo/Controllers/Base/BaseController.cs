@@ -1,4 +1,5 @@
-﻿using CompanyDemo.Models;
+﻿using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

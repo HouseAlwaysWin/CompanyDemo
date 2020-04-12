@@ -26,7 +26,7 @@ var companyVue = new Vue({
             productInfo: false
         },
         companyInfo: {
-            companyList: [],
+            list: [],
             itemsPerPage: 10,
             currentPage: 1,
             totalCount: 0,
@@ -74,7 +74,7 @@ var companyVue = new Vue({
         },
 
         productInfo: {
-            companyList: [],
+            list: [],
             itemsPerPage: 10,
             currentPage: 1,
             totalCount: 0,
@@ -234,12 +234,13 @@ var companyVue = new Vue({
                     params: {
                         page: self.companyInfo.currentPage,
                         searchText: self.companyInfo.searchText,
-                        //isDesc: false,
+                        isDesc: false,
                     }
                 })
                 .then(function (result) {
                     console.log(result.data.data);
-                    self.companyInfo.companyList = result.data.data;
+                    self.companyInfo.list = result.data.data.List;
+                    self.companyInfo.totalCount = result.data.data.TotalCount;
                     self.loading = false;
 
                 }).catch(function (error) {
@@ -252,18 +253,30 @@ var companyVue = new Vue({
 
         resetEmployeeStatus: function () {
             var self = this;
-            self.employeeInfo.data = {
-                employeeID: '',
-                employeeName: '',
-                fromCompanyName: '',
-                email: '',
-                birthday: '',
-                signInDate: '',
-                resignedDate: '',
-                isResigned: false,
-                salary: 0
+            self.employeeInfo = {
+                list: [],
+                itemsPerPage: 10,
+                currentPage: 1,
+                totalCount: 0,
+                modalType: '',
+                mapCompany: null,
+                data: {
+                    employeeID: '',
+                    employeeName: '',
+                    email: '',
+                    birthday: '',
+                    signInDate: '',
+                    resignedDate: '',
+                    isResigned: false,
+                    salary: 0
+                },
+                selectSearchType: 'EmployeeID',
+                selectSearchOptions: [
+                    { value: 'EmployeeID', name: '員工ID' },
+                    { value: 'EmployeeName', name: '員工名稱' },
+                ],
+                searchText: ''
             };
-            //self.employeeInfo.list = [];
             self.$refs.employeeModalRef.reset();
         },
 
@@ -300,7 +313,7 @@ var companyVue = new Vue({
                 $("#employeeInsertUpdate").modal("hide");
 
                 self.loading = false;
-                self.resetEmployeeStatus();
+                //self.resetEmployeeStatus();
                 self.getEmployeesByCompanyID();
             }).catch(function (error) {
                 var response = error.response;
@@ -312,8 +325,6 @@ var companyVue = new Vue({
                 self.loading = false;
             })
         },
-
-
 
         deleteEmployeeSubmit: function (data) {
             var self = this;
@@ -340,7 +351,6 @@ var companyVue = new Vue({
                                 '你的資料已刪除',
                                 'success'
                             ).then(function (result) {
-                                self.resetEmployeeStatus();
                                 self.getEmployeesByCompanyID();
                             });
 
@@ -371,17 +381,17 @@ var companyVue = new Vue({
             }
             self.$refs.employeeModalRef.reset();
         },
-
-        getEmployeesByCompanyID: function (data) {
+        showEmployeeList: function (data) {
             var self = this;
             self.showArea = {
                 companyInfo: false,
                 employeeInfo: true
             };
-            var dataInfo = this.employeeInfo.data;
-            if (!Number.isInteger(data)) {
-                self.employeeInfo.mapCompany = data;
-            }
+            self.employeeInfo.mapCompany = data;
+            self.getEmployeesByCompanyID();
+        },
+        getEmployeesByCompanyID: function () {
+            var self = this;
 
             axios.get("https://localhost:44361/Employee/GetListByCompanyID", {
                 params: {
@@ -417,9 +427,9 @@ var companyVue = new Vue({
 
     },
     computed: {
-        totalPages: function () {
+        companyTotalPages: function () {
             var self = this;
-            return Math.ceil(self.companyInfo.companyList.totalCount / self.companyInfo.companyList.itemsPerPage);
+            return Math.ceil(self.companyInfo.totalCount / self.companyInfo.itemsPerPage);
         },
         employeeTotalPages: function () {
             var self = this;

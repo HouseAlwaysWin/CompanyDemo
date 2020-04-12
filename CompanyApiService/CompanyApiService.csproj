@@ -200,7 +200,6 @@
     </Compile>
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
-    <Compile Include="Models\JsendResult.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Validators\CompanyValidator.cs" />
     <Compile Include="Models\Validators\EmployeeValidator.cs" />
@@ -303,6 +302,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CompanyDemo.Domain\CompanyDemo.Domain.csproj">
+      <Project>{deeaa2f6-d0d6-4784-b0b0-4d781ff0e1ff}</Project>
+      <Name>CompanyDemo.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DBAccess\DBAccess.csproj">
       <Project>{a87c85d8-06b4-4c0b-b5ee-4cbc561977c4}</Project>
       <Name>DBAccess</Name>

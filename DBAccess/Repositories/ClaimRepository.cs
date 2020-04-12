@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using CompanyDemo.Domain.Entities;
 using Dapper;
-using DBAccess.Entities;
 using DBAccess.Repositories;
 using DBAccess.Repositories.Interfaces;
 
-namespace Mvc5IdentityExample.Data.Dapper.Repositories
+namespace DBAccess.Repositories
 {
     internal class ClaimRepository : RepositoryBase, IClaimRepository
     {

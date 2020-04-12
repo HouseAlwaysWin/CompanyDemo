@@ -1,11 +1,8 @@
 ﻿using CompanyApiService.Models;
-using DBAccess.Entities;
+using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
 using FluentValidation.Results;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompanyApiService.Services.Interfaces
 {

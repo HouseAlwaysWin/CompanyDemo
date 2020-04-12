@@ -1,4 +1,5 @@
 ﻿using CompanyDemo.Controllers.Base;
+using CompanyDemo.Domain.DTOs;
 using CompanyDemo.Helpers;
 using CompanyDemo.Models;
 using CompanyDemo.Models.Validators;
@@ -25,7 +26,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel>>>(
                     $"https://localhost:44319/api/Employee/GetEmployeeListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
@@ -41,7 +42,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel>>>(
                     $"https://localhost:44319/api/Employee/GetEmployeeListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
@@ -75,7 +76,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel>>>(
                     $"https://localhost:44319/api/Employee/?id={id}");
                 return Jsend(result);
             }
@@ -92,7 +93,7 @@ namespace EmployeeDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<EmployeeModel, CompanyModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
                     $"https://localhost:44319/api/Employee/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
                 return Jsend(result);
             }

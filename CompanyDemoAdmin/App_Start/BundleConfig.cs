@@ -14,6 +14,21 @@ namespace CompanyDemoAdmin
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/vue").Include(
+                       "~/Scripts/moment.min.js",
+                       "~/Scripts/polyfll*",
+                       "~/Scripts/axios*",
+                       "~/Scripts/vue*",
+                       "~/Scripts/veevalidate/locale/zh_TW.js",
+                       "~/Scripts/veevalidate/vee-validate*",
+                       "~/Scripts/element-ui/element-ui.js",
+                       "~/Scripts/element-ui/locale/zh_TW.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+                "~/Scripts/home/companyList.js"));
+
+
+
             // 使用開發版本的 Modernizr 進行開發並學習。然後，當您
             // 準備好可進行生產時，請使用 https://modernizr.com 的建置工具，只挑選您需要的測試。
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -22,9 +37,21 @@ namespace CompanyDemoAdmin
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/sweetalert2").Include(
+                       "~/Scripts/sweetalert2/sweetalert2*"));
+
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/element").Include(
+                      "~/Content/element-ui/element-ui-style.min.css"
+                      ));
+
+
+
         }
     }
 }

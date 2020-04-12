@@ -1,5 +1,6 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Services.Interfaces;
+using CompanyDemo.Domain.DTOs;
 using Newtonsoft.Json;
 using System.Web.Http;
 
@@ -18,7 +19,7 @@ namespace CompanyApiService.Controllers
         {
             var result = _employeeService.AddEmployee(data);
 
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -31,7 +32,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetEmployeeByID(int id)
         {
             var result = _employeeService.FindEmployeeByID(id);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -45,7 +46,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetListByCompanyID(int id, int currentPage, int itemsPerPage, bool isDesc)
         {
             var result = _employeeService.FindCompanyListByID(id, currentPage, itemsPerPage, isDesc);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -58,7 +59,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Update(EmployeeModel data)
         {
             var result = _employeeService.UpdateEmployee(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -71,7 +72,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult InsertUpdate(EmployeeModel data)
         {
             var result = _employeeService.InsertUpdateEmployee(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -84,7 +85,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Delete(int id)
         {
             var result = _employeeService.DeleteEmployee(id);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -97,7 +98,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Delete(EmployeeModel data)
         {
             var result = _employeeService.DeleteEmployee(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }

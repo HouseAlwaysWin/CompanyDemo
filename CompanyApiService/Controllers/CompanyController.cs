@@ -1,5 +1,6 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Services.Interfaces;
+using CompanyDemo.Domain.DTOs;
 using Newtonsoft.Json;
 using System.Web.Http;
 
@@ -20,7 +21,7 @@ namespace CompanyApiService.Controllers
         {
             var result = _companyService.AddCompany(data);
 
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -34,7 +35,7 @@ namespace CompanyApiService.Controllers
         //public IHttpActionResult GetCompanyByID(int id)
         //{
         //    var result = _companyService.FindCompanyByID(id);
-        //    if (result.status == JsendResultStatus.success.ToString())
+        //    if (result.status == EnumJsendStatus.success.ToString())
         //    {
         //        return Ok(result);
         //    }
@@ -48,7 +49,7 @@ namespace CompanyApiService.Controllers
         //public IHttpActionResult GetCompanyByName(string name)
         //{
         //    var result = _companyService.FindComapnyByName(name);
-        //    if (result.status == JsendResultStatus.success.ToString())
+        //    if (result.status == EnumJsendStatus.success.ToString())
         //    {
         //        return Ok(result);
         //    }
@@ -62,7 +63,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID")
         {
             var result = _companyService.FindCompanyListByID(current, itemsPerPages, isDesc, searchText, sortBy);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -76,7 +77,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID")
         {
             var result = _companyService.FindCompanyListByName(current, itemsPerPages, isDesc, searchText, sortBy);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -89,7 +90,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Update(CompanyModel data)
         {
             var result = _companyService.UpdateCompany(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -102,7 +103,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult InsertUpdate(CompanyModel data)
         {
             var result = _companyService.InsertUpdateCompany(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -115,7 +116,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Delete(int id)
         {
             var result = _companyService.DeleteCompanyByID(id);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -128,7 +129,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Delete(CompanyModel data)
         {
             var result = _companyService.DeleteCompany(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }

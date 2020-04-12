@@ -1,8 +1,9 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Models.Validators;
 using CompanyApiService.Services.Interfaces;
+using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
 using DBAccess;
-using DBAccess.Entities;
 using FluentValidation.Results;
 using System.Collections.Generic;
 using System.Data.SqlClient;

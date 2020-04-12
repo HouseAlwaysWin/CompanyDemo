@@ -1,5 +1,6 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Services.Interfaces;
+using CompanyDemo.Domain.DTOs;
 using Newtonsoft.Json;
 using System.Web.Http;
 
@@ -18,7 +19,7 @@ namespace CompanyApiService.Controllers
         {
             var result = _ProductService.AddProduct(data);
 
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -32,7 +33,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetProductByID(int id)
         {
             var result = _ProductService.FindProductByID(id);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -46,7 +47,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetProductByName(string name)
         {
             var result = _ProductService.FindProductByName(name);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -59,7 +60,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Update(ProductModel data)
         {
             var result = _ProductService.UpdateProduct(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -72,7 +73,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult InsertUpdate(ProductModel data)
         {
             var result = _ProductService.InsertUpdateProduct(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -85,7 +86,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Delete(int id)
         {
             var result = _ProductService.DeleteProduct(id);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }
@@ -98,7 +99,7 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult Delete(ProductModel data)
         {
             var result = _ProductService.DeleteProduct(data);
-            if (result.status == JsendResultStatus.success.ToString())
+            if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);
             }

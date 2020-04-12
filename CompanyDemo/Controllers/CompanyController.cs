@@ -1,4 +1,5 @@
 ﻿using CompanyDemo.Controllers.Base;
+using CompanyDemo.Domain.DTOs;
 using CompanyDemo.Helpers;
 using CompanyDemo.Models;
 using CompanyDemo.Models.Validators;
@@ -19,7 +20,7 @@ namespace CompanyDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<CompanyModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
                     $"https://localhost:44319/api/Company/GetCompanyListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
@@ -35,7 +36,7 @@ namespace CompanyDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<CompanyModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
                     $"https://localhost:44319/api/Company/GetCompanyListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
@@ -69,7 +70,7 @@ namespace CompanyDemo.Controllers
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<EntityWithTotalCount<CompanyModel>>>(
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
                     $"https://localhost:44319/api/Company?id={id}");
                 return Jsend(result);
             }

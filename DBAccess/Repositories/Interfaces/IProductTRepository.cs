@@ -1,7 +1,5 @@
-﻿using DBAccess.Entities;
-using System;
+﻿using CompanyDemo.Domain.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DBAccess.Repositories.Interfaces
 {

@@ -1,12 +1,11 @@
-﻿using Dapper;
-using DBAccess.DTO;
-using DBAccess.Entities;
+﻿using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
+using Dapper;
 using DBAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace DBAccess.Repositories
 {
@@ -80,13 +79,16 @@ namespace DBAccess.Repositories
                   param: new { EmployeeID = entity.EmployeeID }, transaction: Transaction);
         }
 
-        public EntityWithTotalCount<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false)
+        public OneToManyMap<EmployeeT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
             var sqlString = @"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
-                    SELECT COUNT(*) FROM EmployeeT WITH(NOLOCK)
+                    SELECT COUNT(*) 
+                        FROM EmployeeT  AS E WITH(NOLOCK)
+                        JOIN CompanyT_EmployeeT AS CE ON CE.EmployeeID = E.EmployeeID
+                        WHERE CE.CompanyID = @CompanyID 
                     SELECT E.[EmployeeID]
                           ,E.[EmployeeName]
                           ,E.[Email]
@@ -125,7 +127,7 @@ namespace DBAccess.Repositories
                     SortType = sortType,
                     CompanyID = companyID
                 }, transaction: Transaction);
-            var result = new EntityWithTotalCount<EmployeeT, CompanyT>
+            var result = new OneToManyMap<EmployeeT, CompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
                 List = sqlResult.Read<EmployeeT>(),
@@ -134,7 +136,7 @@ namespace DBAccess.Repositories
             return result;
         }
 
-        public EntityWithTotalCount<EmployeeT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "EmployeeID")
+        public OneToManyMap<EmployeeT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "EmployeeID")
         {
             throw new NotImplementedException();
         }

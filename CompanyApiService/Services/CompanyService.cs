@@ -1,9 +1,9 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Models.Validators;
 using CompanyApiService.Services.Interfaces;
+using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
 using DBAccess;
-using DBAccess.DTO;
-using DBAccess.Entities;
 using FluentValidation.Results;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -130,9 +130,9 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID")
+        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID")
         {
-            EntityWithTotalCount<CompanyT> result = null;
+            OneToManyMap<CompanyT> result = null;
             try
             {
                 result = _uow.CompanyTRepository.FindAllByID(current, itemsPerPages, searchText, isDesc, sortBy);
@@ -141,15 +141,15 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult<EntityWithTotalCount<CompanyT>>.Error("Queay data occured error");
+                return JsendResult<OneToManyMap<CompanyT>>.Error("Queay data occured error");
             }
-            return JsendResult<EntityWithTotalCount<CompanyT>>.Success(result);
+            return JsendResult<OneToManyMap<CompanyT>>.Success(result);
         }
 
 
-        public Jsend<EntityWithTotalCount<CompanyT>> FindCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID")
+        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID")
         {
-            EntityWithTotalCount<CompanyT> result = null;
+            OneToManyMap<CompanyT> result = null;
             try
             {
                 result = _uow.CompanyTRepository.FindAllByName(current, itemsPerPages, searchText, isDesc, sortBy);
@@ -158,9 +158,9 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult<EntityWithTotalCount<CompanyT>>.Error("Queay data occured error");
+                return JsendResult<OneToManyMap<CompanyT>>.Error("Queay data occured error");
             }
-            return JsendResult<EntityWithTotalCount<CompanyT>>.Success(result);
+            return JsendResult<OneToManyMap<CompanyT>>.Success(result);
         }
 
 

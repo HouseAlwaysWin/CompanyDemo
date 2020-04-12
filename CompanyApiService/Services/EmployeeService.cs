@@ -1,9 +1,9 @@
 ﻿using CompanyApiService.Models;
 using CompanyApiService.Models.Validators;
 using CompanyApiService.Services.Interfaces;
+using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
 using DBAccess;
-using DBAccess.DTO;
-using DBAccess.Entities;
 using FluentValidation.Results;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -125,9 +125,9 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc)
+        public Jsend<OneToManyMap<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc)
         {
-            EntityWithTotalCount<EmployeeT, CompanyT> result = null;
+            OneToManyMap<EmployeeT, CompanyT> result = null;
             try
             {
                 result = _uow.EmployeeTRepository.FindAllByCompanyID(id, current, itemsPerPages, isDesc);
@@ -136,9 +136,9 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult<EntityWithTotalCount<EmployeeT, CompanyT>>.Error("Queay data occured error");
+                return JsendResult<OneToManyMap<EmployeeT, CompanyT>>.Error("Queay data occured error");
             }
-            return JsendResult<EntityWithTotalCount<EmployeeT, CompanyT>>.Success(result);
+            return JsendResult<OneToManyMap<EmployeeT, CompanyT>>.Success(result);
         }
 
         public Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data)

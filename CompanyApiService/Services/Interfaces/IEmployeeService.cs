@@ -1,12 +1,8 @@
 ﻿using CompanyApiService.Models;
-using DBAccess.DTO;
-using DBAccess.Entities;
+using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
 using FluentValidation.Results;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompanyApiService.Services.Interfaces
 {
@@ -18,7 +14,7 @@ namespace CompanyApiService.Services.Interfaces
 
         Jsend<EmployeeT> FindEmployeeByID(int Id);
 
-        Jsend<EntityWithTotalCount<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc);
+        Jsend<OneToManyMap<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc);
 
         Jsend<List<ValidationFailure>> UpdateEmployee(EmployeeModel data);
         Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data);

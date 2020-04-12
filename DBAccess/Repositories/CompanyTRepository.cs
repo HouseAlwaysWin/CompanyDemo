@@ -1,12 +1,10 @@
-﻿using Dapper;
-using DBAccess.DTO;
-using DBAccess.Entities;
+﻿using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
+using Dapper;
 using DBAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace DBAccess.Repositories
 {
@@ -56,7 +54,7 @@ namespace DBAccess.Repositories
             return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
         }
 
-        public EntityWithTotalCount<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText = null, bool isDesc = false, string sortBy = "CompanyID")
+        public OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText = null, bool isDesc = false, string sortBy = "CompanyID")
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -87,7 +85,7 @@ namespace DBAccess.Repositories
                     SortBy = sortBy,
                     SortType = sortType
                 }, transaction: Transaction);
-            var result = new EntityWithTotalCount<CompanyT>
+            var result = new OneToManyMap<CompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
                 List = sqlResult.Read<CompanyT>()
@@ -95,7 +93,7 @@ namespace DBAccess.Repositories
             return result;
         }
 
-        public EntityWithTotalCount<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID")
+        public OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID")
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -126,7 +124,7 @@ namespace DBAccess.Repositories
                     SortBy = sortBy,
                     SortType = sortType
                 }, transaction: Transaction);
-            var result = new EntityWithTotalCount<CompanyT>
+            var result = new OneToManyMap<CompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
                 List = sqlResult.Read<CompanyT>()

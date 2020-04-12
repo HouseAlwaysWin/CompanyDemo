@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\EntityPage.cs" />
     <Compile Include="Entities\Claim.cs" />
     <Compile Include="Entities\CompanyT.cs" />
     <Compile Include="Entities\EmployeeT.cs" />
@@ -54,10 +53,6 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxies\ClaimProxy.cs" />
-    <Compile Include="Proxies\ExternalLoginProxy.cs" />
-    <Compile Include="Proxies\RoleProxy.cs" />
-    <Compile Include="Proxies\UserProxy.cs" />
     <Compile Include="Repositories\ClaimRepository.cs" />
     <Compile Include="Repositories\CompanyTRepository.cs" />
     <Compile Include="Repositories\EmployeeTRepository.cs" />
@@ -78,6 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyDemo.Domain\CompanyDemo.Domain.csproj">
+      <Project>{deeaa2f6-d0d6-4784-b0b0-4d781ff0e1ff}</Project>
+      <Name>CompanyDemo.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
