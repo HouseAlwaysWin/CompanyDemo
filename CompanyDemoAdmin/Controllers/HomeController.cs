@@ -10,7 +10,7 @@ namespace CompanyDemoAdmin.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Company");
         }
 
         public ActionResult About()

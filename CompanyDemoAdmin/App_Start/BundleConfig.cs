@@ -9,7 +9,7 @@ namespace CompanyDemoAdmin
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -24,8 +24,8 @@ namespace CompanyDemoAdmin
                        "~/Scripts/element-ui/element-ui.js",
                        "~/Scripts/element-ui/locale/zh_TW.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/home").Include(
-                "~/Scripts/home/companyList.js"));
+            bundles.Add(new ScriptBundle("~/bundles/company").Include(
+                "~/Scripts/company/companyVue.js"));
 
 
 
@@ -49,7 +49,6 @@ namespace CompanyDemoAdmin
             bundles.Add(new StyleBundle("~/Content/element").Include(
                       "~/Content/element-ui/element-ui-style.min.css"
                       ));
-
 
 
         }

@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{7D6A1984-7E87-4C80-BFCD-D6DD5EB2C24B}"
 	ProjectSection(SolutionItems) = preProject
 		Database\CompanyDemo.sql = Database\CompanyDemo.sql
+		Member.sql = Member.sql
 		Database\Membership.sql = Database\Membership.sql
 	EndProjectSection
 EndProject
@@ -20,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyDemoAdmin", "CompanyDemoAdmin\CompanyDemoAdmin.csproj", "{C64213A9-D09B-4BC4-8620-8666B29337F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyDemo.Domain", "CompanyDemo.Domain\CompanyDemo.Domain.csproj", "{DEEAA2F6-D0D6-4784-B0B0-4D781FF0E1FF}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CompanyDemo.Database", "CompanyDemo.Database\CompanyDemo.Database.sqlproj", "{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +54,12 @@ Global
 		{DEEAA2F6-D0D6-4784-B0B0-4D781FF0E1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEEAA2F6-D0D6-4784-B0B0-4D781FF0E1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEEAA2F6-D0D6-4784-B0B0-4D781FF0E1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D2235C8-F002-4A87-9DD7-80CDA0135FE7}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

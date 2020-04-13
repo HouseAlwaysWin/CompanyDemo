@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="dc914d3e-a60b-464c-be00-db70c1f28dce" ChangeDateTime="04/12/2020 13:04:20">
+    <Property Name="ElementName" Value="[dbo].[MemberClaim].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MemberClaim]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MemberClaimID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5876cf7a-99da-4a3c-abad-2d87d0d4e5a2" ChangeDateTime="04/12/2020 13:04:25">
+    <Property Name="ElementName" Value="[dbo].[MemberClaim].[MemberId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MemberClaim]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MemberID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e6b20c73-5e18-4876-a4d3-4284cbacd6bb" ChangeDateTime="04/12/2020 13:05:12">
+    <Property Name="ElementName" Value="[dbo].[MemberLogin].[MemberId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MemberLogin]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MemberID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="40b3aaf1-6ee9-48e1-b548-391921647f4f" ChangeDateTime="04/12/2020 13:05:31">
+    <Property Name="ElementName" Value="[dbo].[MemberRole].[MemberId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MemberRole]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MemberID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="369e4b6c-2976-41fc-8fcb-cec285065b55" ChangeDateTime="04/12/2020 13:05:35">
+    <Property Name="ElementName" Value="[dbo].[MemberRole].[RoleId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MemberRole]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RoleID" />
+  </Operation>
+</Operations>

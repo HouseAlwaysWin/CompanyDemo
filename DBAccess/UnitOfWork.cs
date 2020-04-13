@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using DBAccess.Repositories.Interfaces;
 using System.Data.SqlClient;
 using DBAccess.Repositories;
@@ -16,9 +14,6 @@ namespace DBAccess
         private IEmployeeTRepository _employeeTRepository;
         private IProductTRepository _productTRepository;
 
-        private IExternalLoginRepository _externalLoginRepository;
-        private IRoleRepository _roleRepository;
-        private IUserRepository _userRepository;
         private bool _disposed;
 
         public UnitOfWork(string connectionString)
@@ -44,20 +39,6 @@ namespace DBAccess
         }
 
 
-        public IExternalLoginRepository ExternalLoginRepository
-        {
-            get { return _externalLoginRepository ?? (_externalLoginRepository = new ExternalLoginRepository(_transaction)); }
-        }
-
-        public IRoleRepository RoleRepository
-        {
-            get { return _roleRepository ?? (_roleRepository = new RoleRepository(_transaction)); }
-        }
-
-        public IUserRepository UserRepository
-        {
-            get { return _userRepository ?? (_userRepository = new UserRepository(_transaction)); }
-        }
 
 
         public void Commit()
@@ -84,7 +65,6 @@ namespace DBAccess
             _companyTRepository = null;
             _employeeTRepository = null;
             _productTRepository = null;
-
         }
 
 

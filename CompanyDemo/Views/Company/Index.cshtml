@@ -137,8 +137,8 @@
                             </th>
                             <th>職員列表</th>
                             <th>產品列表</th>
-                            <th>更新</th>
-                            <th>刪除</th>
+                            @*<th>更新</th>
+                            <th>刪除</th>*@
                         </tr>
                     </thead>
                     <tbody v-for="(data,index) in companyInfo.list" v-if="companyInfo.list.length >0">
@@ -163,12 +163,12 @@
                             <td>
                                 <button type="button" class="btn btn-success" v-on:click="showProductList(data.CompanyID)">顯示產品列表</button>
                             </td>
-                            <td>
+                            @*<td>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#insertUpdate" v-on:click="companySetFormType('update',data)">更新</button>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger" v-on:click="companyDeleteData(data)">刪除</button>
-                            </td>
+                            </td>*@
                         </tr>
                         <tr class="collapse" :id="'company_'+data.CompanyID">
                             <td colspan="7">
@@ -239,15 +239,6 @@
                                     <span class="text-danger">{{ errors[0]}}</span>
                                 </validation-provider>
                             </div>
-
-                            @*<div class="form-group">
-                                    <label for="fromCompanyName">隸屬公司</label>
-                                    <validation-provider rules="required" v-slot="{ errors }">
-                                        <input type="text" class="form-control" id="fromCompanyName" v-model="employeeInfo.data.fromCompanyName" />
-                                        <span class="text-danger">{{ errors[0]}}</span>
-
-                                    </validation-provider>
-                                </div>*@
 
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -343,8 +334,8 @@
                             <th>員工ID</th>
                             <th>員工名稱</th>
                             <th>詳細</th>
-                            <th>更新</th>
-                            <th>刪除</th>
+                            @*<th>更新</th>
+                            <th>刪除</th>*@
                         </tr>
                     </thead>
                     <tbody v-for="(data,index) in employeeInfo.list" v-if="employeeInfo.list.length >0">
@@ -357,12 +348,12 @@
                                     顯示詳細
                                 </button>
                             </td>
-                            <td>
+                            @*<td>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#employeeInsertUpdate" v-on:click="employeeSetFormType('update',data)">更新員工資料</button>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger" v-on:click="employeeDeleteData(data)">刪除</button>
-                            </td>
+                            </td>*@
                         </tr>
                         <tr class="collapse" :id="'employee_'+data.EmployeeID">
                             <td colspan="7">

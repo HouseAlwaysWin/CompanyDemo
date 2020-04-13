@@ -34,7 +34,11 @@
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,27 +48,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dapper.Identity\DbManager.cs" />
+    <Compile Include="Dapper.Identity\IdentityRole.cs" />
+    <Compile Include="Dapper.Identity\IdentityUser.cs" />
+    <Compile Include="Dapper.Identity\RoleStore.cs" />
+    <Compile Include="Dapper.Identity\RoleTable.cs" />
+    <Compile Include="Dapper.Identity\UserClaimsTable.cs" />
+    <Compile Include="Dapper.Identity\UserLoginsTable.cs" />
+    <Compile Include="Dapper.Identity\UserRoleTable.cs" />
+    <Compile Include="Dapper.Identity\UserStore.cs" />
+    <Compile Include="Dapper.Identity\UserTable.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ClaimRepository.cs" />
     <Compile Include="Repositories\CompanyTRepository.cs" />
     <Compile Include="Repositories\EmployeeTRepository.cs" />
-    <Compile Include="Repositories\ExternalLoginRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IClaimRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IExternalLoginRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICompanyTRepository.cs" />
     <Compile Include="Repositories\Interfaces\IEmployeeTRepository.cs" />
     <Compile Include="Repositories\Interfaces\IProductTRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IRoleRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\ProductTRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
-    <Compile Include="Repositories\RoleRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dapper.Identity\packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,14 +49,13 @@
     <Compile Include="DTOs\JsendResult.cs" />
     <Compile Include="DTOs\ManyToManyMap.cs" />
     <Compile Include="DTOs\OneToManyMap.cs" />
-    <Compile Include="Entities\Claim.cs" />
     <Compile Include="Entities\CompanyT.cs" />
     <Compile Include="Entities\EmployeeT.cs" />
-    <Compile Include="Entities\ExternalLogin.cs" />
     <Compile Include="Entities\ProductT.cs" />
-    <Compile Include="Entities\Role.cs" />
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

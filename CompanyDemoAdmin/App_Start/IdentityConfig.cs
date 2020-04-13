@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
+using CompanyDemoAdmin.Models;
+using DBAccess.Dapper.Identity;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using CompanyDemoAdmin.Models;
 
 namespace CompanyDemoAdmin
 {
@@ -18,7 +14,7 @@ namespace CompanyDemoAdmin
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // 將您的電子郵件服務外掛到這裡以傳送電子郵件。
+            // Plug in your email service here to send an email.
             return Task.FromResult(0);
         }
     }
@@ -27,78 +23,85 @@ namespace CompanyDemoAdmin
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // 將您的 SMS 服務外掛到這裡以傳送簡訊。
+            // Plug in your SMS service here to send a text message.
             return Task.FromResult(0);
         }
     }
 
-    // 設定此應用程式中使用的應用程式使用者管理員。UserManager 在 ASP.NET Identity 中定義且由應用程式中使用。
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    // Configure the application AppMember manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+    public class ApplicationUserManager : UserManager<AppMember, int>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public ApplicationUserManager(IUserStore<AppMember, int> store)
             : base(store)
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-            // 設定使用者名稱的驗證邏輯
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            //var manager = new ApplicationUserManager(
+            //new UserStore<AppMember>(
+            //context.Get<ApplicationDbContext>()));
+
+            var manager = new ApplicationUserManager(
+                new UserStore<AppMember>(
+                    context.Get<ApplicationDbContext>() as DbManager));
+
+            // Configure validation logic for usernames
+            manager.UserValidator = new UserValidator<AppMember, int>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
 
-            // 設定密碼的驗證邏輯
+            // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
-            // 設定使用者鎖定詳細資料
-            manager.UserLockoutEnabledByDefault = true;
+            // Configure AppMember lockout defaults
+            manager.UserLockoutEnabledByDefault = false;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            // 註冊雙因素驗證提供者。此應用程式使用手機和電子郵件接收驗證碼以驗證使用者
-            // 您可以撰寫專屬提供者，並將它外掛到這裡。
-            manager.RegisterTwoFactorProvider("電話代碼", new PhoneNumberTokenProvider<ApplicationUser>
+            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the AppMember
+            // You can write your own provider and plug it in here.
+            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<AppMember, int>
             {
-                MessageFormat = "您的安全碼為 {0}"
+                MessageFormat = "Your security code is {0}"
             });
-            manager.RegisterTwoFactorProvider("電子郵件代碼", new EmailTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<AppMember, int>
             {
-                Subject = "安全碼",
-                BodyFormat = "您的安全碼為 {0}"
+                Subject = "Security Code",
+                BodyFormat = "Your security code is {0}"
             });
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<AppMember, int>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
     }
 
-    // 設定在此應用程式中使用的應用程式登入管理員。
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    // Configure the application sign-in manager which is used in this application.
+    public class ApplicationSignInManager : SignInManager<AppMember, int>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(AppMember AppMember)
         {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+            return AppMember.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
