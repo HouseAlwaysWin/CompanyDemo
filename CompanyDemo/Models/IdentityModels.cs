@@ -1,33 +1,59 @@
-﻿using System.Data.Entity;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Configuration;
+using DBAccess.Dapper.Identity;
+using IdentityMember = DBAccess.Dapper.Identity.IdentityMember;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CompanyDemo.Models
 {
-    // 您可將更多屬性新增至 ApplicationUser 類別，藉此為使用者新增設定檔資料，如需深入了解，請瀏覽 https://go.microsoft.com/fwlink/?LinkID=317594。
-    public class ApplicationUser : IdentityUser
+    // You can add profile data for the AppMember by adding more properties to your AppMember class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    public class AppMember : IdentityMember
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppMember, int> manager)
         {
-            // 注意 authenticationType 必須符合 CookieAuthenticationOptions.AuthenticationType 中定義的項目
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // 在這裡新增自訂使用者宣告
+            // Add custom AppMember claims here
             return userIdentity;
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class AppRole : IdentityRole
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+
+        public AppRole() : base() { }
+
+        public AppRole(string name) : base(name) { }
+    }
+
+    /// <summary>
+    /// Create and opens a connection to a MSSql database
+    /// </summary>
+
+    public class ApplicationDbContext : DbManager
+    {
+        public ApplicationDbContext(string connectionName)
+            : base(connectionName)
         {
         }
 
         public static ApplicationDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new ApplicationDbContext(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         }
     }
+
+    //public class ApplicationDbContext : IdentityDbContext<AppMember>
+    //{
+    //    public ApplicationDbContext()
+    //        : base("DefaultConnection", throwIfV1Schema: false)
+    //    {
+    //    }
+
+    //    public static ApplicationDbContext Create()
+    //    {
+    //        return new ApplicationDbContext();
+    //    }
+    //}
 }

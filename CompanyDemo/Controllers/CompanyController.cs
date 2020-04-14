@@ -16,6 +16,7 @@ namespace CompanyDemo.Controllers
     public class CompanyController : BaseController
     {
         [HttpGet]
+
         public ActionResult GetCompanyListByID(int page, int? searchText, bool isDesc = false, string sortBy = "CompanyID")
         {
             try
@@ -32,6 +33,7 @@ namespace CompanyDemo.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ShowCompanyList")]
         public ActionResult GetCompanyListByName(int page, string searchText, bool isDesc = false, string sortBy = "CompanyID")
         {
             try

@@ -72,6 +72,27 @@ var companyVue = new Vue({
             ],
             searchText: ''
         },
+        productInfo: {
+            list: [],
+            itemsPerPage: 10,
+            currentPage: 1,
+            totalCount: 0,
+            modalType: '',
+            mapCompany: null,
+            data: {
+                productID: 0,
+                productName: '',
+                productTYpe: '',
+                price: 0,
+                unit: ''
+            },
+            selectSearchType: 'ProductID',
+            selectSearchOptions: [
+                { value: 'ProductID', name: '產品ID' },
+                { value: 'ProductName', name: '產品名稱' },
+            ],
+            searchText: ''
+        },
         loading: false,
 
     },
@@ -210,9 +231,9 @@ var companyVue = new Vue({
 
             var url = '';
             if (self.companyInfo.selectSearchType === "CompanyID") {
-                url = "https://localhost:44361/Company/GetCompanyListByID";
+                url = "/Company/GetCompanyListByID";
             } else {
-                url = "https://localhost:44361/Company/GetCompanyListByName";
+                url = "/Company/GetCompanyListByName";
             }
 
             axios.get(url,
@@ -402,7 +423,7 @@ var companyVue = new Vue({
         /**根據公司ID尋找員工列表 */
         employeeFindByCompanyID: function () {
             var self = this;
-            axios.get("https://localhost:44361/Employee/GetListByCompanyID", {
+            axios.get("/Employee/GetListByCompanyID", {
                 params: {
                     id: self.employeeInfo.mapCompany.CompanyID,
                     currentPage: self.employeeInfo.currentPage,
@@ -417,14 +438,184 @@ var companyVue = new Vue({
                 console.log(response);
             });
         },
+        /**---- */
+        /** 重設產品資訊 */
+        productResetInfo: function () {
+            var self = this;
+            self.productInfo = {
+                list: [],
+                itemsPerPage: 10,
+                currentPage: 1,
+                totalCount: 0,
+                modalType: '',
+                mapCompany: null,
+                data: {
+                    productID: 0,
+                    productName: '',
+                    productTYpe: '',
+                    price: 0,
+                    unit: ''
+                },
+                selectSearchType: 'ProductID',
+                selectSearchOptions: [
+                    { value: 'ProductID', name: '員工ID' },
+                    { value: 'ProductName', name: '員工名稱' },
+                ],
+                searchText: ''
+            };
+            self.$refs.productModalRef.reset();
+        },
+        /**重設產品表單資訊 */
+        productResetData: function () {
+            var self = this;
+            self.productInfo.data = {
+                productID: 0,
+                productName: '',
+                productTYpe: '',
+                price: 0,
+                unit: ''
+            }
+            self.$refs.productModalRef.reset();
+        },
+        /**送出產品資料表 */
+        productSubmitData: function () {
+            var self = this;
+
+            var url = '';
+            if (self.productInfo.modalType === 'insert') {
+                url = "/Product/AddProduct";
+            } else {
+                url = "/Product/UpdateProduct";
+            }
+
+            var data = this.productInfo.data;
+
+            var postData = {
+                CompanyID: self.productInfo.mapCompany.CompanyID,
+                ProductID: data.productID,
+                ProductName: data.productName,
+                ProductType: data.productType,
+                Price: data.price,
+                Unit: data.unit
+            };
+
+            self.loading = true;
+            axios.post(url, postData
+            ).then(function (result) {
+                console.log(result);
+                console.log(result.data.data);
+                $("#productInsertUpdate").modal("hide");
+
+                self.loading = false;
+                self.productFindByCompanyID();
+            }).catch(function (error) {
+                var response = error.response;
+                console.log(response);
+                self.loading = false;
+            })
+        },
+        /**
+         * 刪除產品資料
+         * @param {any} data
+         */
+        productDeleteData: function (data) {
+            var self = this;
+            Swal.fire({
+                title: '確定要刪除?',
+                text: "刪除後無法復原!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是',
+                cancelButtonText: '否'
+            }).then((result) => {
+                if (result.value) {
+                    self.loading = true;
+                    var postData = data;
+                    axios.post("/Product/DeleteProductByID",
+                        {
+                            id: postData.ProductID
+                        }).then(function (result) {
+                            self.loading = false;
+                            Swal.fire(
+                                '刪除!',
+                                '你的資料已刪除',
+                                'success'
+                            ).then(function (result) {
+                                self.productFindByCompanyID();
+                            });
+
+                        }).catch(function (error) {
+                            console.log(error);
+                            self.loading = false;
+                        })
+
+                }
+            })
+        },
+
+        /**
+         * 設定產品表單類型
+         * @param {any} type
+         * @param {any} data
+         */
+        productSetFormType: function (type, data) {
+            var self = this;
+            self.productInfo.modalType = type;
+            console.log(data);
+            if (type === 'update') {
+                self.productInfo.data = {
+                    productID: data.ProductID,
+                    productName: data.ProductName,
+                    productType: data.ProductType,
+                    price: data.Price,
+                    unit: data.Unit
+                };
+            }
+            self.$refs.productModalRef.reset();
+        },
+
+        /**
+         * 顯示產品列表按鈕
+         * @param {any} data
+         */
+        productShowBtn: function (data) {
+            var self = this;
+            self.showArea = {
+                companyInfo: false,
+                productInfo: true
+            };
+            self.productInfo.mapCompany = data;
+            self.productFindByCompanyID();
+        },
+
+        /**根據公司ID尋找產品列表 */
+        productFindByCompanyID: function () {
+            var self = this;
+            axios.get("/Product/GetListByCompanyID", {
+                params: {
+                    id: self.productInfo.mapCompany.CompanyID,
+                    currentPage: self.productInfo.currentPage,
+                    isDesc: false
+                }
+            }).then(function (result) {
+                console.log(result)
+                self.productInfo.list = result.data.data.List;
+                self.productInfo.totalCount = result.data.data.TotalCount;
+            }).catch(function (error) {
+                var response = error.response.data;
+                console.log(response);
+            });
+        },
         /**返回公司資訊 */
         backCompanyInfo: function () {
             var self = this;
             self.showArea = {
                 companyInfo: true,
-                employeeInfo: false
+                productInfo: false
             }
-            self.employeeResetInfo();
+            self.productResetInfo();
         },
         /**
          * 設定日期格式
@@ -447,6 +638,11 @@ var companyVue = new Vue({
         employeeTotalPages: function () {
             var self = this;
             return Math.ceil(self.employeeInfo.totalCount / self.employeeInfo.itemsPerPage);
+        },
+        /**產品列表總頁數 */
+        productTotalPages: function () {
+            var self = this;
+            return Math.ceil(self.productInfo.totalCount / self.productInfo.itemsPerPage);
         },
     },
 });

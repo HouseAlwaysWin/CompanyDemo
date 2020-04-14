@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CompanDemo.Models;
+using FluentValidation;
 
-namespace CompanyDemo.Models.Validators
+namespace CompanyAdmin.Models.Validators
 {
-    public class ProductValidator
+    public class ProductValidator : AbstractValidator<ProductModel>
     {
     }
 }
