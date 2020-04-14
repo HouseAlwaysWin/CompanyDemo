@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using CompanyDemo.Domain.DTOs;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,6 +22,32 @@ namespace DBAccess.Dapper.Identity
         public UserTable(DbManager database)
         {
             db = database;
+        }
+
+        public OneToManyMap<TUser> FindAllUsers(int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    SELECT COUNT(*) FROM Member WITH(NOLOCK)
+                    SELECT * FROM Member 
+                        ORDER BY  Id " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+
+            var sqlResult = db.Connection.QueryMultiple(sqlString,
+              new
+              {
+                  ItemsPerPages = itemsPerPages,
+                  CurrentPage = currentPage,
+                  SortType = sortType,
+              });
+            var result = new OneToManyMap<TUser>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<TUser>()
+            };
+            return result;
         }
 
         /// <summary>

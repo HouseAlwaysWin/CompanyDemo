@@ -27,6 +27,9 @@ namespace CompanyDemoAdmin
             bundles.Add(new ScriptBundle("~/bundles/company").Include(
                 "~/Scripts/company/companyVue.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+              "~/Scripts/admin/adminVue.js"));
+
 
 
             // 使用開發版本的 Modernizr 進行開發並學習。然後，當您

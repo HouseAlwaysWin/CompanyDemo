@@ -8,16 +8,17 @@ using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using CompanyDemo.Domain.DTOs;
 
 namespace DBAccess.Dapper.Identity
 {
     /// <summary>
     /// Class that implements the key ASP.NET Identity role store iterfaces
     /// </summary>
-    public class RoleStore<TRole> : IQueryableRoleStore<TRole,int>
+    public class RoleStore<TRole> : IQueryableRoleStore<TRole, int>
         where TRole : IdentityRole
     {
-        private RoleTable roleTable;
+        private RoleTable<TRole> roleTable;
         public DbManager Database { get; private set; }
         public IQueryable<TRole> Roles
         {
@@ -44,8 +45,16 @@ namespace DBAccess.Dapper.Identity
         public RoleStore(DbManager database)
         {
             Database = database;
-            roleTable = new RoleTable(database);
+            roleTable = new RoleTable<TRole>(database);
         }
+
+        public Jsend<OneToManyMap<TRole>> FindAllRoles(int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            OneToManyMap<TRole> result = roleTable.FindAllRoles(currentPage, itemsPerPages, isDesc);
+
+            return JsendResult<OneToManyMap<TRole>>.Success(result);
+        }
+
 
         public Task CreateAsync(TRole role)
         {

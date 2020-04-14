@@ -15,7 +15,7 @@ namespace DBAccess.Dapper.Identity
     public class DbManager : IDisposable
     {
         private IDbConnection _conn { get; set; }
-        
+
         /// <summary>
         /// Return open connection
         /// </summary>
@@ -23,8 +23,8 @@ namespace DBAccess.Dapper.Identity
         {
             get
             {
-                if (_conn.State == ConnectionState.Closed)
-                    _conn.Open();
+                //if (_conn.State == ConnectionState.Closed)
+                //    _conn.Open();
 
                 return _conn;
             }

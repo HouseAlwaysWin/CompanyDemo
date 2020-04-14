@@ -233,6 +233,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\admin\adminVue.js" />
     <Content Include="Scripts\axios.js" />
     <Content Include="Scripts\axios.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -360,8 +361,6 @@
     <Content Include="Scripts\veevalidate\locale\vi.json" />
     <Content Include="Scripts\veevalidate\locale\zh_CN.json" />
     <Content Include="Scripts\veevalidate\locale\zh_TW.json" />
-    <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />

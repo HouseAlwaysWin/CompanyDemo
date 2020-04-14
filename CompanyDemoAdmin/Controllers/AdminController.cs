@@ -1,147 +1,227 @@
-﻿//using System.Web;
-//using System.Web.Mvc;
-//using Microsoft.AspNet.Identity.Owin;
-//using Microsoft.AspNet.Identity;
-//using System.Threading.Tasks;
-//using CompanyDemoAdmin.Models;
-//using CompanyDemoAdmin.Infrastructure;
+﻿using CompanyDemo.Domain.DTOs;
+using CompanyDemoAdmin.Controllers.Base;
+using CompanyDemoAdmin.Models;
+using DBAccess.Dapper.Identity;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
 
-//namespace CompanyDemoAdmin.Controllers
-//{
+namespace CompanyDemoAdmin.Controllers
+{
 
-//    [Authorize(Roles = "Administrators")]
-//    public class AdminController : Controller
-//    {
+    //[Authorize(Roles = "Administrators")]
+    public class AdminController : BaseController
+    {
+        private UserStore<AppMember, AppRole> _userManager;
+        private RoleStore<AppRole> _roleManager;
 
-//        public ActionResult Index()
-//        {
-//            return View(UserManager.Users);
-//        }
+        public AdminController()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _userManager = new UserStore<AppMember, AppRole>(new DbManager(connectionString));
+            _roleManager = new RoleStore<AppRole>(new DbManager(connectionString));
+        }
 
-//        public ActionResult Create()
-//        {
-//            return View();
-//        }
 
-//        [HttpPost]
-//        public async Task<ActionResult> Create(CreateModel model)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                AppMember user = new AppMember { UserName = model.Name, Email = model.Email };
-//                IdentityResult result = await UserManager.CreateAsync(user,
-//                    model.Password);
-//                if (result.Succeeded)
-//                {
-//                    return RedirectToAction("Index");
-//                }
-//                else
-//                {
-//                    AddErrorsFromResult(result);
-//                }
-//            }
-//            return View(model);
-//        }
+        public ActionResult Index()
+        {
+            return View();
+        }
 
-//        [HttpPost]
-//        public async Task<ActionResult> Delete(string id)
-//        {
-//            AppMember user = await UserManager.FindByIdAsync(id);
-//            if (user != null)
-//            {
-//                IdentityResult result = await UserManager.DeleteAsync(user);
-//                if (result.Succeeded)
-//                {
-//                    return RedirectToAction("Index");
-//                }
-//                else
-//                {
-//                    return View("Error", result.Errors);
-//                }
-//            }
-//            else
-//            {
-//                return View("Error", new string[] { "User Not Found" });
-//            }
-//        }
+        [HttpGet]
+        public ActionResult FindAllUsers(int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            Jsend<OneToManyMap<AppMember>> result = null;
+            try
+            {
+                result = _userManager.FindAllUsers(currentPage, itemsPerPage, isDesc);
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("FindAllUsers occured error"));
+        }
 
-//        public async Task<ActionResult> Edit(string id)
-//        {
-//            AppMember user = await UserManager.FindByIdAsync(id);
-//            if (user != null)
-//            {
-//                return View(user);
-//            }
-//            else
-//            {
-//                return RedirectToAction("Index");
-//            }
-//        }
 
-//        [HttpPost]
-//        public async Task<ActionResult> Edit(string id, string email, string password)
-//        {
-//            AppMember user = await UserManager.FindByIdAsync(id);
-//            if (user != null)
-//            {
-//                user.Email = email;
-//                IdentityResult validEmail
-//                    = await UserManager.UserValidator.ValidateAsync(user);
-//                if (!validEmail.Succeeded)
-//                {
-//                    AddErrorsFromResult(validEmail);
-//                }
-//                IdentityResult validPass = null;
-//                if (password != string.Empty)
-//                {
-//                    validPass
-//                        = await UserManager.PasswordValidator.ValidateAsync(password);
-//                    if (validPass.Succeeded)
-//                    {
-//                        user.PasswordHash =
-//                            UserManager.PasswordHasher.HashPassword(password);
-//                    }
-//                    else
-//                    {
-//                        AddErrorsFromResult(validPass);
-//                    }
-//                }
-//                if ((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded
-//                        && password != string.Empty && validPass.Succeeded))
-//                {
-//                    IdentityResult result = await UserManager.UpdateAsync(user);
-//                    if (result.Succeeded)
-//                    {
-//                        return RedirectToAction("Index");
-//                    }
-//                    else
-//                    {
-//                        AddErrorsFromResult(result);
-//                    }
-//                }
-//            }
-//            else
-//            {
-//                ModelState.AddModelError("", "User Not Found");
-//            }
-//            return View(user);
-//        }
+        [HttpGet]
+        public ActionResult FindAllRoles(int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            Jsend<OneToManyMap<AppRole>> result = null;
+            try
+            {
+                result = _roleManager.FindAllRoles(currentPage, itemsPerPage, isDesc);
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("FindAllRoles occured error"));
+        }
 
-//        private void AddErrorsFromResult(IdentityResult result)
-//        {
-//            foreach (string error in result.Errors)
-//            {
-//                ModelState.AddModelError("", error);
-//            }
-//        }
 
-//        //private AppUserManager UserManager
-//        //{
-//        //    get
-//        //    {
-//        //        return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
-//        //    }
-//        //}
 
-//    }
-//}
+        [HttpGet]
+        public ActionResult GetRolesByUser(int id, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            Jsend<OneToManyMap<IdentityRole>> result = null;
+
+            try
+            {
+                result = _userManager.GetRolesByUser(new AppMember { Id = id }, currentPage, itemsPerPage, isDesc);
+                return Jsend(result);
+
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("GetRolesByUser occured error"));
+        }
+
+
+        [HttpGet]
+        public ActionResult GetNotInRolesByUser(int id, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            Jsend<OneToManyMap<IdentityRole>> result = null;
+
+            try
+            {
+                result = _userManager.GetNotInRolesByUser(new AppMember { Id = id }, currentPage, itemsPerPage, isDesc);
+                return Jsend(result);
+
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("GetRolesByUser occured error"));
+        }
+
+
+        [HttpPost]
+        public ActionResult AddRole(string roleName)
+        {
+            try
+            {
+                _roleManager.CreateAsync(new AppRole
+                {
+                    Name = roleName
+                });
+                return Jsend(JsendResult.Success());
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("AddRole occured error"));
+        }
+
+        [HttpPost]
+        public ActionResult UpdateRole(int roleId, string roleName)
+        {
+
+            try
+            {
+                _roleManager.UpdateAsync(new AppRole
+                {
+                    Id = roleId,
+                    Name = roleName
+                });
+                return Jsend(JsendResult.Success());
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("UpdateRole occured error"));
+        }
+
+        [HttpPost]
+        public ActionResult DeleteRoleByID(int id)
+        {
+            try
+            {
+                _roleManager.DeleteAsync(new AppRole
+                {
+                    Id = id,
+                });
+                return Jsend(JsendResult.Success());
+
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("DeleteRole occured error"));
+        }
+
+
+        [HttpPost]
+        public ActionResult AddRoleToUser(int userId, string roleName)
+        {
+            try
+            {
+                _userManager.AddToRoleAsync(new AppMember
+                {
+                    Id = userId
+                }, roleName);
+                return Jsend(JsendResult.Success());
+
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("AddRoleToUser occured error"));
+
+        }
+
+
+        [HttpPost]
+        public ActionResult AddRolesToUser(int userId, List<int> roleIds)
+        {
+            try
+            {
+                _userManager.AddMultipleRoles(new AppMember
+                {
+                    Id = userId
+                }, roleIds);
+                return Jsend(JsendResult.Success());
+
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("AddRoleToUser occured error"));
+
+        }
+
+        [HttpPost]
+        public ActionResult RemoveRoleFromUser(int userId, int roleId)
+        {
+            try
+            {
+                _userManager.RemoveRoleFromUser(userId, roleId);
+                return Jsend(JsendResult.Success());
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("RemoveRoleFromUser occured error"));
+        }
+
+
+
+
+    }
+
+
+}

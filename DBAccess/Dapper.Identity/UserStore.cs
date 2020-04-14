@@ -8,27 +8,29 @@ using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using CompanyDemo.Domain.DTOs;
 
 namespace DBAccess.Dapper.Identity
 {
     /// <summary>
     /// Class that implements the key ASP.NET Identity user store iterfaces
     /// </summary>
-    public class UserStore<TUser> : IUserLoginStore<TUser,int>,
-        IUserClaimStore<TUser,int>,
-        IUserRoleStore<TUser,int>,
-        IUserPasswordStore<TUser,int>,
-        IUserSecurityStampStore<TUser,int>,
-        IQueryableUserStore<TUser,int>,
-        IUserEmailStore<TUser,int>,
-        IUserPhoneNumberStore<TUser,int>,
+    public class UserStore<TUser, TRole> : IUserLoginStore<TUser, int>,
+        IUserClaimStore<TUser, int>,
+        IUserRoleStore<TUser, int>,
+        IUserPasswordStore<TUser, int>,
+        IUserSecurityStampStore<TUser, int>,
+        IQueryableUserStore<TUser, int>,
+        IUserEmailStore<TUser, int>,
+        IUserPhoneNumberStore<TUser, int>,
         IUserTwoFactorStore<TUser, int>,
         IUserLockoutStore<TUser, int>,
-        IUserStore<TUser,int>
+        IUserStore<TUser, int>
         where TUser : IdentityMember
+        where TRole : IdentityRole
     {
         private UserTable<TUser> userTable;
-        private RoleTable roleTable;
+        private RoleTable<TRole> roleTable;
         private UserRolesTable userRolesTable;
         private UserClaimsTable userClaimsTable;
         private UserLoginsTable userLoginsTable;
@@ -49,7 +51,7 @@ namespace DBAccess.Dapper.Identity
         /// </summary>
         public UserStore()
         {
-            new UserStore<TUser>(new DbManager(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));   
+            new UserStore<TUser, TRole>(new DbManager(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace DBAccess.Dapper.Identity
         {
             Database = database;
             userTable = new UserTable<TUser>(database);
-            roleTable = new RoleTable(database);
+            roleTable = new RoleTable<TRole>(database);
             userRolesTable = new UserRolesTable(database);
             userClaimsTable = new UserClaimsTable(database);
             userLoginsTable = new UserLoginsTable(database);
@@ -81,6 +83,14 @@ namespace DBAccess.Dapper.Identity
             userTable.Insert(user);
 
             return Task.FromResult<object>(null);
+        }
+
+
+        public Jsend<OneToManyMap<TUser>> FindAllUsers(int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            OneToManyMap<TUser> result = userTable.FindAllUsers(currentPage, itemsPerPages, isDesc);
+
+            return JsendResult<OneToManyMap<TUser>>.Success(result);
         }
 
         /// <summary>
@@ -323,7 +333,7 @@ namespace DBAccess.Dapper.Identity
             }
 
             int roleId = roleTable.GetRoleId(roleName);
-            if(roleId>0)
+            if (roleId > 0)
             {
                 userRolesTable.Insert(user, roleId);
             }
@@ -334,6 +344,62 @@ namespace DBAccess.Dapper.Identity
 
             return Task.FromResult<object>(null);
         }
+
+
+
+        /// <summary>
+        /// Inserts multiple roles in the UserRoles table
+        /// </summary>
+        /// <param name="user">User to have role added</param>
+        /// <param name="roleName">Name of the role to be added to user</param>
+        /// <returns></returns>
+        public void AddMultipleRoles(TUser user, List<int> roleIds)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+            userRolesTable.InsertMultiple(user, roleIds);
+        }
+
+        /// <summary>
+        /// Returns the roles for a given TUser and Pagination
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Jsend<OneToManyMap<IdentityRole>> GetRolesByUser(TUser user, int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
+            OneToManyMap<IdentityRole> roles = userRolesTable.FindRolesByUser(user.Id, currentPage, itemsPerPages, isDesc);
+
+            return JsendResult<OneToManyMap<IdentityRole>>.Success(roles);
+
+        }
+
+
+        /// <summary>
+        /// Returns the roles for a given TUser and Pagination
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Jsend<OneToManyMap<IdentityRole>> GetNotInRolesByUser(TUser user, int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
+            OneToManyMap<IdentityRole> roles = userRolesTable.FindNotInRolesByUser(user.Id, currentPage, itemsPerPages, isDesc);
+
+            return JsendResult<OneToManyMap<IdentityRole>>.Success(roles);
+
+        }
+
+
 
         /// <summary>
         /// Returns the roles for a given TUser
@@ -396,6 +462,11 @@ namespace DBAccess.Dapper.Identity
         public Task RemoveFromRoleAsync(TUser user, string role)
         {
             throw new NotImplementedException();
+        }
+
+        public void RemoveRoleFromUser(int userId, int roleId)
+        {
+            userRolesTable.RemoveRoleFromUser(userId, roleId);
         }
 
         /// <summary>

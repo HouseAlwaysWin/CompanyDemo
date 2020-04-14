@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Security.Claims;
 using System.Linq;
+using CompanyDemo.Domain.DTOs;
 
 namespace DBAccess.Dapper.Identity
 {
     /// <summary>
     /// Class that represents the Role table in the Database
     /// </summary>
-    public class RoleTable
+    public class RoleTable<TRole> where TRole : IdentityRole
     {
         private DbManager db;
         /// <summary>
@@ -40,7 +41,33 @@ namespace DBAccess.Dapper.Identity
         public void Insert(IdentityRole role)
         {
             db.Connection.Execute(@"INSERT INTO Role (Name) VALUES (@name)",
-                new {name=role.Name });
+                new { name = role.Name });
+        }
+
+        public OneToManyMap<TRole> FindAllRoles(int currentPage, int itemsPerPages, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    SELECT COUNT(*) FROM Role WITH(NOLOCK)
+                    SELECT * FROM  Role
+                        ORDER BY  Id " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+
+            var sqlResult = db.Connection.QueryMultiple(sqlString,
+              new
+              {
+                  ItemsPerPages = itemsPerPages,
+                  CurrentPage = currentPage,
+                  SortType = sortType,
+              });
+            var result = new OneToManyMap<TRole>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<TRole>()
+            };
+            return result;
         }
 
         /// <summary>
@@ -50,7 +77,7 @@ namespace DBAccess.Dapper.Identity
         /// <returns>Role name</returns>
         public string GetRoleName(int roleId)
         {
-            return db.Connection.ExecuteScalar<string>("SELECT Name FROM Role WHERE Id=@id", new {id=roleId });
+            return db.Connection.ExecuteScalar<string>("SELECT Name FROM Role WHERE Id=@id", new { id = roleId });
         }
 
         /// <summary>
@@ -60,7 +87,7 @@ namespace DBAccess.Dapper.Identity
         /// <returns>Role's Id</returns>
         public int GetRoleId(string roleName)
         {
-            return db.Connection.ExecuteScalar<int>("SELECT Id FROM Role WHERE Name=@name", new {name=roleName });
+            return db.Connection.ExecuteScalar<int>("SELECT Id FROM Role WHERE Name=@name", new { name = roleName });
         }
 
         /// <summary>
@@ -107,10 +134,11 @@ namespace DBAccess.Dapper.Identity
                     SET
                         Name = @name
                     WHERE
-                        Id = @id", 
-                    new {
-                        name=role.Name,
-                        id=role.Id 
+                        Id = @id",
+                    new
+                    {
+                        name = role.Name,
+                        id = role.Id
                     });
         }
     }

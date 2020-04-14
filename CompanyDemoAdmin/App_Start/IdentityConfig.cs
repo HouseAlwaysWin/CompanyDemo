@@ -43,7 +43,7 @@ namespace CompanyDemoAdmin
             //context.Get<ApplicationDbContext>()));
 
             var manager = new ApplicationUserManager(
-                new UserStore<AppMember>(
+                new UserStore<AppMember, AppRole>(
                     context.Get<ApplicationDbContext>() as DbManager));
 
             // Configure validation logic for usernames

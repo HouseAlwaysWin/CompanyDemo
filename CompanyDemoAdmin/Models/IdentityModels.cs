@@ -19,6 +19,14 @@ namespace CompanyDemoAdmin.Models
         }
     }
 
+    public class AppRole : IdentityRole
+    {
+
+        public AppRole() : base() { }
+
+        public AppRole(string name) : base(name) { }
+    }
+
     /// <summary>
     /// Create and opens a connection to a MSSql database
     /// </summary>
