@@ -1,5 +1,6 @@
-﻿using CompanyDemo.Domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CompanyDemo.Domain.DTOs;
+using CompanyDemo.Domain.Entities;
 
 namespace DBAccess.Repositories.Interfaces
 {
@@ -9,9 +10,9 @@ namespace DBAccess.Repositories.Interfaces
         IEnumerable<ProductT> All();
         void Delete(int id);
         void Delete(ProductT entity);
+        OneToManyMap<ProductT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false);
         ProductT FindByID(int id);
         ProductT FindByName(string name);
         void Update(ProductT entity);
-
     }
 }

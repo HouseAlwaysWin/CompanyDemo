@@ -2,6 +2,7 @@
 CREATE TABLE CompanyT_ProductT(
 	CompanyID int NOT NULL,
 	ProductID int NOT NULL ,
+	CONSTRAINT [PK_dbo.CompanyT_ProductT] PRIMARY KEY ([CompanyID],[ProductID])
 )
 
 GO

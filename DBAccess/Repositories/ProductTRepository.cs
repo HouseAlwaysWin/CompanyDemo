@@ -39,6 +39,7 @@ namespace DBAccess.Repositories
                                 @LastID 
                             )", param: new
             {
+                CompanyID = entity.CompanyID,
                 ProductName = entity.ProductName,
                 ProductType = entity.ProductType,
                 Price = entity.Price,
@@ -55,15 +56,15 @@ namespace DBAccess.Repositories
         {
             Connection.Execute(
                          @"DELETE FROM ProductT WHERE ProductID = @ProductID
-                           DELETE FROM CompanyT_EmployeeT WHERE EmployeeID = @EmployeeID",
-                                  param: new { ProductID = id }, transaction: Transaction);
+                           DELETE FROM CompanyT_ProductT WHERE ProductID = @ProductID",
+                                  param: new { ProductT = id }, transaction: Transaction);
         }
 
         public void Delete(ProductT entity)
         {
             Connection.Execute(
                          @"DELETE FROM ProductT WHERE ProductID = @ProductID
-                           DELETE FROM CompanyT_EmployeeT WHERE EmployeeID = @EmployeeID",
+                           DELETE FROM CompanyT_ProductT WHERE ProductID = @ProductID",
                                   param: new { ProductID = entity.ProductID }, transaction: Transaction);
         }
 
@@ -91,20 +92,17 @@ namespace DBAccess.Repositories
             var sqlString = @"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
                     SELECT COUNT(*) FROM ProductT WITH(NOLOCK)
-                    SELECT E.[EmployeeID]
-                          ,E.[EmployeeName]
-                          ,E.[Email]
-                          ,E.[BirthdayDate]
-                          ,E.[SignInDate]
-                          ,E.[ResignedDate]
-                          ,E.[IsResigned]
-                          ,E.[Salary]
-                          ,E.[CreatedDate]
-                          ,E.[EditedDate]
-                        FROM ProductT  AS E
-                        JOIN ProductT_EmployeeT AS CE ON CE.ProductT = E.ProductT
-                        WHERE CE.CompanyID = @CompanyID
-                        ORDER BY   E.ProductID " + sortType + @"
+                    SELECT	P.ProductID,
+                            P.ProductName,		
+                            P.ProductType,		
+                            P.Price,		
+                            P.Unit,		
+                            P.CreatedDate,	
+                            P.EditedDate	
+                        FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        WHERE CP.CompanyID = @CompanyID
+                        ORDER BY   P.ProductID " + sortType + @"
                         OFFSET @Start ROWS
                         FETCH NEXT @ItemsPerPages ROWS ONLY
                    SELECT  [CompanyID]
@@ -142,13 +140,14 @@ namespace DBAccess.Repositories
         {
             Connection.Execute(
               @"UPDATE ProductT 
-                SET (ProductName = @ProductName,
-                        ProductType, = @ProductType,
-                        Price = @Price,
-                        Unit  = @Unit)
+                SET ProductName = @ProductName,
+                    ProductType = @ProductType,
+                    Price = @Price,
+                    Unit  = @Unit
                 WHERE ProductID = @ProductID",
               param: new
               {
+                  ProductID = entity.ProductID,
                   ProductName = entity.ProductName,
                   ProductType = entity.ProductType,
                   Price = entity.Price,

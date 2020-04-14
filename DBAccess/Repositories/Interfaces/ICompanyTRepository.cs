@@ -1,6 +1,6 @@
-﻿using CompanyDemo.Domain.DTOs;
+﻿using System.Collections.Generic;
+using CompanyDemo.Domain.DTOs;
 using CompanyDemo.Domain.Entities;
-using System.Collections.Generic;
 
 namespace DBAccess.Repositories.Interfaces
 {
@@ -8,10 +8,10 @@ namespace DBAccess.Repositories.Interfaces
     {
         void Add(CompanyT entity);
         IEnumerable<CompanyT> All();
-        OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText, bool isDesc = false, string sortBy = "CompanyID");
-        OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID");
-        void Delete(int id);
         void Delete(CompanyT entity);
+        void Delete(int id);
+        OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText = null, bool isDesc = false, string sortBy = "CompanyID");
+        OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID");
         CompanyT FindByID(int id);
         CompanyT FindByName(string name);
         void Update(CompanyT entity);

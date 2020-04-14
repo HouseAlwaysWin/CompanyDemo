@@ -29,7 +29,6 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
-        [Route("api/Product/GetProductByID")]
         public IHttpActionResult GetProductByID(int id)
         {
             var result = _ProductService.FindProductByID(id);
@@ -43,10 +42,10 @@ namespace CompanyApiService.Controllers
         }
 
         [HttpGet]
-        [Route("api/Product/GetProductByName")]
-        public IHttpActionResult GetProductByName(string name)
+        [Route("api/Product/GetListByCompanyID")]
+        public IHttpActionResult GetListByCompanyID(int id, int currentPage, int itemsPerPage, bool isDesc)
         {
-            var result = _ProductService.FindProductByName(name);
+            var result = _ProductService.FindCompanyListByID(id, currentPage, itemsPerPage, isDesc);
             if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);

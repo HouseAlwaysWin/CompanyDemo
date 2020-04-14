@@ -12,7 +12,6 @@ namespace CompanyApiService.Models.Validators
         {
             RuleFor(p => p.ProductName).MaximumLength(100).NotEmpty();
             RuleFor(p => p.ProductType).MaximumLength(50).NotEmpty();
-            RuleFor(p => p.Price).NotEmpty();
             RuleFor(p => p.Unit).MaximumLength(10);
         }
     }

@@ -65,7 +65,7 @@ namespace DBAccess.Repositories
 
         public void Delete(int id)
         {
-            Connection.Execute("" +
+            Connection.Execute(
                 @"DELETE FROM EmployeeT WHERE EmployeeID = @EmployeeID
                   DELETE FROM CompanyT_EmployeeT WHERE EmployeeID = @EmployeeID",
                          param: new { EmployeeID = id }, transaction: Transaction);
