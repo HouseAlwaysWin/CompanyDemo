@@ -86,9 +86,25 @@ namespace DBAccess.Dapper.Identity
         }
 
 
+
+
+
+        public void SetLoginState(string username, bool isLogined)
+        {
+            userTable.SetLoginState(username, isLogined);
+        }
+
+
         public Jsend<OneToManyMap<TUser>> FindAllUsers(int currentPage, int itemsPerPages, bool isDesc = false)
         {
             OneToManyMap<TUser> result = userTable.FindAllUsers(currentPage, itemsPerPages, isDesc);
+
+            return JsendResult<OneToManyMap<TUser>>.Success(result);
+        }
+
+        public Jsend<OneToManyMap<TUser>> GetUsersByTypeAndLoginState(int memberType, bool isLogined)
+        {
+            OneToManyMap<TUser> result = userTable.GetUsersByTypeAndLoginState(memberType, isLogined);
 
             return JsendResult<OneToManyMap<TUser>>.Success(result);
         }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CompanyDemoAdmin.Models;
+using DBAccess.Dapper.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -13,11 +15,15 @@ namespace CompanyDemoAdmin.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserStore<AppMember, AppRole> _userStore;
 
         public AccountController()
         {
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _userStore = new UserStore<AppMember, AppRole>(new DbManager(connectionString));
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -74,9 +80,12 @@ namespace CompanyDemoAdmin.Controllers
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
+                    _userStore.SetLoginState(model.Email, true);
+                    var user = User.Identity;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -389,6 +398,7 @@ namespace CompanyDemoAdmin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            _userStore.SetLoginState(User.Identity.Name, false);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

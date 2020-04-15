@@ -30,6 +30,9 @@ namespace CompanyDemoAdmin
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
               "~/Scripts/admin/adminVue.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/showUserLogin").Include(
+              "~/Scripts/admin/showUserLogin.js"));
+
 
 
             // 使用開發版本的 Modernizr 進行開發並學習。然後，當您

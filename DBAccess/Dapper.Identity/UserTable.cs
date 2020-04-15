@@ -24,6 +24,64 @@ namespace DBAccess.Dapper.Identity
             db = database;
         }
 
+
+        public OneToManyMap<TUser> GetUsersByTypeAndLoginState(int memberType, bool isLogined, int itemsPerPage, bool isDesc)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+            var sqlString = @"
+                        DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
+                        SELECT COUNT(*)  FROM [dbo].[Member] WHERE MemberType = @MemberType AND IsLogined = @IsLogined
+                        SELECT TOP (1000) [Id]
+                                          ,[Email]
+                                          ,[EmailConfirmed]
+                                          ,[PasswordHash]
+                                          ,[SecurityStamp]
+                                          ,[PhoneNumber]
+                                          ,[PhoneNumberConfirmed]
+                                          ,[TwoFactorEnabled]
+                                          ,[LockoutEndDateUtc]
+                                          ,[LockoutEnabled]
+                                          ,[AccessFailedCount]
+                                          ,[UserName]
+                                          ,[MemberType]
+                                          ,[IsLogined]
+                        FROM [dbo].[Member] WHERE MemberType = @MemberType AND IsLogined = @IsLogined
+                        ORDER BY  Id " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPage ROWS ONLY
+                    ";
+            var sqlResult = db.Connection.QueryMultiple(sqlString, new
+            {
+                MemberType = memberType,
+                IsLogined = isLogined,
+                ItemsPerPage = itemsPerPage
+            });
+
+            var result = new OneToManyMap<TUser>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<TUser>()
+            };
+
+            return result;
+        }
+
+
+
+        public void SetLoginState(string username, bool isLogined)
+        {
+            var sqlString = @"
+                        UPDATE [dbo].[Member]
+                        SET IsLogined = @IsLogined 
+                        WHERE username = @UserName
+                    ";
+            db.Connection.Execute(sqlString, new
+            {
+                UserName = username,
+                IsLogined = isLogined,
+            });
+        }
+
         public OneToManyMap<TUser> FindAllUsers(int currentPage, int itemsPerPages, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";

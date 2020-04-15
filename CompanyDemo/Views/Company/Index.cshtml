@@ -135,8 +135,14 @@
                             <th>
                                 詳細
                             </th>
-                            <th>職員列表</th>
-                            <th>產品列表</th>
+                            @if (User.IsInRole("CanShowEmployees"))
+                            {
+                                <th>職員列表</th>
+                            }
+                            @if (User.IsInRole("CanShowProducts"))
+                            {
+                                <th>產品列表</th>
+                            }
                             @*<th>更新</th>
                                 <th>刪除</th>*@
                         </tr>
@@ -157,12 +163,18 @@
                                 <td>{{ data.Address }}</td>
                                 <td>{{ data.WebsiteURL }}</td>
                                 <td>{{ data.Owner }}</td>*@
-                            <td>
-                                <button type="button" class="btn btn-success" v-on:click="employeeShowBtn(data)">顯示會員列表</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-success" v-on:click="productShowBtn(data)">顯示產品列表</button>
-                            </td>
+                            @if (User.IsInRole("CanShowEmployees"))
+                            {
+                                <td>
+                                    <button type="button" class="btn btn-success" v-on:click="employeeShowBtn(data)">顯示會員列表</button>
+                                </td>
+                            }
+                            @if (User.IsInRole("CanShowProducts"))
+                            {
+                                <td>
+                                    <button type="button" class="btn btn-success" v-on:click="productShowBtn(data)">顯示產品列表</button>
+                                </td>
+                            }
                             @*<td>
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#insertUpdate" v-on:click="companySetFormType('update',data)">更新</button>
                                 </td>

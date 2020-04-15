@@ -88,5 +88,7 @@ namespace DBAccess.Dapper.Identity
         public virtual int AccessFailedCount { get; set; }
 
         public virtual int MemberType { get; set; }
+
+        public virtual bool IsLogined { get; set; }
     }
 }

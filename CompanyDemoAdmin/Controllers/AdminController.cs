@@ -2,6 +2,7 @@
 using CompanyDemoAdmin.Controllers.Base;
 using CompanyDemoAdmin.Models;
 using DBAccess.Dapper.Identity;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -27,6 +28,12 @@ namespace CompanyDemoAdmin.Controllers
 
 
         public ActionResult Index()
+        {
+
+            return View();
+        }
+
+        public ActionResult ShowUsersLogin()
         {
             return View();
         }
@@ -216,6 +223,23 @@ namespace CompanyDemoAdmin.Controllers
                 Console.WriteLine(ex);
             }
             return Jsend(JsendResult.Error("RemoveRoleFromUser occured error"));
+        }
+
+
+        [HttpGet]
+        public ActionResult GetUsersByTypeAndLoginState(int memberType, bool isLogin)
+        {
+            try
+            {
+                var result = _userManager.GetUsersByTypeAndLoginState(memberType, isLogin);
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return Jsend(JsendResult.Error("GetUsersByTypeAndLoginState occured error"));
+
         }
 
 

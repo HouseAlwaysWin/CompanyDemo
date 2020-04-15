@@ -7,17 +7,26 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CompanyDemo.Models;
 using System;
+using DBAccess.Dapper.Identity;
+using System.Configuration;
+using CompanyDemo.Controllers.Base;
 
 namespace CompanyDemo.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
+
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserStore<AppMember, AppRole> _userStore;
+
 
         public AccountController()
         {
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _userStore = new UserStore<AppMember, AppRole>(new DbManager(connectionString));
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -77,6 +86,7 @@ namespace CompanyDemo.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    _userStore.SetLoginState(model.Email, true);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -303,6 +313,8 @@ namespace CompanyDemo.Controllers
                 return View();
             }
 
+
+
             // 產生並傳送 Token
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -385,6 +397,8 @@ namespace CompanyDemo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+
+            _userStore.SetLoginState(User.Identity.Name, false);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

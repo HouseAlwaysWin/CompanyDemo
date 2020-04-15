@@ -4,6 +4,7 @@ using CompanyDemo.Helpers;
 using CompanyDemo.Models;
 using CompanyDemo.Models.Validators;
 using FluentValidation.Results;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,40 @@ namespace CompanyDemo.Controllers
 {
     public class CompanyController : BaseController
     {
+        private ApplicationUserManager _userManager;
+
+        public CompanyController()
+        {
+
+        }
+        public CompanyController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        //public static List<AppMember> OnlineUsers
+        //{
+        //    get
+        //    {
+        //        if (System.Web.HttpContext.Current.Cache["OnlineUsers"] != null)
+        //            return (List<AppMember>)System.Web.HttpContext.Current.Cache["OnlineUsers"];
+        //        else
+        //            List<AppMember> list = null;
+        //        System.Web.HttpContext.Current.Cache.Add("OnlineUsers", list, null, DateTime.MaxValue, new TimeSpan(), CacheItemPriority.NotRemovable, null);
+        //        return list;
+        //    }
+        //}
         [HttpGet]
 
         public ActionResult GetCompanyListByID(int page, int? searchText, bool isDesc = false, string sortBy = "CompanyID")
