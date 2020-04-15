@@ -13,12 +13,6 @@ namespace CompanyDemo.Controllers.Base
 {
     public class BaseController : Controller
     {
-        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
-        {
-            base.Initialize(requestContext);
-
-        }
-
         /// <summary>
         /// 預設序列化為Json時
         /// 1.設定如果是null的欄位不輸出

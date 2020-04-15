@@ -30,8 +30,11 @@ namespace CompanyDemoAdmin
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
               "~/Scripts/admin/adminVue.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/showUserLogin").Include(
-              "~/Scripts/admin/showUserLogin.js"));
+            bundles.Add(new ScriptBundle("~/bundles/showFrontUserLogin").Include(
+              "~/Scripts/admin/showFrontUserLogin.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/showBackUserLogin").Include(
+            "~/Scripts/admin/showBackUserLogin.js"));
 
 
 

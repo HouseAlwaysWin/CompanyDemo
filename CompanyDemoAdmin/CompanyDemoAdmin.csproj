@@ -234,7 +234,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\admin\adminVue.js" />
-    <Content Include="Scripts\admin\showUserLogin.js" />
+    <Content Include="Scripts\admin\showBackUserLogin.js" />
+    <Content Include="Scripts\admin\showFrontUserLogin.js" />
     <Content Include="Scripts\axios.js" />
     <Content Include="Scripts\axios.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -367,7 +368,8 @@
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\RoleAdmin\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
-    <Content Include="Views\Admin\ShowUsersLogin.cshtml" />
+    <Content Include="Views\Admin\ShowFrontUsersLogin.cshtml" />
+    <Content Include="Views\Admin\ShowBackUsersLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

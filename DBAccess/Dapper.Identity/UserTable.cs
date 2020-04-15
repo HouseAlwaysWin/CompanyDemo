@@ -25,26 +25,26 @@ namespace DBAccess.Dapper.Identity
         }
 
 
-        public OneToManyMap<TUser> GetUsersByTypeAndLoginState(int memberType, bool isLogined, int itemsPerPage, bool isDesc)
+        public OneToManyMap<TUser> GetUsersByTypeAndLoginState(int memberType, bool isLogined, int currentPage, int itemsPerPage, bool isDesc)
         {
             var sortType = isDesc ? "DESC" : "ASC";
             var sqlString = @"
                         DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
                         SELECT COUNT(*)  FROM [dbo].[Member] WHERE MemberType = @MemberType AND IsLogined = @IsLogined
-                        SELECT TOP (1000) [Id]
-                                          ,[Email]
-                                          ,[EmailConfirmed]
-                                          ,[PasswordHash]
-                                          ,[SecurityStamp]
-                                          ,[PhoneNumber]
-                                          ,[PhoneNumberConfirmed]
-                                          ,[TwoFactorEnabled]
-                                          ,[LockoutEndDateUtc]
-                                          ,[LockoutEnabled]
-                                          ,[AccessFailedCount]
-                                          ,[UserName]
-                                          ,[MemberType]
-                                          ,[IsLogined]
+                        SELECT  [Id]
+                              ,[Email]
+                              ,[EmailConfirmed]
+                              ,[PasswordHash]
+                              ,[SecurityStamp]
+                              ,[PhoneNumber]
+                              ,[PhoneNumberConfirmed]
+                              ,[TwoFactorEnabled]
+                              ,[LockoutEndDateUtc]
+                              ,[LockoutEnabled]
+                              ,[AccessFailedCount]
+                              ,[UserName]
+                              ,[MemberType]
+                              ,[IsLogined]
                         FROM [dbo].[Member] WHERE MemberType = @MemberType AND IsLogined = @IsLogined
                         ORDER BY  Id " + sortType + @"
                         OFFSET @Start ROWS
@@ -54,7 +54,8 @@ namespace DBAccess.Dapper.Identity
             {
                 MemberType = memberType,
                 IsLogined = isLogined,
-                ItemsPerPage = itemsPerPage
+                ItemsPerPage = itemsPerPage,
+                CurrentPage = currentPage
             });
 
             var result = new OneToManyMap<TUser>

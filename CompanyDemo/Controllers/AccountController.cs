@@ -10,6 +10,8 @@ using System;
 using DBAccess.Dapper.Identity;
 using System.Configuration;
 using CompanyDemo.Controllers.Base;
+using CompanyDemo.Helpers;
+using System.Collections.Generic;
 
 namespace CompanyDemo.Controllers
 {
@@ -87,6 +89,30 @@ namespace CompanyDemo.Controllers
             {
                 case SignInStatus.Success:
                     _userStore.SetLoginState(model.Email, true);
+                    if (HttpRuntime.Cache["LoggedInUsers"] != null)
+                    {
+                        //get the list of logged in users from the cache
+                        var loggedInUsers = (Dictionary<string, DateTime>)
+                        HttpRuntime.Cache["LoggedInUsers"];
+
+                        if (!loggedInUsers.ContainsKey(model.Email))
+                        {
+                            //add this user to the list
+                            loggedInUsers.Add(model.Email, DateTime.Now);
+                            //add the list back into the cache
+                            HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                        }
+                    }
+                    //the list does not exist so create it
+                    else
+                    {
+                        //create a new list
+                        var loggedInUsers = new Dictionary<string, DateTime>();
+                        //add this user to the list
+                        loggedInUsers.Add(model.Email, DateTime.Now);
+                        //add the list into the cache
+                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -397,7 +423,6 @@ namespace CompanyDemo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-
             _userStore.SetLoginState(User.Identity.Name, false);
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");

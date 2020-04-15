@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
@@ -85,7 +86,30 @@ namespace CompanyDemoAdmin.Controllers
             {
                 case SignInStatus.Success:
                     _userStore.SetLoginState(model.Email, true);
-                    var user = User.Identity;
+                    if (HttpRuntime.Cache["LoggedInUsers"] != null)
+                    {
+                        //get the list of logged in users from the cache
+                        var loggedInUsers = (Dictionary<string, DateTime>)
+                        HttpRuntime.Cache["LoggedInUsers"];
+
+                        if (!loggedInUsers.ContainsKey(model.Email))
+                        {
+                            //add this user to the list
+                            loggedInUsers.Add(model.Email, DateTime.Now);
+                            //add the list back into the cache
+                            HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                        }
+                    }
+                    //the list does not exist so create it
+                    else
+                    {
+                        //create a new list
+                        var loggedInUsers = new Dictionary<string, DateTime>();
+                        //add this user to the list
+                        loggedInUsers.Add(model.Email, DateTime.Now);
+                        //add the list into the cache
+                        HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

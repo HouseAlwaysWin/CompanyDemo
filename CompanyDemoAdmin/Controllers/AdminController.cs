@@ -33,7 +33,12 @@ namespace CompanyDemoAdmin.Controllers
             return View();
         }
 
-        public ActionResult ShowUsersLogin()
+        public ActionResult ShowFrontUsersLogin()
+        {
+            return View();
+        }
+
+        public ActionResult ShowBackUsersLogin()
         {
             return View();
         }
@@ -227,11 +232,11 @@ namespace CompanyDemoAdmin.Controllers
 
 
         [HttpGet]
-        public ActionResult GetUsersByTypeAndLoginState(int memberType, bool isLogin)
+        public ActionResult GetUsersByTypeAndLoginState(int memberType, bool isLogin, int currentPage, int itemsPerPage, bool isDesc)
         {
             try
             {
-                var result = _userManager.GetUsersByTypeAndLoginState(memberType, isLogin);
+                var result = _userManager.GetUsersByTypeAndLoginState(memberType, isLogin, currentPage, itemsPerPage, isDesc);
                 return Jsend(result);
             }
             catch (WebException ex)

@@ -102,9 +102,9 @@ namespace DBAccess.Dapper.Identity
             return JsendResult<OneToManyMap<TUser>>.Success(result);
         }
 
-        public Jsend<OneToManyMap<TUser>> GetUsersByTypeAndLoginState(int memberType, bool isLogined)
+        public Jsend<OneToManyMap<TUser>> GetUsersByTypeAndLoginState(int memberType, bool isLogined, int currentPage, int itemsPerPage, bool isDesc)
         {
-            OneToManyMap<TUser> result = userTable.GetUsersByTypeAndLoginState(memberType, isLogined);
+            OneToManyMap<TUser> result = userTable.GetUsersByTypeAndLoginState(memberType, isLogined, currentPage, itemsPerPage, isDesc);
 
             return JsendResult<OneToManyMap<TUser>>.Success(result);
         }

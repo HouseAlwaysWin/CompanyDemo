@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "ShowUsersLogin";
+}
+
+
+<div class="container" id="userLoginVue">
+
+    @*會員列表*@
+    <br />
+    <h2>ShowUsersLogin</h2>
+    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
+        <div class="col custom-table-width">
+
+            <div class="input-group col-md-6">
+
+                <br />
+                <div class="form-group">
+                    <select class="form-control" v-model="userInfo.selectSearchType">
+                        <option v-for="option in userInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                    </select>
+                </div>
+                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="userInfo.searchText">
+                <button class="btn btn-primary btn-block" type="button" v-on:click="memberFindByID()">
+                    查詢
+                </button>
+            </div>
+
+            <br />
+            <h4>後台已登入會員列表</h4>
+            <div class="table-responsive">
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>會員ID</th>
+                            <th>會員名稱</th>
+                            <th>Email</th>
+                            <th>電話號碼</th>
+                            <th>會員類型</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(data,index) in userInfo.list" v-if="userInfo.list.length >0">
+                        <tr>
+                            <td>{{ index+1  }}</td>
+                            <td>{{ data.Id }}</td>
+                            <td>{{ data.Username }}</td>
+                            <td>{{ data.Email }}</td>
+                            <td>{{ data.PhoneNumber }}</td>
+                            <td>{{ data.MemberType }}</td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        查無結果
+                    </tbody>
+                </table>
+
+                <div v-if="usersTotalPages >1">
+                    <el-pagination @@current-change="getUserLogin"
+                                   layout="total,prev,pager,next,jumper"
+                                   :current-page.sync="userInfo.currentPage"
+                                   :page-size="userInfo.itemsPerPage"
+                                   :total="userInfo.totalCount"
+                                   :background="true">
+                    </el-pagination>
+                </div>
+                <br />
+
+                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberInsertUpdate" v-on:click="memberSetFormType('insert')">新增</button>*@
+            </div>
+        </div>
+    </div>
+
+    @if (HttpRuntime.Cache["LoggedInUsers"] != null)
+    {
+        var loggedOnUsers = HttpRuntime.Cache["LoggedInUsers"] as Dictionary<string, DateTime>;
+
+        if (loggedOnUsers != null)
+        {<div class="LoggedInUserBox">
+                <span> Online Users: </span>
+                @foreach (var item in loggedOnUsers)
+                {
+                    <a href="/Users/Panel/UserProfile/@item.Key">@item.Key</a>
+                    @:
+                }
+            </div>
+        }
+    }
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/sweetalert2")
+    @Scripts.Render("~/bundles/vue")
+    @Scripts.Render("~/bundles/showBackUserLogin")
+}
