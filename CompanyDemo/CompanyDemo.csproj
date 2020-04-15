@@ -240,6 +240,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\polyfill.min.js" />
+    <Content Include="Scripts\product\productVue.js" />
     <Content Include="Scripts\sweetalert2\sweetalert2.all.js" />
     <Content Include="Scripts\sweetalert2\sweetalert2.all.min.js" />
     <Content Include="Content\sweetalert2\sweetalert2.css" />
@@ -334,6 +335,7 @@
     <Content Include="Scripts\veevalidate\locale\vi.json" />
     <Content Include="Scripts\veevalidate\locale\zh_CN.json" />
     <Content Include="Scripts\veevalidate\locale\zh_TW.json" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

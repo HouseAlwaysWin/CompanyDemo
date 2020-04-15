@@ -99,7 +99,7 @@ var companyVue = new Vue({
     created: function () {
         var self = this;
         self.loading = true;
-        self.companyFindByID();
+        self.companyFindBy();
     },
     methods: {
         /**重設公司資料狀態 */
@@ -152,7 +152,7 @@ var companyVue = new Vue({
 
                 self.companyInfo.selectSearchType = "CompanyName";
                 self.companyInfo.searchText = self.companyInfo.data.CompanyName;
-                self.companyFindByID();
+                self.companyFindBy();
             }).catch(function (error) {
                 console.log(error);
                 self.loading = false;
@@ -214,7 +214,7 @@ var companyVue = new Vue({
                                 'Your file has been deleted.',
                                 'success'
                             ).then(function (result) {
-                                self.companyFindByID();
+                                self.companyFindBy();
                             });
 
                         }).catch(function (error) {
@@ -226,7 +226,7 @@ var companyVue = new Vue({
             })
         },
         /**根據ID查詢公司資料 */
-        companyFindByID: function () {
+        companyFindBy: function () {
             var self = this;
 
             var url = '';
@@ -240,6 +240,7 @@ var companyVue = new Vue({
                 {
                     params: {
                         page: self.companyInfo.currentPage,
+                        itemsPerPage: self.companyInfo.itemsPerPage,
                         searchText: self.companyInfo.searchText,
                         isDesc: false,
                     }

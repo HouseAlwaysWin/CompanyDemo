@@ -54,18 +54,19 @@ namespace DBAccess.Repositories
             return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
         }
 
-        public OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPages, int? searchText = null, bool isDesc = false, string sortBy = "CompanyID")
+        public OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPage, int? searchText = null, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
             var sqlString = @"
-                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
                     SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
+                        {0}
                     SELECT * FROM CompanyT 
                         {0}
-                        ORDER BY   " + sortBy + "  " + sortType + @"
+                        ORDER BY   CompanyID " + sortType + @"
                         OFFSET @Start ROWS
-                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+                        FETCH NEXT @ItemsPerPage ROWS ONLY";
 
             if (searchText != null)
             {
@@ -79,10 +80,9 @@ namespace DBAccess.Repositories
             var sqlResult = Connection.QueryMultiple(sqlString,
                 new
                 {
-                    ItemsPerPages = itemsPerPages,
+                    ItemsPerPage = itemsPerPage,
                     CurrentPage = currentPage,
                     SearchText = searchText,
-                    SortBy = sortBy,
                     SortType = sortType
                 }, transaction: Transaction);
             var result = new OneToManyMap<CompanyT>
@@ -93,18 +93,19 @@ namespace DBAccess.Repositories
             return result;
         }
 
-        public OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPages, string searchText, bool isDesc = false, string sortBy = "CompanyID")
+        public OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPage, string searchText, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
             var sqlString = @"
-                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPages
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
                     SELECT COUNT(*) FROM CompanyT WITH(NOLOCK)
+                        {0}
                     SELECT * FROM CompanyT 
                         {0}
-                        ORDER BY   " + sortBy + "  " + sortType + @"
+                        ORDER BY   CompanyID  " + sortType + @"
                         OFFSET @Start ROWS
-                        FETCH NEXT @ItemsPerPages ROWS ONLY";
+                        FETCH NEXT @ItemsPerPage ROWS ONLY";
 
             if (!string.IsNullOrEmpty(searchText))
             {
@@ -118,10 +119,9 @@ namespace DBAccess.Repositories
             var sqlResult = Connection.QueryMultiple(sqlString,
                 new
                 {
-                    ItemsPerPages = itemsPerPages,
+                    ItemsPerPage = itemsPerPage,
                     CurrentPage = currentPage,
                     SearchText = searchText,
-                    SortBy = sortBy,
                     SortType = sortType
                 }, transaction: Transaction);
             var result = new OneToManyMap<CompanyT>

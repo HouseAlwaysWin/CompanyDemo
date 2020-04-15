@@ -7,6 +7,7 @@ using CompanyDemo.Models;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -15,19 +16,21 @@ namespace CompanyAdmin.Controllers
 {
     public class ProductController : BaseController
     {
+        private string apiDoman = ConfigurationManager.AppSettings.Get("CompanyDemoApiDomain");
         // GET: Product
         public ActionResult Index()
         {
             return View();
         }
 
+
         [HttpGet]
-        public ActionResult GetProductListByID(int page, int? searchText, bool isDesc = false, string sortBy = "ProductID")
+        public ActionResult FindAll(int currentPage, int itemsPerPage, bool isDesc = false)
         {
             try
             {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel>>>(
-                    $"https://localhost:44319/api/Product/GetProductListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                var result = RequestHelper.MakeGetWebRequest<Jsend<ProductModel>>(
+                    $"{apiDoman}/api/Product/FindAll?currentPage={currentPage}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -36,23 +39,6 @@ namespace CompanyAdmin.Controllers
                 return Jsend(JsendResult.Error("GetProductList occured error"));
             }
         }
-
-        [HttpGet]
-        public ActionResult GetProductListByName(int page, string searchText, bool isDesc = false, string sortBy = "ProductID")
-        {
-            try
-            {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel>>>(
-                    $"https://localhost:44319/api/Product/GetProductListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
-                return Jsend(result);
-            }
-            catch (WebException ex)
-            {
-                Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetProductList occured error"));
-            }
-        }
-
 
         [HttpGet]
         public ActionResult GetProductByName(string name)

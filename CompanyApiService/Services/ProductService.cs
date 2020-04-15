@@ -87,7 +87,28 @@ namespace CompanyApiService.Services
                 return JsendResult.Error("DeleteProduct() Delete data occured error.");
             }
             return JsendResult.Success();
+
+
+
         }
+
+
+        //public Jsend<OneToManyMap<ProductT>> FindAll(int currentPage, int itemsPerPages, bool isDesc = false)
+        //{
+        //    OneToManyMap<ProductT> result = null;
+
+        //    try
+        //    {
+        //        result = _uow.ProductTRepository.FindAll(currentPage, itemsPerPages, isDesc);
+        //        _uow.Commit();
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        _logger.Error(ex);
+        //        return JsendResult<OneToManyMap<ProductT>>.Error("");
+        //    }
+        //    return JsendResult<OneToManyMap<ProductT>>.Success(result);
+        //}
 
         public Jsend<ProductT> FindProductByID(int id)
         {
@@ -138,6 +159,56 @@ namespace CompanyApiService.Services
                 return JsendResult<OneToManyMap<ProductT, CompanyT>>.Error("Queay data occured error");
             }
             return JsendResult<OneToManyMap<ProductT, CompanyT>>.Success(result);
+        }
+
+
+
+        public Jsend<OneToManyMap<ProductT>> FindAllByCompanyName(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<ProductT> result = null;
+            try
+            {
+                result = _uow.ProductTRepository.FindAllByCompanyName(searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<ProductT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<ProductT>>.Success(result);
+        }
+
+        public Jsend<OneToManyMap<ProductT>> FindAllByProductType(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<ProductT> result = null;
+            try
+            {
+                result = _uow.ProductTRepository.FindAllByProductType(searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<ProductT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<ProductT>>.Success(result);
+        }
+
+        public Jsend<OneToManyMap<ProductT>> FindAllByProductPrice(decimal productPrice, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<ProductT> result = null;
+            try
+            {
+                result = _uow.ProductTRepository.FindAllByProductPrice(productPrice, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<ProductT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<ProductT>>.Success(result);
         }
 
         public Jsend<List<ValidationFailure>> InsertUpdateProduct(ProductModel data)
@@ -221,5 +292,7 @@ namespace CompanyApiService.Services
 
             return JsendResult<List<ValidationFailure>>.Fail(failures);
         }
+
+
     }
 }

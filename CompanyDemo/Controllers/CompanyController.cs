@@ -7,6 +7,7 @@ using FluentValidation.Results;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,10 +18,10 @@ namespace CompanyDemo.Controllers
     public class CompanyController : BaseController
     {
         private ApplicationUserManager _userManager;
+        //private string _apiDomain = ConfigurationManager.GetSection("");
 
         public CompanyController()
         {
-
         }
         public CompanyController(ApplicationUserManager userManager)
         {
@@ -38,26 +39,14 @@ namespace CompanyDemo.Controllers
                 _userManager = value;
             }
         }
-        //public static List<AppMember> OnlineUsers
-        //{
-        //    get
-        //    {
-        //        if (System.Web.HttpContext.Current.Cache["OnlineUsers"] != null)
-        //            return (List<AppMember>)System.Web.HttpContext.Current.Cache["OnlineUsers"];
-        //        else
-        //            List<AppMember> list = null;
-        //        System.Web.HttpContext.Current.Cache.Add("OnlineUsers", list, null, DateTime.MaxValue, new TimeSpan(), CacheItemPriority.NotRemovable, null);
-        //        return list;
-        //    }
-        //}
         [HttpGet]
 
-        public ActionResult GetCompanyListByID(int page, int? searchText, bool isDesc = false, string sortBy = "CompanyID")
+        public ActionResult GetCompanyListByID(int page, int itemsPerPage, int? searchText, bool isDesc = false)
         {
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/GetCompanyListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                    $"https://localhost:44319/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -68,13 +57,12 @@ namespace CompanyDemo.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "ShowCompanyList")]
-        public ActionResult GetCompanyListByName(int page, string searchText, bool isDesc = false, string sortBy = "CompanyID")
+        public ActionResult GetCompanyListByName(int page, int itemsPerPage, string searchText, bool isDesc = false)
         {
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/GetCompanyListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                    $"https://localhost:44319/api/Company/GetCompanyListByName?current={page}&itemsPerPage={itemsPerPage}0&&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)

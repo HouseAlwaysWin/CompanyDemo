@@ -85,7 +85,270 @@ namespace DBAccess.Repositories
         }
 
 
-        public OneToManyMap<ProductT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPages, bool isDesc = false)
+        //public OneToManyMap<ProductT> FindAll(int currentPage, int itemsPerPage, string searchText, bool isDesc = false)
+        //{
+        //    var sortType = isDesc ? "DESC" : "ASC";
+
+        //    var sqlString = @"
+        //            DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
+        //            SELECT COUNT(*)  FROM ProductT  AS P 
+        //                JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+        //                JOIN CompanyT AS C ON CP.CompanyID = CompanyID
+        //                {0}
+        //            SELECT	P.ProductID,
+        //                    P.ProductName,		
+        //                    P.ProductType,		
+        //                    P.Price,		
+        //                    P.Unit,		
+        //                    P.CreatedDate,	
+        //                    P.EditedDate,
+        //                    C.CompanyID,
+        //                    C.CompanyName
+        //                FROM ProductT  AS P 
+        //                JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+        //                JOIN CompanyT AS C ON CP.CompanyID = CompanyID
+        //                {0}
+        //                ORDER BY   P.ProductID " + sortType + @"
+        //                OFFSET @Start ROWS
+        //                FETCH NEXT @ItemsPerPage ROWS ONLY
+        //       ";
+
+        //    if (string.IsNullOrEmpty(searchText))
+        //    {
+        //        sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchText");
+        //    }
+        //    else
+        //    {
+        //        sqlString = string.Format(sqlString, string.Empty);
+        //    }
+
+        //    var sqlResult = Connection.QueryMultiple(sqlString,
+        //        new
+        //        {
+        //            ItemsPerPage = itemsPerPage,
+        //            CurrentPage = currentPage,
+        //            SortType = sortType,
+        //        }, transaction: Transaction);
+        //    var result = new OneToManyMap<ProductT>
+        //    {
+        //        TotalCount = sqlResult.ReadSingle<int>(),
+        //        List = sqlResult.Read<ProductT>(),
+        //    };
+        //    return result;
+        //}
+
+
+        public OneToManyMap<ProductT, CompanyT> FindAllByCompanyID(int companyID, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
+                    SELECT COUNT(*) FROM ProductT WITH(NOLOCK)
+                    SELECT	P.ProductID,
+                            P.ProductName,		
+                            P.ProductType,		
+                            P.Price,		
+                            P.Unit,		
+                            P.CreatedDate,	
+                            P.EditedDate	
+                        FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        WHERE CP.CompanyID = @CompanyID
+                        ORDER BY   P.ProductID " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPage ROWS ONLY
+                   SELECT  [CompanyID]
+                          ,[CompanyName]
+                          ,[CompanyCode]
+                          ,[TaxID]
+                          ,[Phone]
+                          ,[Address]
+                          ,[WebsiteURL]
+                          ,[Owner]
+                          ,[CreatedDate]
+                          ,[EditedDate]
+                         FROM [CompanyDB].[dbo].[CompanyT]
+                         WHERE CompanyID = @CompanyID
+";
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPage = itemsPerPage,
+                    CurrentPage = currentPage,
+                    SortType = sortType,
+                    CompanyID = companyID
+                }, transaction: Transaction);
+            var result = new OneToManyMap<ProductT, CompanyT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<ProductT>(),
+                MapData = sqlResult.ReadFirstOrDefault<CompanyT>()
+            };
+            return result;
+        }
+
+
+        public OneToManyMap<ProductT> FindAllByCompanyName(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
+
+                    SELECT COUNT(*)  FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
+                        {0}
+                    SELECT	P.ProductID,
+                            P.ProductName,		
+                            P.ProductType,		
+                            P.Price,		
+                            P.Unit,		
+                            P.CreatedDate,	
+                            P.EditedDate,
+                            C.CompanyName
+                        FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
+                        {0}
+                        ORDER BY   P.ProductID " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPage ROWS ONLY ";
+
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                sqlString = string.Format(sqlString, $"WHERE C.CompanyName = @CompanyName");
+            }
+            else
+            {
+                sqlString = string.Format(sqlString, string.Empty);
+            }
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPage = itemsPerPage,
+                    CurrentPage = currentPage,
+                    SortType = sortType,
+                    CompanyName = searchText
+                }, transaction: Transaction);
+            var result = new OneToManyMap<ProductT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<ProductT>(),
+            };
+            return result;
+        }
+
+
+        public OneToManyMap<ProductT> FindAllByProductType(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
+
+                    SELECT COUNT(*)   FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
+                        {0}
+                    SELECT	P.ProductID,
+                            P.ProductName,		
+                            P.ProductType,		
+                            P.Price,		
+                            P.Unit,		
+                            P.CreatedDate,	
+                            P.EditedDate	
+                        FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
+                        {0}
+                        ORDER BY   P.ProductID " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPage ROWS ONLY ";
+
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                sqlString = string.Format(sqlString, $"WHERE P.ProductType = @ProductType ");
+            }
+            else
+            {
+                sqlString = string.Format(sqlString, string.Empty);
+            }
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPage = itemsPerPage,
+                    CurrentPage = currentPage,
+                    SortType = sortType,
+                    ProductType = searchText
+                }, transaction: Transaction);
+            var result = new OneToManyMap<ProductT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<ProductT>(),
+            };
+            return result;
+        }
+
+
+        public OneToManyMap<ProductT> FindAllByProductPrice(decimal? searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var sortType = isDesc ? "DESC" : "ASC";
+
+            var sqlString = @"
+                    DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
+
+                    SELECT COUNT(*)   FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
+                        {0}
+                    SELECT	P.ProductID,
+                            P.ProductName,		
+                            P.ProductType,		
+                            P.Price,		
+                            P.Unit,		
+                            P.CreatedDate,	
+                            P.EditedDate	
+                        FROM ProductT  AS P 
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
+                        {0}
+                        ORDER BY   P.ProductID " + sortType + @"
+                        OFFSET @Start ROWS
+                        FETCH NEXT @ItemsPerPage ROWS ONLY ";
+            if (searchText != null)
+            {
+                sqlString = string.Format(sqlString, $"WHERE P.Price = @ProducPrice");
+            }
+            else
+            {
+                sqlString = string.Format(sqlString, string.Empty);
+            }
+
+            var sqlResult = Connection.QueryMultiple(sqlString,
+                new
+                {
+                    ItemsPerPage = itemsPerPage,
+                    CurrentPage = currentPage,
+                    SortType = sortType,
+                    ProductPrice = searchText
+                }, transaction: Transaction);
+            var result = new OneToManyMap<ProductT>
+            {
+                TotalCount = sqlResult.ReadSingle<int>(),
+                List = sqlResult.Read<ProductT>(),
+            };
+            return result;
+        }
+
+
+        public OneToManyMap<ProductT, CompanyT> FindAllByProductID(int currentPage, int itemsPerPages, int searchID, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -101,7 +364,7 @@ namespace DBAccess.Repositories
                             P.EditedDate	
                         FROM ProductT  AS P 
                         JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
-                        WHERE CP.CompanyID = @CompanyID
+                        WHERE P.ProductID = @ProductID
                         ORDER BY   P.ProductID " + sortType + @"
                         OFFSET @Start ROWS
                         FETCH NEXT @ItemsPerPages ROWS ONLY
@@ -125,7 +388,8 @@ namespace DBAccess.Repositories
                     ItemsPerPages = itemsPerPages,
                     CurrentPage = currentPage,
                     SortType = sortType,
-                    CompanyID = companyID
+                    ProductID = searchID,
+
                 }, transaction: Transaction);
             var result = new OneToManyMap<ProductT, CompanyT>
             {

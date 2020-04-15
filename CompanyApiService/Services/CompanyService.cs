@@ -130,12 +130,12 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID")
+        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPage, bool isDesc, int? searchText)
         {
             OneToManyMap<CompanyT> result = null;
             try
             {
-                result = _uow.CompanyTRepository.FindAllByID(current, itemsPerPages, searchText, isDesc, sortBy);
+                result = _uow.CompanyTRepository.FindAllByID(current, itemsPerPage, searchText, isDesc);
                 _uow.Commit();
             }
             catch (SqlException ex)
@@ -147,12 +147,12 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID")
+        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByName(int current, int itemsPerPage, bool isDesc, string searchText)
         {
             OneToManyMap<CompanyT> result = null;
             try
             {
-                result = _uow.CompanyTRepository.FindAllByName(current, itemsPerPages, searchText, isDesc, sortBy);
+                result = _uow.CompanyTRepository.FindAllByName(current, itemsPerPage, searchText, isDesc);
                 _uow.Commit();
             }
             catch (SqlException ex)

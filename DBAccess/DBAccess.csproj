@@ -65,7 +65,6 @@
     <Compile Include="Repositories\Interfaces\ICompanyTRepository.cs" />
     <Compile Include="Repositories\Interfaces\IEmployeeTRepository.cs" />
     <Compile Include="Repositories\Interfaces\IProductTRepository.cs" />
-    <Compile Include="Repositories\MemberRepository.cs" />
     <Compile Include="Repositories\ProductTRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="UnitOfWork.cs" />

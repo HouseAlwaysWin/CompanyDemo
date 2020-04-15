@@ -320,17 +320,17 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.employeeInfo">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-4">
-                <div class="form-group">
-                    <select class="form-control" v-model="employeeInfo.selectSearchType">
-                        <option v-for="option in employeeInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="employeeInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="searchBy()">
-                    查詢
-                </button>
-            </div>
+            @*<div class="input-group col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" v-model="employeeInfo.selectSearchType">
+                            <option v-for="option in employeeInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="employeeInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="searchBy()">
+                        查詢
+                    </button>
+                </div>*@
 
             <br />
 
@@ -474,17 +474,17 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.productInfo">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-4">
-                <div class="form-group">
-                    <select class="form-control" v-model="productInfo.selectSearchType">
-                        <option v-for="option in productInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="productInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="searchBy()">
-                    查詢
-                </button>
-            </div>
+            @*<div class="input-group col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" v-model="productInfo.selectSearchType">
+                            <option v-for="option in productInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="productInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="searchBy()">
+                        查詢
+                    </button>
+                </div>*@
 
             <br />
 

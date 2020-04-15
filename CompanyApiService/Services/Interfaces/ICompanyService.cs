@@ -9,8 +9,8 @@ namespace CompanyApiService.Services.Interfaces
     public interface ICompanyService
     {
 
-        Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPages, bool isDesc, int? searchText, string sortBy = "CompanyID");
-        Jsend<OneToManyMap<CompanyT>> FindCompanyListByName(int current, int itemsPerPages, bool isDesc, string searchText, string sortBy = "CompanyID");
+        Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPage, bool isDesc, int? searchText);
+        Jsend<OneToManyMap<CompanyT>> FindCompanyListByName(int current, int itemsPerPage, bool isDesc, string searchText);
         Jsend<List<ValidationFailure>> AddCompany(CompanyModel data);
 
         Jsend<CompanyT> FindComapnyByName(string name);

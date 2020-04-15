@@ -112,7 +112,7 @@
                     </select>
                 </div>
                 <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="companyInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="companyFindByID()">
+                <button class="btn btn-primary btn-block" type="button" v-on:click="companyFindBy()">
                     查詢
                 </button>
             </div>
@@ -208,7 +208,7 @@
                 </table>
 
                 <div v-if="companyTotalPages >1">
-                    <el-pagination @@current-change="companyFindByID"
+                    <el-pagination @@current-change="companyFindBy"
                                    layout="total,prev,pager,next,jumper"
                                    :current-page.sync="companyInfo.currentPage"
                                    :page-size="companyInfo.itemsPerPage"
@@ -553,7 +553,7 @@
                 </div>
                 <br />
 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productInsertUpdate" v-on:click="productSetFormType('insert')">新增產品</button>
+                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productInsertUpdate" v-on:click="productSetFormType('insert')">新增產品</button>*@
                 <button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>
             </div>
         </div>
