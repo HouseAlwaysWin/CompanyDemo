@@ -112,7 +112,7 @@
                     </select>
                 </div>
                 <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="companyInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="companyFindBy()">
+                <button class="btn btn-primary btn-block" type="button" v-on:click="companyFindBy(1)">
                     查詢
                 </button>
             </div>
@@ -126,25 +126,11 @@
                             <th>#</th>
                             <th>公司ID</th>
                             <th>公司名稱</th>
-                            @*<th>代碼</th>
-                                <th>聯絡電話</th>
-                                <th>統編</th>
-                                <th>地址</th>
-                                <th>網址</th>
-                                <th>負責人</th>*@
                             <th>
                                 詳細
                             </th>
-                            @if (User.IsInRole("CanShowEmployees"))
-                            {
-                                <th>職員列表</th>
-                            }
-                            @if (User.IsInRole("CanShowProducts"))
-                            {
-                                <th>產品列表</th>
-                            }
-                            @*<th>更新</th>
-                                <th>刪除</th>*@
+                            <th>職員列表</th>
+                            @*<th>產品列表</th>*@
                         </tr>
                     </thead>
                     <tbody v-for="(data,index) in companyInfo.list" v-if="companyInfo.list.length >0">
@@ -157,29 +143,11 @@
                                     顯示詳細
                                 </button>
                             </td>
-                            @*<td>{{ data.CompanyCode }}</td>
-                                <td>{{ data.TaxID }}</td>
-                                <td>{{ data.Phone }}</td>
-                                <td>{{ data.Address }}</td>
-                                <td>{{ data.WebsiteURL }}</td>
-                                <td>{{ data.Owner }}</td>*@
-                            @if (User.IsInRole("CanShowEmployees"))
-                            {
-                                <td>
-                                    <button type="button" class="btn btn-success" v-on:click="employeeShowBtn(data)">顯示會員列表</button>
-                                </td>
-                            }
-                            @if (User.IsInRole("CanShowProducts"))
-                            {
-                                <td>
-                                    <button type="button" class="btn btn-success" v-on:click="productShowBtn(data)">顯示產品列表</button>
-                                </td>
-                            }
+                            <td>
+                                <button type="button" class="btn btn-success" v-on:click="employeeShowBtn(data)">顯示會員列表</button>
+                            </td>
                             @*<td>
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#insertUpdate" v-on:click="companySetFormType('update',data)">更新</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger" v-on:click="companyDeleteData(data)">刪除</button>
+                                    <button type="button" class="btn btn-success" v-on:click="productShowBtn(data)">顯示產品列表</button>
                                 </td>*@
                         </tr>
                         <tr class="collapse" :id="'company_'+data.CompanyID">
@@ -251,15 +219,6 @@
                                     <span class="text-danger">{{ errors[0]}}</span>
                                 </validation-provider>
                             </div>
-
-                            @*<div class="form-group">
-                                    <label for="fromCompanyName">隸屬公司</label>
-                                    <validation-provider rules="required" v-slot="{ errors }">
-                                        <input type="text" class="form-control" id="fromCompanyName" v-model="employeeInfo.data.fromCompanyName" />
-                                        <span class="text-danger">{{ errors[0]}}</span>
-
-                                    </validation-provider>
-                                </div>*@
 
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -338,8 +297,10 @@
                         <option v-for="option in employeeInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
                     </select>
                 </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="employeeInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="searchBy()">
+                <input v-if="employeeInfo.selectSearchType !== 'EmployeeBirthday'" class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="employeeInfo.searchText">
+                <el-date-picker v-if="employeeInfo.selectSearchType === 'EmployeeBirthday'" v-model="employeeInfo.data.birthday" type="date" placeholder="請選擇日期">
+                </el-date-picker>
+                <button class="btn btn-primary btn-block" type="button" v-on:click="employeeFindBy()">
                     查詢
                 </button>
             </div>
@@ -381,11 +342,12 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <label>Email:</label><span>{{ data.Email }}</span><br />
+                                        <label>Phone:</label><span>{{ data.EmployeePhone }}</span><br />
                                         <label>薪水:</label><span>{{ data.Salary }}</span><br />
                                         <label>是否離職:</label><span>{{ data.IsResigned?'是':'否' }}</span><br />
                                     </div>
                                     <div class="col-sm">
-
+                                        <label>職位:</label><span>{{ data.EmployeePosition }}</span><br />
                                         <label>生日:</label><span>{{ setDateFormat(data.BirthdayDate) }}</span><br />
                                         <label>到職日:</label><span>{{ setDateFormat(data.SignInDate) }}</span><br />
                                         <label>離職日:</label><span>{{ setDateFormat(data.ResignedDate) }}</span><br />
@@ -402,7 +364,7 @@
                 </table>
 
                 <div v-if="employeeTotalPages >1">
-                    <el-pagination @@current-change="employeeFindByCompanyID"
+                    <el-pagination @@current-change="employeeFindBy"
                                    layout="total,prev,pager,next,jumper"
                                    :current-page.sync="employeeInfo.currentPage"
                                    :page-size="employeeInfo.itemsPerPage"

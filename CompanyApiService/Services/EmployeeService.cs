@@ -32,6 +32,8 @@ namespace CompanyApiService.Services
                     _uow.EmployeeTRepository.Add(new EmployeeT
                     {
                         EmployeeName = data.EmployeeName,
+                        EmployeePosition = data.EmployeePosition,
+                        EmployeePhone = data.EmployeePhone,
                         Email = data.Email,
                         BirthdayDate = data.BirthdayDate,
                         SignInDate = data.SignInDate,
@@ -141,6 +143,88 @@ namespace CompanyApiService.Services
             return JsendResult<OneToManyMap<EmployeeT, CompanyT>>.Success(result);
         }
 
+
+        public Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeeName(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<EmployeeTAndCompanyT> result = null;
+            try
+            {
+                result = _uow.EmployeeTRepository.FindAllByEmployeeName(companyID, searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Success(result);
+        }
+
+        public Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeeID(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<EmployeeTAndCompanyT> result = null;
+            try
+            {
+                result = _uow.EmployeeTRepository.FindAllByEmployeeID(companyID, searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Success(result);
+        }
+
+        public Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeePhone(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<EmployeeTAndCompanyT> result = null;
+            try
+            {
+                result = _uow.EmployeeTRepository.FindAllByEmployeePhone(companyID, searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Success(result);
+        }
+
+
+        public Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeePosition(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<EmployeeTAndCompanyT> result = null;
+            try
+            {
+                result = _uow.EmployeeTRepository.FindAllByEmployeePosition(companyID, searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Success(result);
+        }
+
+        public Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeeBirthday(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            OneToManyMap<EmployeeTAndCompanyT> result = null;
+            try
+            {
+                result = _uow.EmployeeTRepository.FindAllByEmployeeBirthday(companyID, searchText, currentPage, itemsPerPage, isDesc);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Error("Queay data occured error");
+            }
+            return JsendResult<OneToManyMap<EmployeeTAndCompanyT>>.Success(result);
+        }
+
         public Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data)
         {
             if (data == null) return JsendResult<List<ValidationFailure>>.Error("Employee data can't be null");
@@ -157,6 +241,8 @@ namespace CompanyApiService.Services
                         _uow.EmployeeTRepository.Add(new EmployeeT
                         {
                             EmployeeName = data.EmployeeName,
+                            EmployeePosition = data.EmployeePosition,
+                            EmployeePhone = data.EmployeePhone,
                             Email = data.Email,
                             BirthdayDate = data.BirthdayDate,
                             SignInDate = data.SignInDate,
@@ -171,6 +257,8 @@ namespace CompanyApiService.Services
                         {
                             EmployeeID = data.EmployeeID,
                             EmployeeName = data.EmployeeName,
+                            EmployeePosition = data.EmployeePosition,
+                            EmployeePhone = data.EmployeePhone,
                             Email = data.Email,
                             BirthdayDate = data.BirthdayDate,
                             SignInDate = data.SignInDate,
@@ -207,6 +295,8 @@ namespace CompanyApiService.Services
                     {
                         EmployeeID = data.EmployeeID,
                         EmployeeName = data.EmployeeName,
+                        EmployeePhone = data.EmployeePhone,
+                        EmployeePosition = data.EmployeePosition,
                         Email = data.Email,
                         BirthdayDate = data.BirthdayDate,
                         SignInDate = data.SignInDate,

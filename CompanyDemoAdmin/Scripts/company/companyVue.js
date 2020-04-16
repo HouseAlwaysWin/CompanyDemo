@@ -58,6 +58,8 @@ var companyVue = new Vue({
             data: {
                 employeeID: '',
                 employeeName: '',
+                employeePosition: '',
+                employeePhone: '',
                 email: '',
                 birthday: '',
                 signInDate: '',
@@ -266,6 +268,8 @@ var companyVue = new Vue({
                 data: {
                     employeeID: '',
                     employeeName: '',
+                    employeePosition: '',
+                    employeePhone: '',
                     email: '',
                     birthday: '',
                     signInDate: '',
@@ -288,6 +292,8 @@ var companyVue = new Vue({
             self.employeeInfo.data = {
                 employeeID: '',
                 employeeName: '',
+                employeePosition: '',
+                employeePhone: '',
                 email: '',
                 birthday: '',
                 signInDate: '',
@@ -314,6 +320,8 @@ var companyVue = new Vue({
                 CompanyID: self.employeeInfo.mapCompany.CompanyID,
                 EmployeeID: data.employeeID,
                 EmployeeName: data.employeeName,
+                EmployeePosition: data.employeePosition,
+                EmployeePhone: data.employeePhone,
                 CompanyName: data.fromCompanyName,
                 Email: data.email,
                 BirthdayDate: data.birthday,
@@ -392,6 +400,8 @@ var companyVue = new Vue({
                 self.employeeInfo.data = {
                     employeeID: data.EmployeeID,
                     employeeName: data.EmployeeName,
+                    employeePosition: data.EmployeePosition,
+                    employeePhone: data.employeePhone,
                     email: data.Email,
                     birthday: data.BirthdayDate,
                     signInDate: data.SignInDate,
@@ -420,7 +430,7 @@ var companyVue = new Vue({
         /**根據公司ID尋找員工列表 */
         employeeFindByCompanyID: function () {
             var self = this;
-            axios.get("https://localhost:44364/Employee/GetListByCompanyID", {
+            axios.get("/Employee/GetListByCompanyID", {
                 params: {
                     id: self.employeeInfo.mapCompany.CompanyID,
                     currentPage: self.employeeInfo.currentPage,

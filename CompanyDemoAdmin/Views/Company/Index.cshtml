@@ -240,14 +240,22 @@
                                 </validation-provider>
                             </div>
 
-                            @*<div class="form-group">
-                                    <label for="fromCompanyName">隸屬公司</label>
-                                    <validation-provider rules="required" v-slot="{ errors }">
-                                        <input type="text" class="form-control" id="fromCompanyName" v-model="employeeInfo.data.fromCompanyName" />
-                                        <span class="text-danger">{{ errors[0]}}</span>
+                            <div class="form-group">
+                                <label for="employeePosition">職位</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="employeePosition" v-model="employeeInfo.data.employeePosition" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+                                </validation-provider>
+                            </div>
 
-                                    </validation-provider>
-                                </div>*@
+
+                            <div class="form-group">
+                                <label for="employeePhone">員工電話</label>
+                                <validation-provider rules="required" v-slot="{ errors }">
+                                    <input type="text" class="form-control" id="employeePhone" v-model="employeeInfo.data.employeePhone" />
+                                    <span class="text-danger">{{ errors[0]}}</span>
+                                </validation-provider>
+                            </div>
 
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -342,6 +350,7 @@
                             <th>#</th>
                             <th>員工ID</th>
                             <th>員工名稱</th>
+                            <th>職位</th>
                             <th>詳細</th>
                             <th>更新</th>
                             <th>刪除</th>
@@ -352,6 +361,7 @@
                             <td>{{ index+1  }}</td>
                             <td>{{ data.EmployeeID }}</td>
                             <td>{{ data.EmployeeName }}</td>
+                            <td>{{ data.EmployeePosition }}</td>
                             <td>
                                 <button class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#employee_'+data.EmployeeID" aria-expanded="false" aria-controls="collapseExample">
                                     顯示詳細
@@ -369,11 +379,12 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <label>Email:</label><span>{{ data.Email }}</span><br />
+                                        <label>Phone:</label><span>{{ data.EmployeePhone }}</span><br />
                                         <label>薪水:</label><span>{{ data.Salary }}</span><br />
                                         <label>是否離職:</label><span>{{ data.IsResigned?'是':'否' }}</span><br />
                                     </div>
                                     <div class="col-sm">
-
+                                        <label>職位:</label><span>{{ data.EmployeePosition }}</span><br />
                                         <label>生日:</label><span>{{ setDateFormat(data.BirthdayDate) }}</span><br />
                                         <label>到職日:</label><span>{{ setDateFormat(data.SignInDate) }}</span><br />
                                         <label>離職日:</label><span>{{ setDateFormat(data.ResignedDate) }}</span><br />

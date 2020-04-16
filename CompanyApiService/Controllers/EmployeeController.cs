@@ -55,6 +55,78 @@ namespace CompanyApiService.Controllers
             return BadRequest(resultString);
         }
 
+        [HttpGet]
+        [Route("api/Employee/FindAllByEmployeeName")]
+        public IHttpActionResult FindAllByEmployeeName(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var result = _employeeService.FindAllByEmployeeName(companyID, searchText, currentPage, itemsPerPage, isDesc);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpGet]
+        [Route("api/Employee/FindAllByEmployeeID")]
+        public IHttpActionResult FindAllByEmployeeID(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var result = _employeeService.FindAllByEmployeeID(companyID, searchText, currentPage, itemsPerPage, isDesc);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpGet]
+        [Route("api/Employee/FindAllByEmployeePhone")]
+        public IHttpActionResult FindAllByEmployeePhone(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var result = _employeeService.FindAllByEmployeePhone(companyID, searchText, currentPage, itemsPerPage, isDesc);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpGet]
+        [Route("api/Employee/FindAllByEmployeePosition")]
+        public IHttpActionResult FindAllByEmployeePosition(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var result = _employeeService.FindAllByEmployeePosition(companyID, searchText, currentPage, itemsPerPage, isDesc);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpGet]
+        [Route("api/Employee/FindAllByEmployeeBirthday")]
+        public IHttpActionResult FindAllByEmployeeBirthday(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            var result = _employeeService.FindAllByEmployeeBirthday(companyID, searchText, currentPage, itemsPerPage, isDesc);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+
+
         [HttpPatch]
         public IHttpActionResult Update(EmployeeModel data)
         {

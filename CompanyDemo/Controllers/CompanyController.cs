@@ -46,7 +46,7 @@ namespace CompanyDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}");
+                    $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -62,7 +62,7 @@ namespace CompanyDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"{apiDomain}/api/Company/GetCompanyListByName?current={page}&itemsPerPage={itemsPerPage}0&&searchText={searchText}&isDesc={isDesc}");
+                    $"{apiDomain}/api/Company/GetCompanyListByName?current={page}&itemsPerPage={itemsPerPage}&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)

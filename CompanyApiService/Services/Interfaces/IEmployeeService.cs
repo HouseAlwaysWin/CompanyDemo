@@ -15,6 +15,11 @@ namespace CompanyApiService.Services.Interfaces
         Jsend<EmployeeT> FindEmployeeByID(int Id);
 
         Jsend<OneToManyMap<EmployeeT, CompanyT>> FindCompanyListByID(int id, int current, int itemsPerPages, bool isDesc);
+        Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeeName(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false);
+        Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeeID(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false);
+        Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeePhone(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false);
+        Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeePosition(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false);
+        Jsend<OneToManyMap<EmployeeTAndCompanyT>> FindAllByEmployeeBirthday(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false);
 
         Jsend<List<ValidationFailure>> UpdateEmployee(EmployeeModel data);
         Jsend<List<ValidationFailure>> InsertUpdateEmployee(EmployeeModel data);

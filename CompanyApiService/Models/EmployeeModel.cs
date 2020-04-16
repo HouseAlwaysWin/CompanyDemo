@@ -10,6 +10,8 @@ namespace CompanyApiService.Models
         public int EmployeeID { get; set; }
         public int CompanyID { get; set; }
         public string EmployeeName { get; set; }
+        public string EmployeePhone { get; set; }
+        public string EmployeePosition { get; set; }
         public string Email { get; set; }
         public DateTime BirthdayDate { get; set; }
         public DateTime SignInDate { get; set; }

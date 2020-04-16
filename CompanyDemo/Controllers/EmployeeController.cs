@@ -6,6 +6,7 @@ using CompanyDemo.Models.Validators;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -15,6 +16,8 @@ namespace EmployeeDemo.Controllers
 {
     public class EmployeeController : BaseController
     {
+        private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");
+
         // GET: Employee
         public ActionResult Index()
         {
@@ -27,7 +30,7 @@ namespace EmployeeDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel>>>(
-                    $"https://localhost:44319/api/Employee/GetEmployeeListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                    $"{apiDomain}/api/Employee/GetEmployeeListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -43,7 +46,7 @@ namespace EmployeeDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel>>>(
-                    $"https://localhost:44319/api/Employee/GetEmployeeListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                    $"{apiDomain}/api/Employee/GetEmployeeListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -60,7 +63,7 @@ namespace EmployeeDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<EmployeeModel>>(
-                    $"https://localhost:44319/api/Employee/GetEmployeeByName?name={name}");
+                    $"{apiDomain}/api/Employee/GetEmployeeByName?name={name}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -77,7 +80,7 @@ namespace EmployeeDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel>>>(
-                    $"https://localhost:44319/api/Employee/?id={id}");
+                    $"{apiDomain}/api/Employee/?id={id}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -94,13 +97,94 @@ namespace EmployeeDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
-                    $"https://localhost:44319/api/Employee/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
+                    $"{apiDomain}/api/Employee/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
                 return Jsend(JsendResult.Error("GetListByCompanyID occured error"));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult FindAllByEmployeeName(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
+                    $"{apiDomain}/api/Employee/FindAllByEmployeeName?companyID={companyID}&currentPage={currentPage}&searchText={searchText}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("FindAllByEmployeeName occured error"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FindAllByEmployeeID(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
+                    $"{apiDomain}/api/Employee/FindAllByEmployeeID?companyID={companyID}&currentPage={currentPage}&searchText={searchText}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("FindAllByEmployeeID occured error"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FindAllByEmployeePhone(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
+                    $"{apiDomain}/api/Employee/FindAllByEmployeePhone?companyID={companyID}&currentPage={currentPage}&searchText={searchText}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("FindAllByEmployeePhone occured error"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FindAllByEmployeePosition(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
+                    $"{apiDomain}/api/Employee/FindAllByEmployeePosition?companyID={companyID}&currentPage={currentPage}&searchText={searchText}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("FindAllByEmployeePosition occured error"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FindAllByEmployeeBirthday(string companyID, string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<EmployeeModel, CompanyModel>>>(
+                    $"{apiDomain}/api/Employee/FindAllByEmployeeBirthday?companyID={companyID}&currentPage={currentPage}&searchText={searchText}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("FindAllByEmployeeBirthday occured error"));
             }
         }
 
@@ -117,7 +201,7 @@ namespace EmployeeDemo.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
-                        $"https://localhost:44319/api/Employee", data);
+                        $"{apiDomain}/api/Employee", data);
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -142,7 +226,7 @@ namespace EmployeeDemo.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
-                    $"https://localhost:44319/api/Employee", data, "PUT");
+                    $"{apiDomain}/api/Employee", data, "PUT");
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -158,7 +242,7 @@ namespace EmployeeDemo.Controllers
         public ActionResult DeleteEmployeeByID(int id)
         {
             var data = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
-                            $"https://localhost:44319/api/Employee", new EmployeeModel { EmployeeID = id }, "DELETE");
+                            $"{apiDomain}/api/Employee", new EmployeeModel { EmployeeID = id }, "DELETE");
             return Jsend(data);
         }
     }

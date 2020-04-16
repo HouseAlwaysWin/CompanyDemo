@@ -2,6 +2,8 @@
 CREATE TABLE EmployeeT(
 	EmployeeID int NOT NULL IDENTITY,
 	EmployeeName varchar(50) NOT NULL,
+	EmployeePosition varchar(50) NOT  NULL,
+	EmployeePhone varchar(20)  NULL,
 	Email varchar(320) NULL,
 	BirthdayDate datetime NOT NULL,
 	SignInDate datetime NOT NULL,

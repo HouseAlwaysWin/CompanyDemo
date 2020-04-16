@@ -58,6 +58,8 @@ var companyVue = new Vue({
             data: {
                 employeeID: '',
                 employeeName: '',
+                employeePosition: '',
+                employeePhone: '',
                 email: '',
                 birthday: '',
                 signInDate: '',
@@ -69,6 +71,9 @@ var companyVue = new Vue({
             selectSearchOptions: [
                 { value: 'EmployeeID', name: '員工ID' },
                 { value: 'EmployeeName', name: '員工名稱' },
+                { value: 'EmployeePhone', name: '員工電話' },
+                { value: 'EmployeePosition', name: '員工職位' },
+                { value: 'EmployeeBirthday', name: '員工生日' },
             ],
             searchText: ''
         },
@@ -226,8 +231,11 @@ var companyVue = new Vue({
             })
         },
         /**根據ID查詢公司資料 */
-        companyFindBy: function () {
+        companyFindBy: function (page) {
             var self = this;
+            if (page) {
+                self.companyInfo.currentPage = page;
+            }
 
             var url = '';
             if (self.companyInfo.selectSearchType === "CompanyID") {
@@ -235,6 +243,8 @@ var companyVue = new Vue({
             } else {
                 url = "/Company/GetCompanyListByName";
             }
+
+            self.loading = true;
 
             axios.get(url,
                 {
@@ -270,6 +280,8 @@ var companyVue = new Vue({
                 data: {
                     employeeID: '',
                     employeeName: '',
+                    employeePosition: '',
+                    employeePhone: '',
                     email: '',
                     birthday: '',
                     signInDate: '',
@@ -281,6 +293,9 @@ var companyVue = new Vue({
                 selectSearchOptions: [
                     { value: 'EmployeeID', name: '員工ID' },
                     { value: 'EmployeeName', name: '員工名稱' },
+                    { value: 'EmployeePhone', name: '員工電話' },
+                    { value: 'EmployeePosition', name: '員工職位' },
+                    { value: 'EmployeeBirthday', name: '員工生日' },
                 ],
                 searchText: ''
             };
@@ -292,6 +307,8 @@ var companyVue = new Vue({
             self.employeeInfo.data = {
                 employeeID: '',
                 employeeName: '',
+                employeePosition: '',
+                employeePhone: '',
                 email: '',
                 birthday: '',
                 signInDate: '',
@@ -318,6 +335,8 @@ var companyVue = new Vue({
                 CompanyID: self.employeeInfo.mapCompany.CompanyID,
                 EmployeeID: data.employeeID,
                 EmployeeName: data.employeeName,
+                EmployeePhone: data.employeePhone,
+                EmployeePosition: data.employeePosition,
                 CompanyName: data.fromCompanyName,
                 Email: data.email,
                 BirthdayDate: data.birthday,
@@ -335,7 +354,7 @@ var companyVue = new Vue({
                 $("#employeeInsertUpdate").modal("hide");
 
                 self.loading = false;
-                self.employeeFindByCompanyID();
+                self.employeeFindBy();
             }).catch(function (error) {
                 var response = error.response;
                 console.log(response);
@@ -371,7 +390,7 @@ var companyVue = new Vue({
                                 '你的資料已刪除',
                                 'success'
                             ).then(function (result) {
-                                self.employeeFindByCompanyID();
+                                self.employeeFindBy();
                             });
 
                         }).catch(function (error) {
@@ -418,16 +437,39 @@ var companyVue = new Vue({
                 employeeInfo: true
             };
             self.employeeInfo.mapCompany = data;
-            self.employeeFindByCompanyID();
+            self.employeeFindBy();
         },
 
-        /**根據公司ID尋找員工列表 */
-        employeeFindByCompanyID: function () {
+        /**尋找員工列表 */
+        employeeFindBy: function (page) {
             var self = this;
-            axios.get("/Employee/GetListByCompanyID", {
+            var url = '';
+            switch (self.employeeInfo.selectSearchType) {
+                case 'EmployeeID':
+                    url = '/Employee/FindAllByEmployeeID';
+                    break;
+                case 'EmployeeName':
+                    url = '/Employee/FindAllByEmployeeName';
+                    break;
+                case 'EmployeePhone':
+                    url = '/Employee/FindAllByEmployeePhone';
+                    break;
+                case 'EmployeePosition':
+                    url = '/Employee/FindAllByEmployeePosition';
+                    break;
+                case 'EmployeeBirthday':
+                    url = '/Employee/FindAllByEmployeeBirthday';
+                    break;
+            }
+            if (page) {
+                self.employeeInfo.currentPage = page;
+            }
+            axios.get(url, {
                 params: {
-                    id: self.employeeInfo.mapCompany.CompanyID,
+                    companyID: self.employeeInfo.mapCompany.CompanyID,
+                    searchText: self.employeeInfo.searchText,
                     currentPage: self.employeeInfo.currentPage,
+                    itemsPerPage: self.employeeInfo.itemsPerPage,
                     isDesc: false
                 }
             }).then(function (result) {
@@ -592,8 +634,13 @@ var companyVue = new Vue({
         },
 
         /**根據公司ID尋找產品列表 */
-        productFindByCompanyID: function () {
+        productFindByCompanyID: function (page) {
             var self = this;
+            if (page) {
+                self.productInfo.currentPage = page;
+            } else {
+                self.productInfo.currentPage = 1;
+            }
             axios.get("/Product/GetListByCompanyID", {
                 params: {
                     id: self.productInfo.mapCompany.CompanyID,
