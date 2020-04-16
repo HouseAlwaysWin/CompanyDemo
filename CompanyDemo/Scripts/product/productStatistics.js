@@ -48,30 +48,6 @@ var companyVue = new Vue({
             ],
             searchText: ''
         },
-        employeeInfo: {
-            list: [],
-            itemsPerPage: 10,
-            currentPage: 1,
-            totalCount: 0,
-            modalType: '',
-            mapCompany: null,
-            data: {
-                employeeID: '',
-                employeeName: '',
-                email: '',
-                birthday: '',
-                signInDate: '',
-                resignedDate: '',
-                isResigned: false,
-                salary: 0
-            },
-            selectSearchType: 'EmployeeID',
-            selectSearchOptions: [
-                { value: 'EmployeeID', name: '員工ID' },
-                { value: 'EmployeeName', name: '員工名稱' },
-            ],
-            searchText: ''
-        },
         productInfo: {
             list: [],
             itemsPerPage: 10,
@@ -99,7 +75,7 @@ var companyVue = new Vue({
     created: function () {
         var self = this;
         self.loading = true;
-        self.companyFindByID();
+        self.companyFindBy();
     },
     methods: {
         /**重設公司資料狀態 */
@@ -115,7 +91,6 @@ var companyVue = new Vue({
                 webUrl: '',
                 owner: ''
             };
-            self.$refs.companyModalRef.reset();
         },
         /** 送出公司資料表 */
         companySubmitForm: function () {
@@ -148,7 +123,11 @@ var companyVue = new Vue({
                 $("#insertUpdate").modal("hide");
 
                 self.loading = false;
-                self.companyFindByID();
+                self.companyResetData();
+
+                self.companyInfo.selectSearchType = "CompanyName";
+                self.companyInfo.searchText = self.companyInfo.data.CompanyName;
+                self.companyFindBy();
             }).catch(function (error) {
                 console.log(error);
                 self.loading = false;
@@ -210,7 +189,7 @@ var companyVue = new Vue({
                                 'Your file has been deleted.',
                                 'success'
                             ).then(function (result) {
-                                self.companyFindByID();
+                                self.companyFindBy();
                             });
 
                         }).catch(function (error) {
@@ -222,7 +201,7 @@ var companyVue = new Vue({
             })
         },
         /**根據ID查詢公司資料 */
-        companyFindByID: function () {
+        companyFindBy: function () {
             var self = this;
 
             var url = '';
@@ -235,8 +214,8 @@ var companyVue = new Vue({
             axios.get(url,
                 {
                     params: {
-                        itemsPerPage: self.companyInfo.itemsPerPage,
                         page: self.companyInfo.currentPage,
+                        itemsPerPage: self.companyInfo.itemsPerPage,
                         searchText: self.companyInfo.searchText,
                         isDesc: false,
                     }
@@ -280,7 +259,6 @@ var companyVue = new Vue({
                 ],
                 searchText: ''
             };
-            self.$refs.employeeModalRef.reset();
         },
         /**重設員工表單資訊 */
         employeeResetData: function () {
@@ -295,7 +273,6 @@ var companyVue = new Vue({
                 isResigned: false,
                 salary: 0
             }
-            self.$refs.employeeModalRef.reset();
         },
         /**送出員工資料表 */
         employeeSubmitData: function () {
@@ -400,7 +377,6 @@ var companyVue = new Vue({
                     salary: data.Salary
                 };
             }
-            self.$refs.employeeModalRef.reset();
         },
 
         /**
@@ -420,7 +396,7 @@ var companyVue = new Vue({
         /**根據公司ID尋找員工列表 */
         employeeFindByCompanyID: function () {
             var self = this;
-            axios.get("https://localhost:44364/Employee/GetListByCompanyID", {
+            axios.get("/Employee/GetListByCompanyID", {
                 params: {
                     id: self.employeeInfo.mapCompany.CompanyID,
                     currentPage: self.employeeInfo.currentPage,
@@ -460,7 +436,6 @@ var companyVue = new Vue({
                 ],
                 searchText: ''
             };
-            self.$refs.productModalRef.reset();
         },
         /**重設產品表單資訊 */
         productResetData: function () {
@@ -472,7 +447,6 @@ var companyVue = new Vue({
                 price: 0,
                 unit: ''
             }
-            self.$refs.productModalRef.reset();
         },
         /**送出產品資料表 */
         productSubmitData: function () {
@@ -570,7 +544,6 @@ var companyVue = new Vue({
                     unit: data.Unit
                 };
             }
-            self.$refs.productModalRef.reset();
         },
 
         /**
@@ -590,7 +563,7 @@ var companyVue = new Vue({
         /**根據公司ID尋找產品列表 */
         productFindByCompanyID: function () {
             var self = this;
-            axios.get("https://localhost:44364/Product/GetListByCompanyID", {
+            axios.get("/Product/GetListByCompanyID", {
                 params: {
                     id: self.productInfo.mapCompany.CompanyID,
                     currentPage: self.productInfo.currentPage,

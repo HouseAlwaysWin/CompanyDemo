@@ -144,7 +144,9 @@ namespace DBAccess.Repositories
 
             var sqlString = @"
                     DECLARE @Start int = (@CurrentPage - 1) * @ItemsPerPage
-                    SELECT COUNT(*) FROM ProductT WITH(NOLOCK)
+                    SELECT COUNT(*) FROM ProductT AS P WITH(NOLOCK)
+                        JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
+                        WHERE CP.CompanyID = @CompanyID
                     SELECT	P.ProductID,
                             P.ProductName,		
                             P.ProductType,		
@@ -190,7 +192,7 @@ namespace DBAccess.Repositories
         }
 
 
-        public OneToManyMap<ProductT> FindAllByCompanyName(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        public OneToManyMap<ProductTAndCompanyT> FindAllByCompanyName(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -208,7 +210,13 @@ namespace DBAccess.Repositories
                             P.Unit,		
                             P.CreatedDate,	
                             P.EditedDate,
-                            C.CompanyName
+                            C.CompanyName,
+                            C.CompanyCode,
+                            C.TaxID,
+                            C.Phone,
+                            C.Address,
+                            C.WebsiteURL,
+                            C.Owner
                         FROM ProductT  AS P 
                         JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
                         JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
@@ -218,7 +226,7 @@ namespace DBAccess.Repositories
                         FETCH NEXT @ItemsPerPage ROWS ONLY ";
 
 
-            if (string.IsNullOrEmpty(searchText))
+            if (!string.IsNullOrEmpty(searchText))
             {
                 sqlString = string.Format(sqlString, $"WHERE C.CompanyName = @CompanyName");
             }
@@ -235,16 +243,16 @@ namespace DBAccess.Repositories
                     SortType = sortType,
                     CompanyName = searchText
                 }, transaction: Transaction);
-            var result = new OneToManyMap<ProductT>
+            var result = new OneToManyMap<ProductTAndCompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
-                List = sqlResult.Read<ProductT>(),
+                List = sqlResult.Read<ProductTAndCompanyT>(),
             };
             return result;
         }
 
 
-        public OneToManyMap<ProductT> FindAllByProductType(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        public OneToManyMap<ProductTAndCompanyT> FindAllByProductType(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -261,7 +269,14 @@ namespace DBAccess.Repositories
                             P.Price,		
                             P.Unit,		
                             P.CreatedDate,	
-                            P.EditedDate	
+                            P.EditedDate,
+                            C.CompanyName,
+                            C.CompanyCode,
+                            C.TaxID,
+                            C.Phone,
+                            C.Address,
+                            C.WebsiteURL,
+                            C.Owner
                         FROM ProductT  AS P 
                         JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
                         JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
@@ -271,7 +286,7 @@ namespace DBAccess.Repositories
                         FETCH NEXT @ItemsPerPage ROWS ONLY ";
 
 
-            if (string.IsNullOrEmpty(searchText))
+            if (!string.IsNullOrEmpty(searchText))
             {
                 sqlString = string.Format(sqlString, $"WHERE P.ProductType = @ProductType ");
             }
@@ -288,16 +303,16 @@ namespace DBAccess.Repositories
                     SortType = sortType,
                     ProductType = searchText
                 }, transaction: Transaction);
-            var result = new OneToManyMap<ProductT>
+            var result = new OneToManyMap<ProductTAndCompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
-                List = sqlResult.Read<ProductT>(),
+                List = sqlResult.Read<ProductTAndCompanyT>(),
             };
             return result;
         }
 
 
-        public OneToManyMap<ProductT> FindAllByProductPrice(decimal? searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        public OneToManyMap<ProductTAndCompanyT> FindAllByProductPrice(int? searchText, int currentPage, int itemsPerPage, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -314,7 +329,14 @@ namespace DBAccess.Repositories
                             P.Price,		
                             P.Unit,		
                             P.CreatedDate,	
-                            P.EditedDate	
+                            P.EditedDate,
+                            C.CompanyName,
+                            C.CompanyCode,
+                            C.TaxID,
+                            C.Phone,
+                            C.Address,
+                            C.WebsiteURL,
+                            C.Owner
                         FROM ProductT  AS P 
                         JOIN CompanyT_ProductT AS CP ON CP.ProductID = P.ProductID
                         JOIN CompanyT AS C ON C.CompanyID =  CP.CompanyID 
@@ -324,7 +346,7 @@ namespace DBAccess.Repositories
                         FETCH NEXT @ItemsPerPage ROWS ONLY ";
             if (searchText != null)
             {
-                sqlString = string.Format(sqlString, $"WHERE P.Price = @ProducPrice");
+                sqlString = string.Format(sqlString, $"WHERE P.Price = @ProductPrice");
             }
             else
             {
@@ -339,10 +361,10 @@ namespace DBAccess.Repositories
                     SortType = sortType,
                     ProductPrice = searchText
                 }, transaction: Transaction);
-            var result = new OneToManyMap<ProductT>
+            var result = new OneToManyMap<ProductTAndCompanyT>
             {
                 TotalCount = sqlResult.ReadSingle<int>(),
-                List = sqlResult.Read<ProductT>(),
+                List = sqlResult.Read<ProductTAndCompanyT>(),
             };
             return result;
         }

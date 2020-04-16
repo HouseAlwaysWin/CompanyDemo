@@ -163,9 +163,9 @@ namespace CompanyApiService.Services
 
 
 
-        public Jsend<OneToManyMap<ProductT>> FindAllByCompanyName(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        public Jsend<OneToManyMap<ProductTAndCompanyT>> FindAllByCompanyName(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
         {
-            OneToManyMap<ProductT> result = null;
+            OneToManyMap<ProductTAndCompanyT> result = null;
             try
             {
                 result = _uow.ProductTRepository.FindAllByCompanyName(searchText, currentPage, itemsPerPage, isDesc);
@@ -174,14 +174,14 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult<OneToManyMap<ProductT>>.Error("Queay data occured error");
+                return JsendResult<OneToManyMap<ProductTAndCompanyT>>.Error("Queay data occured error");
             }
-            return JsendResult<OneToManyMap<ProductT>>.Success(result);
+            return JsendResult<OneToManyMap<ProductTAndCompanyT>>.Success(result);
         }
 
-        public Jsend<OneToManyMap<ProductT>> FindAllByProductType(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
+        public Jsend<OneToManyMap<ProductTAndCompanyT>> FindAllByProductType(string searchText, int currentPage, int itemsPerPage, bool isDesc = false)
         {
-            OneToManyMap<ProductT> result = null;
+            OneToManyMap<ProductTAndCompanyT> result = null;
             try
             {
                 result = _uow.ProductTRepository.FindAllByProductType(searchText, currentPage, itemsPerPage, isDesc);
@@ -190,14 +190,14 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult<OneToManyMap<ProductT>>.Error("Queay data occured error");
+                return JsendResult<OneToManyMap<ProductTAndCompanyT>>.Error("Queay data occured error");
             }
-            return JsendResult<OneToManyMap<ProductT>>.Success(result);
+            return JsendResult<OneToManyMap<ProductTAndCompanyT>>.Success(result);
         }
 
-        public Jsend<OneToManyMap<ProductT>> FindAllByProductPrice(decimal productPrice, int currentPage, int itemsPerPage, bool isDesc = false)
+        public Jsend<OneToManyMap<ProductTAndCompanyT>> FindAllByProductPrice(int? productPrice, int currentPage, int itemsPerPage, bool isDesc = false)
         {
-            OneToManyMap<ProductT> result = null;
+            OneToManyMap<ProductTAndCompanyT> result = null;
             try
             {
                 result = _uow.ProductTRepository.FindAllByProductPrice(productPrice, currentPage, itemsPerPage, isDesc);
@@ -206,9 +206,9 @@ namespace CompanyApiService.Services
             catch (SqlException ex)
             {
                 _logger.Error(ex);
-                return JsendResult<OneToManyMap<ProductT>>.Error("Queay data occured error");
+                return JsendResult<OneToManyMap<ProductTAndCompanyT>>.Error("Queay data occured error");
             }
-            return JsendResult<OneToManyMap<ProductT>>.Success(result);
+            return JsendResult<OneToManyMap<ProductTAndCompanyT>>.Success(result);
         }
 
         public Jsend<List<ValidationFailure>> InsertUpdateProduct(ProductModel data)

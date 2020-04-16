@@ -18,7 +18,7 @@ namespace CompanyDemo.Controllers
     public class CompanyController : BaseController
     {
         private ApplicationUserManager _userManager;
-        //private string _apiDomain = ConfigurationManager.GetSection("");
+        private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");
 
         public CompanyController()
         {
@@ -41,12 +41,12 @@ namespace CompanyDemo.Controllers
         }
         [HttpGet]
 
-        public ActionResult GetCompanyListByID(int page, int itemsPerPage, int? searchText, bool isDesc = false)
+        public ActionResult GetCompanyListByID(int page, int itemsPerPage, string searchText, bool isDesc = false)
         {
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}");
+                    $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -62,7 +62,7 @@ namespace CompanyDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company/GetCompanyListByName?current={page}&itemsPerPage={itemsPerPage}0&&searchText={searchText}&isDesc={isDesc}");
+                    $"{apiDomain}/api/Company/GetCompanyListByName?current={page}&itemsPerPage={itemsPerPage}0&&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -79,7 +79,7 @@ namespace CompanyDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<CompanyModel>>(
-                    $"https://localhost:44319/api/Company/GetCompanyByName?name={name}");
+                    $"{apiDomain}/api/Company/GetCompanyByName?name={name}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -96,7 +96,7 @@ namespace CompanyDemo.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
-                    $"https://localhost:44319/api/Company?id={id}");
+                    $"{apiDomain}/api/Company?id={id}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -119,7 +119,7 @@ namespace CompanyDemo.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                        $"https://localhost:44319/api/Company", data);
+                        $"{apiDomain}/api/Company", data);
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -145,7 +145,7 @@ namespace CompanyDemo.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                    $"https://localhost:44319/api/Company", data, "PUT");
+                    $"{apiDomain}/api/Company", data, "PUT");
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -162,7 +162,7 @@ namespace CompanyDemo.Controllers
         public ActionResult DeleteCompanyByID(int id)
         {
             var data = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                            $"https://localhost:44319/api/Company", new CompanyModel { CompanyID = id }, "DELETE");
+                            $"{apiDomain}/api/Company", new CompanyModel { CompanyID = id }, "DELETE");
             return Jsend(data);
         }
 

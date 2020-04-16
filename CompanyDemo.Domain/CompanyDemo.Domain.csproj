@@ -52,6 +52,7 @@
     <Compile Include="Entities\CompanyT.cs" />
     <Compile Include="Entities\EmployeeT.cs" />
     <Compile Include="Entities\ProductT.cs" />
+    <Compile Include="Entities\ProductTAndCompanyT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

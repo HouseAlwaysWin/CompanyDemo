@@ -32,7 +32,7 @@ namespace CompanyApiService.Controllers
 
         [HttpGet]
         [Route("api/Company/GetCompanyListByID")]
-        public IHttpActionResult GetCompanyListByID(int current, int itemsPerPage, bool isDesc, int? searchText)
+        public IHttpActionResult GetCompanyListByID(int current, int itemsPerPage, bool isDesc, string searchText)
         {
             var result = _companyService.FindCompanyListByID(current, itemsPerPage, isDesc, searchText);
             if (result.status == EnumJsendStatus.success.ToString())

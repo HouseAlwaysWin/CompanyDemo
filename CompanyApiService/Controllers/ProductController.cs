@@ -102,8 +102,8 @@ namespace CompanyApiService.Controllers
 
 
         [HttpGet]
-        [Route("api/Product/GetListByProductType")]
-        public IHttpActionResult GetListByProductType(decimal searchText, int currentPage, int itemsPerPage, bool isDesc)
+        [Route("api/Product/GetListByProductPrice")]
+        public IHttpActionResult GetListByProductType(int? searchText, int currentPage, int itemsPerPage, bool isDesc)
         {
             var result = _productService.FindAllByProductPrice(searchText, currentPage, itemsPerPage, isDesc);
             if (result.status == EnumJsendStatus.success.ToString())

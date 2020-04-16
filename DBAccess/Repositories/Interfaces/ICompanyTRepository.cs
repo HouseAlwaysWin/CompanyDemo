@@ -10,7 +10,7 @@ namespace DBAccess.Repositories.Interfaces
         IEnumerable<CompanyT> All();
         void Delete(CompanyT entity);
         void Delete(int id);
-        OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPage, int? searchText = null, bool isDesc = false);
+        OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPage, string searchText = null, bool isDesc = false);
         OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPage, string searchText, bool isDesc = false);
         CompanyT FindByID(int id);
         CompanyT FindByName(string name);

@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    @Styles.Render("~/bundles/sweetalert2")
+    @Styles.Render("~/Content/element")
+}
+
+
+<div class="container" id="companyVue">
+
+    @*公司列表*@
+    <br />
+    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
+        <div class="col custom-table-width">
+
+            <div class="input-group col-md-6">
+
+                <br />
+                <div class="form-group">
+                    <select class="form-control" v-model="companyInfo.selectSearchType">
+                        <option v-for="option in companyInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                    </select>
+                </div>
+                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="companyInfo.searchText">
+                <button class="btn btn-primary btn-block" type="button" v-on:click="companyFindBy()">
+                    查詢
+                </button>
+            </div>
+
+            <br />
+            <h4>公司列表</h4>
+            <div class="table-responsive" v-if="companyInfo.list.length >0">
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>公司ID</th>
+                            <th>公司名稱</th>
+                            <th>
+                                詳細
+                            </th>
+                            <th>產品列表</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(data,index) in companyInfo.list" v-if="companyInfo.list.length >0">
+                        <tr>
+                            <td>{{ index+1  }}</td>
+                            <td>{{ data.CompanyID }}</td>
+                            <td>{{ data.CompanyName }}</td>
+                            <td>
+                                <button class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#company_'+data.CompanyID" aria-expanded="false" aria-controls="collapseExample">
+                                    顯示詳細
+                                </button>
+                            </td>
+                            <td>
+                                @*<button type="button" class="btn btn-success" v-on:click="productShowBtn(data)">顯示產品列表</button>*@
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#productInfoList" v-on:click="productShowBtn(data)">顯示產品列表</button>
+
+                            </td>
+                        </tr>
+                        <tr class="collapse" :id="'company_'+data.CompanyID">
+                            <td colspan="7">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label>公司代碼:</label><span>{{ data.CompanyCode }}</span><br />
+                                        <label>聯絡電話:</label><span>{{ data.Phone }}</span><br />
+                                        <label>負責人:</label><span>{{ data.Owner }}</span><br />
+                                    </div>
+                                    <div class="col-sm">
+
+                                        <label>統編:</label><span>{{ data.TaxID }}</span><br />
+                                        <label>地址:</label><span>{{ data.Address }}</span><br />
+                                        <label>網址:</label><span>{{ data.WebsiteURL }}</span><br />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div v-if="companyTotalPages >1">
+                    <el-pagination @@current-change="companyFindBy"
+                                   layout="total,prev,pager,next,jumper"
+                                   :current-page.sync="companyInfo.currentPage"
+                                   :page-size="companyInfo.itemsPerPage"
+                                   :total="companyInfo.totalCount"
+                                   :background="true">
+                    </el-pagination>
+                </div>
+                <br />
+
+                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertUpdate" v-on:click="companySetFormType('insert')">新增</button>*@
+            </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>公司ID</th>
+                            <th>公司名稱</th>
+                            <th>
+                                詳細
+                            </th>
+                            <th>產品列表</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h4>查無結果</h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="productInfoList">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
+                    <div class="col custom-table-width">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-if="productInfo.mapCompany">{{ productInfo.mapCompany.CompanyName }}產品列表</h4>
+                            <button type="button" class="close" data-dismiss="modal" v-on:click="backCompanyInfo()">&times;</button>
+
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-active table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>產品ID</th>
+                                            <th>產品名稱</th>
+                                            <th>產品類型</th>
+                                            <th>產品金額</th>
+                                            <th>產品單位</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-for="(data,index) in productInfo.list" v-if="productInfo.list.length >0">
+                                        <tr>
+                                            <td>{{ index+1  }}</td>
+                                            <td>{{ data.ProductID }}</td>
+                                            <td>{{ data.ProductName }}</td>
+                                            <td>
+                                                {{ data.ProductType}}
+                                            </td>
+                                            <td>
+                                                {{ data.Price}}
+                                            </td>
+                                            <td>
+                                                {{data.Unit}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-else>
+                                        查無結果
+                                    </tbody>
+                                </table>
+
+                                <div v-if="productTotalPages >1">
+                                    <el-pagination @@current-change="productFindByCompanyID"
+                                                   layout="total,prev,pager,next,jumper"
+                                                   :current-page.sync="productInfo.currentPage"
+                                                   :page-size="productInfo.itemsPerPage"
+                                                   :total="productInfo.totalCount"
+                                                   :background="true">
+                                    </el-pagination>
+                                </div>
+                                <br />
+
+                                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productInsertUpdate" v-on:click="productSetFormType('insert')">新增產品</button>*@
+                                @*<button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/sweetalert2")
+    @Scripts.Render("~/bundles/vue")
+    @Scripts.Render("~/bundles/productStatistics")
+}

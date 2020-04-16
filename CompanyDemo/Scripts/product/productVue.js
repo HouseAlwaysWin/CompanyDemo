@@ -20,11 +20,6 @@ VeeValidate.localize('zh_TW', zh_TW);
 var productVue = new Vue({
     el: "#productVue",
     data: {
-        showArea: {
-            productInfo: true,
-            employeeInfo: false,
-            productInfo: false
-        },
         productInfo: {
             list: [],
             itemsPerPage: 10,
@@ -74,10 +69,11 @@ var productVue = new Vue({
                     price: 0,
                     unit: ''
                 },
-                selectSearchType: 'ProductID',
+                selectSearchType: 'CompanyName',
                 selectSearchOptions: [
-                    { value: 'ProductID', name: '員工ID' },
-                    { value: 'ProductName', name: '員工名稱' },
+                    { value: 'CompanyName', name: '公司名稱' },
+                    { value: 'ProductType', name: '產品類型' },
+                    { value: 'ProductPrice', name: '產品價格' },
                 ],
                 searchText: ''
             };
@@ -123,24 +119,22 @@ var productVue = new Vue({
             var searchType = self.productInfo.selectSearchType;
             var url = '';
             switch (searchType) {
-                case "All":
-                    url = "/Product/FindAll";
-                    break;
                 case "CompanyName":
                     url = "/Product/GetProductListByCompanyName";
                     break;
                 case "ProductType":
-                    url = "";
+                    url = "/Product/GetProductListByCompanyProductType";
                     break;
                 case "ProductPrice":
-                    url = "";
+                    url = "/Product/GetProductListByProductPrice";
                     break;
             }
 
+            self.loading = true;
             axios.get(url, {
                 params: {
                     searchText: self.productInfo.searchText,
-                    id: self.productInfo.mapCompany.CompanyID,
+                    itemsPerPage: self.productInfo.itemsPerPage,
                     currentPage: self.productInfo.currentPage,
                     isDesc: false
                 }
@@ -148,8 +142,12 @@ var productVue = new Vue({
                 console.log(result)
                 self.productInfo.list = result.data.data.List;
                 self.productInfo.totalCount = result.data.data.TotalCount;
+                self.loading = false;
+
             }).catch(function (error) {
                 var response = error.response.data;
+                self.loading = false;
+
                 console.log(response);
             });
         },

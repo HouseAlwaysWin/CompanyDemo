@@ -12,7 +12,7 @@
     [AccessFailedCount]    INT            NOT NULL,
     [UserName]             NVARCHAR (256) NOT NULL,
 	[MemberType]		   INT			  NOT NULL DEFAULT(1),
-	[IsLogined]	           DateTime NOT NULL DEFAULT(0)
+	[IsLogined]	           bit NOT NULL DEFAULT(0)
     CONSTRAINT [PK_dbo.Member] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

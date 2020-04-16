@@ -16,7 +16,7 @@ namespace CompanyAdmin.Controllers
 {
     public class ProductController : BaseController
     {
-        private string apiDoman = ConfigurationManager.AppSettings.Get("CompanyDemoApiDomain");
+        private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");
         // GET: Product
         public ActionResult Index()
         {
@@ -24,21 +24,27 @@ namespace CompanyAdmin.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult FindAll(int currentPage, int itemsPerPage, bool isDesc = false)
+        public ActionResult Statistics()
         {
-            try
-            {
-                var result = RequestHelper.MakeGetWebRequest<Jsend<ProductModel>>(
-                    $"{apiDoman}/api/Product/FindAll?currentPage={currentPage}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
-                return Jsend(result);
-            }
-            catch (WebException ex)
-            {
-                Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetProductList occured error"));
-            }
+            return View();
         }
+
+
+        //[HttpGet]
+        //public ActionResult FindAll(int currentPage, int itemsPerPage, bool isDesc = false)
+        //{
+        //    try
+        //    {
+        //        var result = RequestHelper.MakeGetWebRequest<Jsend<ProductModel>>(
+        //            $"{apiDomain}/api/Product/FindAll?currentPage={currentPage}&itemsPerPage={itemsPerPage}&isDesc={isDesc}");
+        //        return Jsend(result);
+        //    }
+        //    catch (WebException ex)
+        //    {
+        //        Console.WriteLine(ex);
+        //        return Jsend(JsendResult.Error("GetProductList occured error"));
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult GetProductByName(string name)
@@ -46,7 +52,7 @@ namespace CompanyAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<ProductModel>>(
-                    $"https://localhost:44319/api/Product/GetProductByName?name={name}");
+                    $"{apiDomain}/api/Product/GetProductByName?name={name}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -63,7 +69,7 @@ namespace CompanyAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel>>>(
-                    $"https://localhost:44319/api/Product/?id={id}");
+                    $"{apiDomain}/api/Product/?id={id}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -80,13 +86,63 @@ namespace CompanyAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel, CompanyModel>>>(
-                    $"https://localhost:44319/api/Product/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
+                    $"{apiDomain}/api/Product/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
                 return Jsend(JsendResult.Error("GetListByCompanyID occured error"));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult GetProductListByCompanyName(int currentPage, int itemsPerPage, string searchText, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductAndCompanyModel>>>(
+                    $"{apiDomain}/api/Product/GetListByCompanyName?currentPage={currentPage}&itemsPerPage={itemsPerPage}&searchText={searchText}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult GetProductListByCompanyProductType(int currentPage, int itemsPerPage, string searchText, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductAndCompanyModel>>>(
+                    $"{apiDomain}/api/Product/GetListByProductType?currentPage={currentPage}&itemsPerPage={itemsPerPage}&searchText={searchText}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetProductListByProductPrice(int currentPage, int itemsPerPage, string searchText, bool isDesc = false)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductAndCompanyModel>>>(
+                    $"{apiDomain}/api/Product/GetListByProductPrice?currentPage={currentPage}&itemsPerPage={itemsPerPage}&searchText={searchText}&isDesc={isDesc}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("GetCompanyList occured error"));
             }
         }
 
@@ -103,7 +159,7 @@ namespace CompanyAdmin.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                        $"https://localhost:44319/api/Product", data);
+                        $"{apiDomain}/api/Product", data);
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -128,7 +184,7 @@ namespace CompanyAdmin.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                    $"https://localhost:44319/api/Product", data, "PUT");
+                    $"{apiDomain}/api/Product", data, "PUT");
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -144,7 +200,7 @@ namespace CompanyAdmin.Controllers
         public ActionResult DeleteProductByID(int id)
         {
             var data = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                            $"https://localhost:44319/api/Product", new ProductModel { ProductID = id }, "DELETE");
+                            $"{apiDomain}/api/Product", new ProductModel { ProductID = id }, "DELETE");
             return Jsend(data);
         }
     }

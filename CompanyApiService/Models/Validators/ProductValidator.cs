@@ -10,9 +10,9 @@ namespace CompanyApiService.Models.Validators
     {
         public ProductValidator()
         {
-            RuleFor(p => p.ProductName).MaximumLength(100).NotEmpty();
-            RuleFor(p => p.ProductType).MaximumLength(50).NotEmpty();
-            RuleFor(p => p.Unit).MaximumLength(10);
+            //RuleFor(p => p.ProductName).MaximumLength(100).NotEmpty();
+            //RuleFor(p => p.ProductType).MaximumLength(50).NotEmpty();
+            //RuleFor(p => p.Unit).MaximumLength(10);
         }
     }
 }

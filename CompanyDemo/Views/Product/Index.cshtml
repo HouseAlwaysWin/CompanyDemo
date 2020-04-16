@@ -1,17 +1,14 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "產品資料頁";
+
+    @Styles.Render("~/bundles/sweetalert2")
+    @Styles.Render("~/Content/element")
 }
-
-<h2>Index</h2>
-
-
 
 <div class="container" id="productVue">
 
-
-
-    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.productInfo">
+    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
         <div class="col custom-table-width">
 
             <div class="input-group col-md-4">
@@ -34,6 +31,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>隸屬公司</th>
                             <th>產品ID</th>
                             <th>產品名稱</th>
                             <th>產品類型</th>
@@ -44,6 +42,7 @@
                     <tbody v-for="(data,index) in productInfo.list" v-if="productInfo.list.length >0">
                         <tr>
                             <td>{{ index+1  }}</td>
+                            <td>{{ data.CompanyName}}</td>
                             <td>{{ data.ProductID }}</td>
                             <td>{{ data.ProductName }}</td>
                             <td>
@@ -73,8 +72,6 @@
                 </div>
                 <br />
 
-                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productInsertUpdate" v-on:click="productSetFormType('insert')">新增產品</button>*@
-                @*<button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>*@
             </div>
         </div>
     </div>

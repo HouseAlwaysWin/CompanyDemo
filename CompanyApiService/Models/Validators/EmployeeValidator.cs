@@ -10,11 +10,11 @@ namespace CompanyApiService.Models.Validators
     {
         public EmployeeValidator()
         {
-            RuleFor(e => e.EmployeeName).MaximumLength(50).NotEmpty();
-            RuleFor(e => e.Email).MaximumLength(320).EmailAddress().NotEmpty();
-            RuleFor(e => e.BirthdayDate).NotEmpty();
-            RuleFor(e => e.SignInDate).NotEmpty();
-            RuleFor(e => e.Salary).NotNull();
+            //RuleFor(e => e.EmployeeName).MaximumLength(50).NotEmpty();
+            //RuleFor(e => e.Email).MaximumLength(320).EmailAddress().NotEmpty();
+            //RuleFor(e => e.BirthdayDate).NotEmpty();
+            //RuleFor(e => e.SignInDate).NotEmpty();
+            //RuleFor(e => e.Salary).NotNull();
         }
     }
 }

@@ -2,6 +2,7 @@
 using CompanyDemo.Domain.Entities;
 using Dapper;
 using DBAccess.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace DBAccess.Repositories
             return Connection.Query<CompanyT>("SELECT TOP(1000) * FROM CompanyT", transaction: Transaction).ToList();
         }
 
-        public OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPage, int? searchText = null, bool isDesc = false)
+        public OneToManyMap<CompanyT> FindAllByID(int currentPage, int itemsPerPage, string searchText = null, bool isDesc = false)
         {
             var sortType = isDesc ? "DESC" : "ASC";
 
@@ -68,13 +69,24 @@ namespace DBAccess.Repositories
                         OFFSET @Start ROWS
                         FETCH NEXT @ItemsPerPage ROWS ONLY";
 
-            if (searchText != null)
+            int searchId;
+            bool isInt = Int32.TryParse(searchText, out searchId);
+
+            if (isInt)
             {
                 sqlString = string.Format(sqlString, $" WHERE  CompanyID = @SearchText");
             }
-            else
+            else if (string.IsNullOrEmpty(searchText))
             {
                 sqlString = string.Format(sqlString, string.Empty);
+            }
+            else
+            {
+                return new OneToManyMap<CompanyT>
+                {
+                    TotalCount = 0,
+                    List = new List<CompanyT>()
+                };
             }
 
             var sqlResult = Connection.QueryMultiple(sqlString,
@@ -82,7 +94,7 @@ namespace DBAccess.Repositories
                 {
                     ItemsPerPage = itemsPerPage,
                     CurrentPage = currentPage,
-                    SearchText = searchText,
+                    SearchText = searchId,
                     SortType = sortType
                 }, transaction: Transaction);
             var result = new OneToManyMap<CompanyT>

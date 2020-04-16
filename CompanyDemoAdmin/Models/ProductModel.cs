@@ -11,7 +11,7 @@ namespace CompanyDemoAdmin.Models
         public int CompanyID { get; set; }
         public string ProductName { get; set; }
         public string ProductType { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public string Unit { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EditedDate { get; set; }

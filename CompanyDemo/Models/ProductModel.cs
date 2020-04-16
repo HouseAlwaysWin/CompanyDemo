@@ -9,6 +9,7 @@ namespace CompanDemo.Models
     {
         public int ProductID { get; set; }
         public int CompanyID { get; set; }
+        public string CompanyName { get; set; }
         public string ProductName { get; set; }
         public string ProductType { get; set; }
         public decimal Price { get; set; }

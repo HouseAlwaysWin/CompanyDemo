@@ -130,7 +130,7 @@ namespace CompanyApiService.Services
         }
 
 
-        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPage, bool isDesc, int? searchText)
+        public Jsend<OneToManyMap<CompanyT>> FindCompanyListByID(int current, int itemsPerPage, bool isDesc, string searchText)
         {
             OneToManyMap<CompanyT> result = null;
             try
