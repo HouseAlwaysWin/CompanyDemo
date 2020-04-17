@@ -237,7 +237,36 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var result = _userManager.GetUsersByTypeAndLoginState(memberType, isLogin, currentPage, itemsPerPage, isDesc);
-                return Jsend(result);
+                Jsend<OneToManyMap<UserViewModel>> jsendUserViewModel = new Jsend<OneToManyMap<UserViewModel>>()
+                {
+                    data = new OneToManyMap<UserViewModel>
+                    {
+                        List = new List<UserViewModel>()
+                    }
+                };
+                List<UserViewModel> mapData = new List<UserViewModel>();
+                foreach (var user in result.data.List)
+                {
+                    mapData.Add(new UserViewModel
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        UserName = user.UserName,
+                        PhoneNumber = user.PhoneNumber,
+                        MemberType = user.MemberType,
+                        IsLoggined = user.IsLogined
+                    });
+                }
+                jsendUserViewModel.status = result.status;
+                jsendUserViewModel.message = result.message;
+                jsendUserViewModel.code = result.code;
+                if (result.data != null)
+                {
+                    jsendUserViewModel.data.List = mapData;
+                    jsendUserViewModel.data.TotalCount = mapData.Count;
+                }
+
+                return Jsend(jsendUserViewModel);
             }
             catch (WebException ex)
             {

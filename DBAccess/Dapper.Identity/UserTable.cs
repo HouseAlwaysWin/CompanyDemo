@@ -151,9 +151,10 @@ namespace DBAccess.Dapper.Identity
                 .ToList();
         }
 
-        public List<TUser> GetUserByEmail(string email)
+        public TUser GetUserByEmail(string email)
         {
-            return null;
+            var result = db.Connection.QueryFirstOrDefault<TUser>("Select * from Member where Email=@Email", new { Email = email });
+            return result;
         }
 
         /// <summary>

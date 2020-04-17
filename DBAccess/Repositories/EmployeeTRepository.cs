@@ -323,8 +323,19 @@ namespace DBAccess.Repositories
 
 
 
+            int employeeId;
+            bool isInt = int.TryParse(searchText, out employeeId);
+
             if (!string.IsNullOrEmpty(searchText))
             {
+                if (!isInt)
+                {
+                    return new OneToManyMap<EmployeeTAndCompanyT>
+                    {
+                        TotalCount = 0,
+                        List = new List<EmployeeTAndCompanyT>(),
+                    };
+                }
                 sqlString = string.Format(sqlString, @"WHERE E.EmployeeID = @EmployeeID {0}");
             }
             else
@@ -332,7 +343,9 @@ namespace DBAccess.Repositories
                 sqlString = string.Format(sqlString, string.Empty);
             }
 
-            if (!string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(searchText))
+
+
+            if (!string.IsNullOrEmpty(companyID) && isInt)
             {
                 sqlString = string.Format(sqlString, $"AND C.CompanyID = @CompanyID ");
             }

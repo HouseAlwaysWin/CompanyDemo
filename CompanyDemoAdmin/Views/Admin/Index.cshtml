@@ -11,23 +11,23 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.memberInfo">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-6">
+            @*<div class="input-group col-md-6">
 
-                <br />
-                <div class="form-group">
-                    <select class="form-control" v-model="memberInfo.selectSearchType">
-                        <option v-for="option in memberInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="memberInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="memberFindByID()">
-                    查詢
-                </button>
-            </div>
+                    <br />
+                    <div class="form-group">
+                        <select class="form-control" v-model="memberInfo.selectSearchType">
+                            <option v-for="option in memberInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="memberInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="memberFindByID()">
+                        查詢
+                    </button>
+                </div>*@
 
             <br />
             <h4>會員列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="memberInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -38,11 +38,10 @@
                             <th>電話號碼</th>
                             <th>會員類型</th>
                             <th>顯示擁有權限</th>
-                            <th>加入權限</th>
                             <th>刪除</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in memberInfo.list" v-if="memberInfo.list.length >0">
+                    <tbody v-for="(data,index) in memberInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.Id }}</td>
@@ -53,20 +52,8 @@
                             <td>
                                 <button type="button" class="btn btn-success" v-on:click="roleShowBtn(data)">顯示權限列表</button>
                             </td>
-                            @*<td>
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" :data-target="'#member_'+data.Id" aria-expanded="false" aria-controls="collapseExample">
-                                        顯示擁有權限
-                                    </button>
-                                </td>*@
                             <td>
                                 <button type="button" class="btn btn-danger" v-on:click="memberDeleteData(data)">刪除</button>
-                            </td>
-                        </tr>
-                        <tr class="collapse" :id="'member_'+data.Id">
-                            <td colspan="7">
-                                <div class="row">
-
-                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -88,7 +75,28 @@
                 </div>
                 <br />
 
-                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberInsertUpdate" v-on:click="memberSetFormType('insert')">新增</button>*@
+            </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>會員ID</th>
+                            <th>會員名稱</th>
+                            <th>Email</th>
+                            <th>電話號碼</th>
+                            <th>會員類型</th>
+                            <th>顯示擁有權限</th>
+                            <th>加入權限</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="9">查無結果</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -137,23 +145,23 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.roleInfo">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-6">
+            @*<div class="input-group col-md-6">
 
-                <br />
-                <div class="form-group">
-                    <select class="form-control" v-model="roleInfo.selectSearchType">
-                        <option v-for="option in roleInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="roleInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
-                    查詢
-                </button>
-            </div>
+                    <br />
+                    <div class="form-group">
+                        <select class="form-control" v-model="roleInfo.selectSearchType">
+                            <option v-for="option in roleInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="roleInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
+                        查詢
+                    </button>
+                </div>*@
 
             <br />
             <h4 v-if="roleInfo.mapMember">全部的權限列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="roleInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -164,7 +172,7 @@
                             <th>刪除</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in roleInfo.list" v-if="roleInfo.list.length >0">
+                    <tbody v-for="(data,index) in roleInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.Id }}</td>
@@ -196,6 +204,26 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#roleInsertUpdate" v-on:click="roleSetFormType('insert')">新增</button>
 
             </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>權限ID</th>
+                            <th>權限名稱</th>
+                            <th>更新</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(data,index) in roleInfo.list">
+                        <tr>
+                            <td colspan="5">查無結果</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#roleInsertUpdate" v-on:click="roleSetFormType('insert')">新增</button>
+
+            </div>
         </div>
     </div>
 
@@ -204,7 +232,7 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.addRoleInfo">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-6">
+            @*<div class="input-group col-md-6">
 
                 <br />
                 <div class="form-group">
@@ -216,11 +244,11 @@
                 <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
                     查詢
                 </button>
-            </div>
+            </div>*@
 
             <br />
             <h4 v-if="roleInfo.mapMember">{{ roleInfo.mapMember.UserName}}擁有的權限列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="roleInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -260,6 +288,25 @@
                 <button type="button" class="btn btn-info" v-on:click="roleShowNotInRoleeBtn()">加入新權限</button>
 
             </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>權限ID</th>
+                            <th>權限名稱</th>
+                            <th>移除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">查無結果</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-secondary" v-on:click="backMemberInfo()">返回</button>
+                <button type="button" class="btn btn-info" v-on:click="roleShowNotInRoleeBtn()">加入新權限</button>
+            </div>
         </div>
     </div>
 
@@ -268,7 +315,7 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.notInRoleInfo">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-6">
+            @*<div class="input-group col-md-6">
 
                 <br />
                 <div class="form-group">
@@ -280,21 +327,21 @@
                 <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
                     查詢
                 </button>
-            </div>
+            </div>*@
 
             <br />
             <h4 v-if="roleInfo.mapMember">{{ roleInfo.mapMember.UserName}}未擁有的權限列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="roleInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>權限ID</th>
                             <th>權限名稱</th>
-                            <th v-show="showArea.notInRoleInfo">加入</th>
+                            <th>加入</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in roleInfo.list" v-if="roleInfo.list.length >0">
+                    <tbody v-for="(data,index) in roleInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.Id }}</td>
@@ -305,11 +352,6 @@
                             <td v-show="showArea.addRoleInfo">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#roleInsertUpdate" v-on:click="roleSetFormType('update',data)">更新</button>
                             </td>
-                        </tr>
-                    </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td>查無結果</td>
                         </tr>
                     </tbody>
                 </table>
@@ -323,6 +365,24 @@
                                    :background="true">
                     </el-pagination>
                 </div>
+                <button type="button" class="btn btn-secondary" v-on:click="backAddRoleInfo()">返回</button>
+            </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>權限ID</th>
+                            <th>權限名稱</th>
+                            <th>加入</th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(data,index) in roleInfo.list">
+                        <tr>
+                            <td colspan="4">查無權限</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <button type="button" class="btn btn-secondary" v-on:click="backAddRoleInfo()">返回</button>
             </div>
         </div>

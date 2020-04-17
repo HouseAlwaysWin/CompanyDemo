@@ -5,13 +5,7 @@ Vue.component('validation-observer', VeeValidate.ValidationObserver);
 VeeValidate.localize({
     zh_TW: {
         names: {
-            'memberName': "公司名稱",
-            'memberCode': '代碼',
-            'phone': '聯絡電話',
-            'taxId': '統編',
-            'address': '地址',
-            'webUrl': '網址',
-            'owner': '負責人'
+            roleName: '權限名稱'
         }
     }
 });

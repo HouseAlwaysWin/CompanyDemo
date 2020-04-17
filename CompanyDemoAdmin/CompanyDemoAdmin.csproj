@@ -209,6 +209,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Validators\CompanyValidator.cs" />
     <Compile Include="Models\Validators\EmployeeValidator.cs" />
     <Compile Include="Models\Validators\ProductValidator.cs" />
@@ -364,9 +365,6 @@
     <Content Include="Scripts\veevalidate\locale\zh_CN.json" />
     <Content Include="Scripts\veevalidate\locale\zh_TW.json" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\RoleAdmin\Create.cshtml" />
-    <Content Include="Views\RoleAdmin\Edit.cshtml" />
-    <Content Include="Views\RoleAdmin\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Admin\ShowFrontUsersLogin.cshtml" />
     <Content Include="Views\Admin\ShowBackUsersLogin.cshtml" />

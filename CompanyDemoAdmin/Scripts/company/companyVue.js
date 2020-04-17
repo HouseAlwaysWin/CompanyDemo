@@ -5,14 +5,30 @@ Vue.component('validation-observer', VeeValidate.ValidationObserver);
 VeeValidate.localize({
     zh_TW: {
         names: {
-            'companyName': "公司名稱",
-            'companyCode': '代碼',
-            'phone': '聯絡電話',
-            'taxId': '統編',
-            'address': '地址',
-            'webUrl': '網址',
-            'owner': '負責人'
-        }
+            companyName: "公司名稱",
+            companyCode: '代碼',
+            phone: '聯絡電話',
+            taxId: '統編',
+            address: '地址',
+            webUrl: '網址',
+            owner: '負責人',
+
+            employeeName: '員工名稱',
+            employeePosition: '職位',
+            employeePhone: '連絡電話',
+            email: '電子郵件',
+            birthday: '生日',
+            signInDate: '到職日',
+            resignedDate: '離職日',
+            isResigned: '是否離職',
+            salary: '薪水',
+
+
+            productName: '產品名稱',
+            productType: '產品類型',
+            productPrice: '產品價格',
+            productUnit: '單位'
+        },
     }
 });
 VeeValidate.localize('zh_TW', zh_TW);
@@ -61,9 +77,9 @@ var companyVue = new Vue({
                 employeePosition: '',
                 employeePhone: '',
                 email: '',
-                birthday: '',
-                signInDate: '',
-                resignedDate: '',
+                birthday: null,
+                signInDate: null,
+                resignedDate: null,
                 isResigned: false,
                 salary: 0
             },
@@ -71,6 +87,9 @@ var companyVue = new Vue({
             selectSearchOptions: [
                 { value: 'EmployeeID', name: '員工ID' },
                 { value: 'EmployeeName', name: '員工名稱' },
+                { value: 'EmployeePhone', name: '員工電話' },
+                { value: 'EmployeePosition', name: '員工職位' },
+                { value: 'EmployeeBirthday', name: '員工生日' },
             ],
             searchText: ''
         },
@@ -84,7 +103,7 @@ var companyVue = new Vue({
             data: {
                 productID: 0,
                 productName: '',
-                productTYpe: '',
+                productType: '',
                 price: 0,
                 unit: ''
             },
@@ -281,6 +300,9 @@ var companyVue = new Vue({
                 selectSearchOptions: [
                     { value: 'EmployeeID', name: '員工ID' },
                     { value: 'EmployeeName', name: '員工名稱' },
+                    { value: 'EmployeePhone', name: '員工電話' },
+                    { value: 'EmployeePosition', name: '員工職位' },
+                    { value: 'EmployeeBirthday', name: '員工生日' },
                 ],
                 searchText: ''
             };
@@ -339,7 +361,7 @@ var companyVue = new Vue({
                 $("#employeeInsertUpdate").modal("hide");
 
                 self.loading = false;
-                self.employeeFindByCompanyID();
+                self.employeeFindBy();
             }).catch(function (error) {
                 var response = error.response;
                 console.log(response);
@@ -375,7 +397,7 @@ var companyVue = new Vue({
                                 '你的資料已刪除',
                                 'success'
                             ).then(function (result) {
-                                self.employeeFindByCompanyID();
+                                self.employeeFindBy();
                             });
 
                         }).catch(function (error) {
@@ -424,16 +446,40 @@ var companyVue = new Vue({
                 employeeInfo: true
             };
             self.employeeInfo.mapCompany = data;
-            self.employeeFindByCompanyID();
+            self.employeeFindBy();
         },
 
-        /**根據公司ID尋找員工列表 */
-        employeeFindByCompanyID: function () {
+        /**尋找員工列表 */
+        employeeFindBy: function (page) {
             var self = this;
-            axios.get("/Employee/GetListByCompanyID", {
+            var url = '';
+            switch (self.employeeInfo.selectSearchType) {
+                case 'EmployeeID':
+                    url = '/Employee/FindAllByEmployeeID';
+                    break;
+                case 'EmployeeName':
+                    url = '/Employee/FindAllByEmployeeName';
+                    break;
+                case 'EmployeePhone':
+                    url = '/Employee/FindAllByEmployeePhone';
+                    break;
+                case 'EmployeePosition':
+                    url = '/Employee/FindAllByEmployeePosition';
+                    break;
+                case 'EmployeeBirthday':
+                    url = '/Employee/FindAllByEmployeeBirthday';
+                    self.employeeInfo.searchText = moment(self.employeeInfo.data.birthday).format("YYYY-MM-DD");
+                    break;
+            }
+            if (page) {
+                self.employeeInfo.currentPage = page;
+            }
+            axios.get(url, {
                 params: {
-                    id: self.employeeInfo.mapCompany.CompanyID,
+                    companyID: self.employeeInfo.mapCompany.CompanyID,
+                    searchText: self.employeeInfo.searchText,
                     currentPage: self.employeeInfo.currentPage,
+                    itemsPerPage: self.employeeInfo.itemsPerPage,
                     isDesc: false
                 }
             }).then(function (result) {
@@ -445,6 +491,7 @@ var companyVue = new Vue({
                 console.log(response);
             });
         },
+
         /**---- */
         /** 重設產品資訊 */
         productResetInfo: function () {
@@ -459,7 +506,7 @@ var companyVue = new Vue({
                 data: {
                     productID: 0,
                     productName: '',
-                    productTYpe: '',
+                    productType: '',
                     price: 0,
                     unit: ''
                 },
@@ -478,7 +525,7 @@ var companyVue = new Vue({
             self.productInfo.data = {
                 productID: 0,
                 productName: '',
-                productTYpe: '',
+                productType: '',
                 price: 0,
                 unit: ''
             }
@@ -569,6 +616,7 @@ var companyVue = new Vue({
          */
         productSetFormType: function (type, data) {
             var self = this;
+            self.productResetData;
             self.productInfo.modalType = type;
             console.log(data);
             if (type === 'update') {
