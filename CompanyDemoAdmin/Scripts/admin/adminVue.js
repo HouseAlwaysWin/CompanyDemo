@@ -318,8 +318,8 @@ var memberVue = new Vue({
                             self.loading = false;
                             self.roleResetData();
                             Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
+                                '刪除!',
+                                '已刪除',
                                 'success'
                             ).then(function (result) {
                                 self.roleFindAllRoles();

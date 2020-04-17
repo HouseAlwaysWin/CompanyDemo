@@ -13,7 +13,6 @@ using Microsoft.Owin.Security;
 
 namespace CompanyDemoAdmin.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
 

@@ -11,85 +11,90 @@
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
         <div class="col custom-table-width">
 
-            <div class="input-group col-md-4">
-                <div class="form-group">
-                    <select class="form-control" v-model="productInfo.selectSearchType">
-                        <option v-for="option in productInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
+            @if (User.IsInRole("顯示產品查詢"))
+            {
+                <div class="input-group col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" v-model="productInfo.selectSearchType">
+                            <option v-for="option in productInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="productInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="productFindBy()">
+                        查詢
+                    </button>
                 </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="productInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="productFindBy()">
-                    查詢
-                </button>
-            </div>
+            }
 
             <br />
+            @if (User.IsInRole("顯示產品列表"))
+            {
+                <h4>產品列表</h4>
+                <div class="table-responsive" v-if="productInfo.list.length >0">
+                    <table class="table table-active table-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>隸屬公司</th>
+                                <th>產品ID</th>
+                                <th>產品名稱</th>
+                                <th>產品類型</th>
+                                <th>產品金額</th>
+                                <th>產品單位</th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="(data,index) in productInfo.list">
+                            <tr>
+                                <td>{{ index+1  }}</td>
+                                <td>{{ data.CompanyName}}</td>
+                                <td>{{ data.ProductID }}</td>
+                                <td>{{ data.ProductName }}</td>
+                                <td>
+                                    {{ data.ProductType}}
+                                </td>
+                                <td>
+                                    {{ data.Price}}
+                                </td>
+                                <td>
+                                    {{data.Unit}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-            <h4>產品列表</h4>
-            <div class="table-responsive" v-if="productInfo.list.length >0">
-                <table class="table table-active table-sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>隸屬公司</th>
-                            <th>產品ID</th>
-                            <th>產品名稱</th>
-                            <th>產品類型</th>
-                            <th>產品金額</th>
-                            <th>產品單位</th>
-                        </tr>
-                    </thead>
-                    <tbody v-for="(data,index) in productInfo.list">
-                        <tr>
-                            <td>{{ index+1  }}</td>
-                            <td>{{ data.CompanyName}}</td>
-                            <td>{{ data.ProductID }}</td>
-                            <td>{{ data.ProductName }}</td>
-                            <td>
-                                {{ data.ProductType}}
-                            </td>
-                            <td>
-                                {{ data.Price}}
-                            </td>
-                            <td>
-                                {{data.Unit}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <div v-if="productTotalPages >1">
+                        <el-pagination @@current-change="productFindBy"
+                                       layout="total,prev,pager,next,jumper"
+                                       :current-page.sync="productInfo.currentPage"
+                                       :page-size="productInfo.itemsPerPage"
+                                       :total="productInfo.totalCount"
+                                       :background="true">
+                        </el-pagination>
+                    </div>
+                    <br />
 
-                <div v-if="productTotalPages >1">
-                    <el-pagination @@current-change="productFindBy"
-                                   layout="total,prev,pager,next,jumper"
-                                   :current-page.sync="productInfo.currentPage"
-                                   :page-size="productInfo.itemsPerPage"
-                                   :total="productInfo.totalCount"
-                                   :background="true">
-                    </el-pagination>
                 </div>
-                <br />
-
-            </div>
-            <div v-else>
-                <table class="table table-active table-sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>隸屬公司</th>
-                            <th>產品ID</th>
-                            <th>產品名稱</th>
-                            <th>產品類型</th>
-                            <th>產品金額</th>
-                            <th>產品單位</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="7">查無結果</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div v-else>
+                    <table class="table table-active table-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>隸屬公司</th>
+                                <th>產品ID</th>
+                                <th>產品名稱</th>
+                                <th>產品類型</th>
+                                <th>產品金額</th>
+                                <th>產品單位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7">查無結果</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     </div>
 

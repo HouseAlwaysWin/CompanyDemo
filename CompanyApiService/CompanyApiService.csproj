@@ -215,7 +215,6 @@
     </Compile>
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Validators\CompanyValidator.cs" />
     <Compile Include="Models\Validators\EmployeeValidator.cs" />

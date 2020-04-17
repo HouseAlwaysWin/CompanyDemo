@@ -215,8 +215,7 @@ var companyVue = new Vue({
                             self.loading = false;
                             self.companyResetData();
                             Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
+                                '已刪除',
                                 'success'
                             ).then(function (result) {
                                 self.companyFindBy();

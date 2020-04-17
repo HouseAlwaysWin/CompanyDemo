@@ -13,7 +13,6 @@ using System.Web.Mvc;
 namespace CompanyDemoAdmin.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private UserStore<AppMember, AppRole> _userManager;
