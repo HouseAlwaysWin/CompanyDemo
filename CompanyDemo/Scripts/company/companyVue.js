@@ -230,7 +230,7 @@ var companyVue = new Vue({
                 }
             })
         },
-        /**根據ID查詢公司資料 */
+        /**查詢公司資料 */
         companyFindBy: function (page) {
             var self = this;
             if (page) {
@@ -459,6 +459,7 @@ var companyVue = new Vue({
                     break;
                 case 'EmployeeBirthday':
                     url = '/Employee/FindAllByEmployeeBirthday';
+                    self.employeeInfo.searchText = moment(self.employeeInfo.data.birthday).format("YYYY-MM-DD");
                     break;
             }
             if (page) {

@@ -26,7 +26,7 @@
             <br />
 
             <h4>產品列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="productInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -39,7 +39,7 @@
                             <th>產品單位</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in productInfo.list" v-if="productInfo.list.length >0">
+                    <tbody v-for="(data,index) in productInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.CompanyName}}</td>
@@ -56,9 +56,6 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tbody v-else>
-                        查無結果
-                    </tbody>
                 </table>
 
                 <div v-if="productTotalPages >1">
@@ -72,6 +69,26 @@
                 </div>
                 <br />
 
+            </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>隸屬公司</th>
+                            <th>產品ID</th>
+                            <th>產品名稱</th>
+                            <th>產品類型</th>
+                            <th>產品金額</th>
+                            <th>產品單位</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7">查無結果</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -401,7 +401,7 @@ var companyVue = new Vue({
                     employeeID: data.EmployeeID,
                     employeeName: data.EmployeeName,
                     employeePosition: data.EmployeePosition,
-                    employeePhone: data.employeePhone,
+                    employeePhone: data.EmployeePhone,
                     email: data.Email,
                     birthday: data.BirthdayDate,
                     signInDate: data.SignInDate,

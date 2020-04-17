@@ -127,9 +127,9 @@
                         <div class="modal-header">
                             <h4 class="modal-title" v-if="productInfo.mapCompany">{{ productInfo.mapCompany.CompanyName }}產品列表</h4>
                             <button type="button" class="close" data-dismiss="modal" v-on:click="backCompanyInfo()">&times;</button>
-
                         </div>
                         <div class="modal-body">
+                            <h4>總數:{{ productInfo.list.length }}</h4>
                             <div class="table-responsive" v-if="productInfo.list.length >0">
                                 <table class="table table-active table-sm">
                                     <thead>
@@ -175,7 +175,23 @@
                                 @*<button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>*@
                             </div>
                             <div v-else>
-                                <h4>查無結果</h4>
+                                <table class="table table-active table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>產品ID</th>
+                                            <th>產品名稱</th>
+                                            <th>產品類型</th>
+                                            <th>產品金額</th>
+                                            <th>產品單位</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="6">查無結果</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                         </div>

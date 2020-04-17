@@ -7,7 +7,7 @@
 
     @*會員列表*@
     <br />
-    <h2>ShowUsersLogin</h2>
+    <h2>會員端登入會員</h2>
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
         <div class="col custom-table-width">
 
@@ -27,7 +27,7 @@
 
             <br />
             <h4>前台已登入會員列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="userInfo.list.length>0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -39,7 +39,7 @@
                             <th>會員類型</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in userInfo.list" v-if="userInfo.list.length >0">
+                    <tbody v-for="(data,index) in userInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.Id }}</td>
@@ -48,9 +48,6 @@
                             <td>{{ data.PhoneNumber }}</td>
                             <td>{{ data.MemberType }}</td>
                         </tr>
-                    </tbody>
-                    <tbody v-else>
-                        查無結果
                     </tbody>
                 </table>
 
@@ -66,6 +63,25 @@
                 <br />
 
                 @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberInsertUpdate" v-on:click="memberSetFormType('insert')">新增</button>*@
+            </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>會員ID</th>
+                            <th>會員名稱</th>
+                            <th>Email</th>
+                            <th>電話號碼</th>
+                            <th>會員類型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">查無結果</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

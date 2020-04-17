@@ -7,7 +7,7 @@
 
     @*會員列表*@
     <br />
-    <h2>ShowUsersLogin</h2>
+    <h2>後台控端登入會員</h2>
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)">
         <div class="col custom-table-width">
 
@@ -27,7 +27,7 @@
 
             <br />
             <h4>後台已登入會員列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="userInfo.list.legth >0 ">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -64,27 +64,28 @@
                     </el-pagination>
                 </div>
                 <br />
-
-                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberInsertUpdate" v-on:click="memberSetFormType('insert')">新增</button>*@
+            </div>
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>會員ID</th>
+                            <th>會員名稱</th>
+                            <th>Email</th>
+                            <th>電話號碼</th>
+                            <th>會員類型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="6">查無結果</th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
-    @if (HttpRuntime.Cache["LoggedInUsers"] != null)
-    {
-        var loggedOnUsers = HttpRuntime.Cache["LoggedInUsers"] as Dictionary<string, DateTime>;
-
-        if (loggedOnUsers != null)
-        {<div class="LoggedInUserBox">
-                <span> Online Users: </span>
-                @foreach (var item in loggedOnUsers)
-                {
-                    <a href="/Users/Panel/UserProfile/@item.Key">@item.Key</a>
-                    @:
-                }
-            </div>
-        }
-    }
 
 </div>
 @section Scripts {

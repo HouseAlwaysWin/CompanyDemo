@@ -7,97 +7,6 @@
 
 <div class="container" id="companyVue">
 
-
-    <!-- The Modal -->
-    <div class="modal" id="insertUpdate">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <validation-observer v-slot="{ handleSubmit,reset }" ref="companyModalRef">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title" v-if="companyInfo.modalType === 'insert'">新增</h4>
-                        <h4 class="modal-title" v-else>更新公司{{ companyInfo.data.companyName}}</h4>
-                        <button type="button" class="close" data-dismiss="modal" v-on:click="companyResetData">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-
-                        <form @@submit.prevent="handleSubmit(companySubmitForm)">
-                            <div class="form-group">
-                                <label for="companyName">公司名稱</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="companyName" v-model="companyInfo.data.companyName" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="companyCode">代碼</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="companyCode" v-model="companyInfo.data.companyCode" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="phone">聯絡電話</label>
-                                <validation-provider rules="required|min:6|numeric" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="phone" v-model="companyInfo.data.phone" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="taxId">統編</label>
-                                <validation-provider rules="required|length:8|numeric" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="taxId" v-model="companyInfo.data.taxId" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="address">地址</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="address" v-model="companyInfo.data.address" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="webUrl">網址</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="webUrl" v-model="companyInfo.data.webUrl" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="owner">負責人</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="owner" v-model="companyInfo.data.owner" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-                            <button class="btn btn-primary" type="submit">送出</button>
-                        </form>
-                    </div>
-
-                </validation-observer>
-
-            </div>
-        </div>
-    </div>
-
-
-
     @*公司列表*@
     <br />
     <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.companyInfo">
@@ -119,7 +28,7 @@
 
             <br />
             <h4>公司列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="companyInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -130,10 +39,9 @@
                                 詳細
                             </th>
                             <th>職員列表</th>
-                            @*<th>產品列表</th>*@
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in companyInfo.list" v-if="companyInfo.list.length >0">
+                    <tbody v-for="(data,index) in companyInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.CompanyID }}</td>
@@ -146,9 +54,6 @@
                             <td>
                                 <button type="button" class="btn btn-success" v-on:click="employeeShowBtn(data)">顯示會員列表</button>
                             </td>
-                            @*<td>
-                                    <button type="button" class="btn btn-success" v-on:click="productShowBtn(data)">顯示產品列表</button>
-                                </td>*@
                         </tr>
                         <tr class="collapse" :id="'company_'+data.CompanyID">
                             <td colspan="7">
@@ -168,11 +73,6 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td>查無結果</td>
-                        </tr>
-                    </tbody>
                 </table>
 
                 <div v-if="companyTotalPages >1">
@@ -186,103 +86,26 @@
                 </div>
                 <br />
 
-                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insertUpdate" v-on:click="companySetFormType('insert')">新增</button>*@
             </div>
-        </div>
-    </div>
-
-
-
-    <!-- The Modal -->
-    <div class="modal" id="employeeInsertUpdate">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <validation-observer v-slot="{ handleSubmit,reset }" ref="employeeModalRef">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title" v-if="employeeInfo.modalType === 'insert'">新增員工</h4>
-                        <h4 class="modal-title" v-else>更新員工{{ companyInfo.data.companyName}}</h4>
-                        <button type="button" class="close" data-dismiss="modal" v-on:click="employeeResetData">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-
-                        <form @@submit.prevent="handleSubmit(employeeSubmitData)">
-
-                            <div class="form-group">
-                                <label for="employeeName">員工名稱</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="employeeName" v-model="employeeInfo.data.employeeName" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="email" v-model="employeeInfo.data.email" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="birthday">生日</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <el-date-picker v-model="employeeInfo.data.birthday" type="date" placeholder="請選擇日期">
-                                    </el-date-picker>
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="signInDate">到職日</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <el-date-picker v-model="employeeInfo.data.signInDate" type="date" placeholder="請選擇日期">
-                                    </el-date-picker>
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="resignedDate">離職日</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <el-date-picker v-model="employeeInfo.data.resignedDate" type="date" placeholder="請選擇日期">
-                                    </el-date-picker>
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="isResigned">是否離職</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="checkbox" id="isResigned" v-model="employeeInfo.data.isResigned" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="salary">薪水</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="salary" v-model="employeeInfo.data.salary" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-                            <button class="btn btn-primary" type="submit">送出</button>
-                        </form>
-                    </div>
-
-                </validation-observer>
-
+            <div v-else>
+                <table class="table table-active table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>公司ID</th>
+                            <th>公司名稱</th>
+                            <th>
+                                詳細
+                            </th>
+                            <th>職員列表</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -308,7 +131,7 @@
             <br />
 
             <h4 v-if="employeeInfo.mapCompany">{{ employeeInfo.mapCompany.CompanyName }}員工列表</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" v-if="employeeInfo.list.length >0">
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
@@ -316,11 +139,9 @@
                             <th>員工ID</th>
                             <th>員工名稱</th>
                             <th>詳細</th>
-                            @*<th>更新</th>*@
-                            @*<th>刪除</th>*@
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in employeeInfo.list" v-if="employeeInfo.list.length >0">
+                    <tbody v-for="(data,index) in employeeInfo.list">
                         <tr>
                             <td>{{ index+1  }}</td>
                             <td>{{ data.EmployeeID }}</td>
@@ -330,19 +151,13 @@
                                     顯示詳細
                                 </button>
                             </td>
-                            @*<td>
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#employeeInsertUpdate" v-on:click="employeeSetFormType('update',data)">更新員工資料</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger" v-on:click="employeeDeleteData(data)">刪除</button>
-                                </td>*@
                         </tr>
                         <tr class="collapse" :id="'employee_'+data.EmployeeID">
                             <td colspan="7">
                                 <div class="row">
                                     <div class="col-sm">
                                         <label>Email:</label><span>{{ data.Email }}</span><br />
-                                        <label>Phone:</label><span>{{ data.EmployeePhone }}</span><br />
+                                        <label>電話:</label><span>{{ data.EmployeePhone }}</span><br />
                                         <label>薪水:</label><span>{{ data.Salary }}</span><br />
                                         <label>是否離職:</label><span>{{ data.IsResigned?'是':'否' }}</span><br />
                                     </div>
@@ -354,11 +169,6 @@
                                     </div>
                                 </div>
                             </td>
-                        </tr>
-                    </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td>查無結果</td>
                         </tr>
                     </tbody>
                 </table>
@@ -374,149 +184,24 @@
                 </div>
                 <br />
 
-                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#employeeInsertUpdate" v-on:click="employeeSetFormType('insert')">新增會員</button>*@
                 <button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>
             </div>
-        </div>
-    </div>
-
-
-    @*產品新增更新視窗*@
-    <!-- The Modal -->
-    <div class="modal" id="productInsertUpdate">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <validation-observer v-slot="{ handleSubmit,reset }" ref="productModalRef">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title" v-if="productInfo.modalType === 'insert'">新增產品</h4>
-                        <h4 class="modal-title" v-else>更新產品{{ productInfo.data.productName}}</h4>
-                        <button type="button" class="close" data-dismiss="modal" v-on:click="productResetData">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-
-                        <form @@submit.prevent="handleSubmit(productSubmitData)">
-
-                            <div class="form-group">
-                                <label for="productName">產品名稱</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="productName" v-model="productInfo.data.productName" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="productType">產品類型</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="productType" v-model="productInfo.data.productType" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="productPrice">產品價格</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="productPrice" v-model="productInfo.data.price" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="productUnit">產品單位</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
-                                    <input type="text" class="form-control" id="productUnit" v-model="productInfo.data.unit" />
-                                    <span class="text-danger">{{ errors[0]}}</span>
-
-                                </validation-provider>
-                            </div>
-                            <button class="btn btn-primary" type="submit">送出</button>
-                        </form>
-                    </div>
-
-                </validation-observer>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="row" v-cloak v-loading.fullscreen.lock="loading" element-loading-text="讀取中…" element-loading-background="rgba(0,0,0,0.1)" v-show="showArea.productInfo">
-        <div class="col custom-table-width">
-
-            <div class="input-group col-md-4">
-                <div class="form-group">
-                    <select class="form-control" v-model="productInfo.selectSearchType">
-                        <option v-for="option in productInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="productInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="searchBy()">
-                    查詢
-                </button>
-            </div>
-
-            <br />
-
-            <h4 v-if="productInfo.mapCompany">{{ productInfo.mapCompany.CompanyName }}產品列表</h4>
-            <div class="table-responsive">
+            <div v-else>
                 <table class="table table-active table-sm">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>產品ID</th>
-                            <th>產品名稱</th>
-                            <th>產品類型</th>
-                            <th>產品金額</th>
-                            <th>產品單位</th>
-                            @*<th>更新</th>
-                                <th>刪除</th>*@
+                            <th>員工ID</th>
+                            <th>員工名稱</th>
+                            <th>詳細</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in productInfo.list" v-if="productInfo.list.length >0">
+                    <tbody>
                         <tr>
-                            <td>{{ index+1  }}</td>
-                            <td>{{ data.ProductID }}</td>
-                            <td>{{ data.ProductName }}</td>
-                            <td>
-                                {{ data.ProductType}}
-                            </td>
-                            <td>
-                                {{ data.Price}}
-                            </td>
-                            <td>
-                                {{data.Unit}}
-                            </td>
-                            @*<td>
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#productInsertUpdate" v-on:click="productSetFormType('update',data)">更新產品資料</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger" v-on:click="productDeleteData(data)">刪除</button>
-                                </td>*@
+                            <td colspan="4">查無結果</td>
                         </tr>
                     </tbody>
-                    <tbody v-else>
-                        查無結果
-                    </tbody>
                 </table>
-
-                <div v-if="productTotalPages >1">
-                    <el-pagination @@current-change="productFindByCompanyID"
-                                   layout="total,prev,pager,next,jumper"
-                                   :current-page.sync="productInfo.currentPage"
-                                   :page-size="productInfo.itemsPerPage"
-                                   :total="productInfo.totalCount"
-                                   :background="true">
-                    </el-pagination>
-                </div>
-                <br />
-
-                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productInsertUpdate" v-on:click="productSetFormType('insert')">新增產品</button>*@
-                <button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>
             </div>
         </div>
     </div>
