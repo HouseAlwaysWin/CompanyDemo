@@ -57,11 +57,6 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td>查無結果</td>
-                        </tr>
-                    </tbody>
                 </table>
 
                 <div v-if="memberTotalPages >1">
@@ -185,11 +180,6 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tbody v-else>
-                        <tr>
-                            <td>查無結果</td>
-                        </tr>
-                    </tbody>
                 </table>
 
                 <div v-if="roleTotalPages >1">
@@ -234,17 +224,17 @@
 
             @*<div class="input-group col-md-6">
 
-                <br />
-                <div class="form-group">
-                    <select class="form-control" v-model="roleInfo.selectSearchType">
-                        <option v-for="option in roleInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="roleInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
-                    查詢
-                </button>
-            </div>*@
+                    <br />
+                    <div class="form-group">
+                        <select class="form-control" v-model="roleInfo.selectSearchType">
+                            <option v-for="option in roleInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="roleInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
+                        查詢
+                    </button>
+                </div>*@
 
             <br />
             <h4 v-if="roleInfo.mapMember">{{ roleInfo.mapMember.UserName}}擁有的權限列表</h4>
@@ -317,17 +307,17 @@
 
             @*<div class="input-group col-md-6">
 
-                <br />
-                <div class="form-group">
-                    <select class="form-control" v-model="roleInfo.selectSearchType">
-                        <option v-for="option in roleInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
-                    </select>
-                </div>
-                <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="roleInfo.searchText">
-                <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
-                    查詢
-                </button>
-            </div>*@
+                    <br />
+                    <div class="form-group">
+                        <select class="form-control" v-model="roleInfo.selectSearchType">
+                            <option v-for="option in roleInfo.selectSearchOptions" v-bind:value="option.value">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <input class="form-control py-2" type="search" value="search" placeholder="查詢關鍵字" v-model="roleInfo.searchText">
+                    <button class="btn btn-primary btn-block" type="button" v-on:click="roleFindByID()">
+                        查詢
+                    </button>
+                </div>*@
 
             <br />
             <h4 v-if="roleInfo.mapMember">{{ roleInfo.mapMember.UserName}}未擁有的權限列表</h4>

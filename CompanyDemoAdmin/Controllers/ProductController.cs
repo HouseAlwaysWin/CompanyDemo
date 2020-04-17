@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace CompanyDemoAdmin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : BaseController
     {
         // GET: Product

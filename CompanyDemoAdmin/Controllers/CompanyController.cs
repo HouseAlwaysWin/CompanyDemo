@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace CompanyDemoAdmin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CompanyController : BaseController
     {
 
@@ -24,6 +25,7 @@ namespace CompanyDemoAdmin.Controllers
         {
             try
             {
+                var url = $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}";
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
                     $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}");
                 return Jsend(result);

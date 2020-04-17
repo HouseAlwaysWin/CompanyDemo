@@ -13,7 +13,7 @@ using System.Web.Mvc;
 namespace CompanyDemoAdmin.Controllers
 {
 
-    //[Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private UserStore<AppMember, AppRole> _userManager;
@@ -29,7 +29,6 @@ namespace CompanyDemoAdmin.Controllers
 
         public ActionResult Index()
         {
-
             return View();
         }
 
