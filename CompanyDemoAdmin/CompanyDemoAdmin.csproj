@@ -277,6 +277,7 @@
     <Content Include="Scripts\sweetalert2\sweetalert2.all.min.js" />
     <Content Include="Scripts\sweetalert2\sweetalert2.js" />
     <Content Include="Scripts\sweetalert2\sweetalert2.min.js" />
+    <Content Include="Scripts\veevalidate\customize-rule.js" />
     <Content Include="Scripts\veevalidate\locale\zh_TW.js" />
     <Content Include="Scripts\veevalidate\vee-validate.full.js" />
     <Content Include="Scripts\veevalidate\vee-validate.full.min.js" />

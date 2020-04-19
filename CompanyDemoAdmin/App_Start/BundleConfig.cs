@@ -24,8 +24,12 @@ namespace CompanyDemoAdmin
                        "~/Scripts/element-ui/element-ui.js",
                        "~/Scripts/element-ui/locale/zh_TW.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/veevalidate-customize-rule").Include(
+                       "~/Scripts/veevalidate/customize-rule.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/company").Include(
-                "~/Scripts/company/companyVue.js"));
+                            "~/Scripts/company/companyVue.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/admin").Include(
               "~/Scripts/admin/adminVue.js"));

@@ -16,6 +16,8 @@ namespace CompanyApiService.Services.Interfaces
         Jsend<CompanyT> FindComapnyByName(string name);
 
         Jsend<CompanyT> FindCompanyByID(int Id);
+        Jsend<CompanyT> FindComapnyByCompanyCode(string code);
+        Jsend<CompanyT> FindComapnyByTaxID(string id);
 
         Jsend<List<ValidationFailure>> UpdateCompany(CompanyModel data);
         Jsend<List<ValidationFailure>> InsertUpdateCompany(CompanyModel data);

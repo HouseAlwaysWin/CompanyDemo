@@ -33,7 +33,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
             }
         }
 
@@ -49,7 +49,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
             }
         }
 
@@ -66,7 +66,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
             }
         }
 
@@ -83,7 +83,56 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetCompanyList occured error"));
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult FindComapnyByName(string name)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
+                    $"{apiDomain}/api/Company/FindComapnyByName?name={name}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FindComapnyByCompanyCode(string code)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
+                    $"{apiDomain}/api/Company/FindComapnyByCompanyCode?code={code}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult FindComapnyByTaxID(string id)
+        {
+            try
+            {
+                var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
+                    $"{apiDomain}/api/Company/FindComapnyByTaxID?id={id}");
+                return Jsend(result);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("取得公司發生錯誤"));
             }
         }
 
@@ -106,6 +155,7 @@ namespace CompanyDemoAdmin.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
+                    return Jsend(JsendResult.Error("新增公司發生錯誤"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -131,7 +181,7 @@ namespace CompanyDemoAdmin.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
-                    return Jsend(JsendResult.Error("Add Company occured error"));
+                    return Jsend(JsendResult.Error("取得公司發生錯誤"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -141,9 +191,17 @@ namespace CompanyDemoAdmin.Controllers
         [HttpPost]
         public ActionResult DeleteCompanyByID(int id)
         {
-            var data = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
-                            $"{apiDomain}/api/Company", new CompanyModel { CompanyID = id }, "DELETE");
-            return Jsend(data);
+            try
+            {
+                var data = RequestHelper.MakePostWebRequest<CompanyModel, Jsend<CompanyModel>>(
+                                $"{apiDomain}/api/Company", new CompanyModel { CompanyID = id }, "DELETE");
+                return Jsend(data);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("刪除公司發生錯誤"));
+            }
         }
 
 

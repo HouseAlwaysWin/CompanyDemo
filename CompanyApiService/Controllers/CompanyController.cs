@@ -3,6 +3,8 @@ using CompanyApiService.Models.Filters;
 using CompanyApiService.Services.Interfaces;
 using CompanyDemo.Domain.DTOs;
 using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace CompanyApiService.Controllers
@@ -29,6 +31,8 @@ namespace CompanyApiService.Controllers
             }
 
             string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
+
             return BadRequest(resultString);
         }
 
@@ -51,6 +55,50 @@ namespace CompanyApiService.Controllers
         public IHttpActionResult GetCompanyListByName(int current, int itemsPerPage, bool isDesc, string searchText)
         {
             var result = _companyService.FindCompanyListByName(current, itemsPerPage, isDesc, searchText);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+        [HttpGet]
+        [Route("api/Company/FindComapnyByName")]
+        public IHttpActionResult FindComapnyByName(string name)
+        {
+            var result = _companyService.FindComapnyByName(name);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+
+        [HttpGet]
+        [Route("api/Company/FindComapnyByCompanyCode")]
+        public IHttpActionResult FindComapnyByCompanyCode(string code)
+        {
+            var result = _companyService.FindComapnyByCompanyCode(code);
+            if (result.status == EnumJsendStatus.success.ToString())
+            {
+                return Ok(result);
+            }
+
+            string resultString = JsonConvert.SerializeObject(result, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            return BadRequest(resultString);
+        }
+
+
+        [HttpGet]
+        [Route("api/Company/FindComapnyByTaxID")]
+        public IHttpActionResult FindComapnyByTaxID(string id)
+        {
+            var result = _companyService.FindComapnyByTaxID(id);
             if (result.status == EnumJsendStatus.success.ToString())
             {
                 return Ok(result);

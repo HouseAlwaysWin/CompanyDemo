@@ -178,6 +178,22 @@ namespace DBAccess.Repositories
                           .FirstOrDefault();
         }
 
+        public CompanyT FindByCompanyCode(string code)
+        {
+            return Connection.Query<CompanyT>(
+                          "SELECT * FROM CompanyT WHERE CompanyCode = @CompanyCode",
+                          param: new { CompanyCode = code }, transaction: Transaction)
+                          .FirstOrDefault();
+        }
+
+        public CompanyT FindByTaxID(string id)
+        {
+            return Connection.Query<CompanyT>(
+                          "SELECT * FROM CompanyT WHERE TaxID = @TaxID",
+                          param: new { TaxID = id }, transaction: Transaction)
+                          .FirstOrDefault();
+        }
+
         public void Update(CompanyT entity)
         {
             Connection.Execute(

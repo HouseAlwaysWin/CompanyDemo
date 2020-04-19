@@ -112,6 +112,41 @@ namespace CompanyApiService.Services
             return JsendResult<CompanyT>.Success(result);
         }
 
+        public Jsend<CompanyT> FindComapnyByCompanyCode(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code)) return JsendResult<CompanyT>.Error("name can't be null");
+            CompanyT result = null;
+            try
+            {
+                result = _uow.CompanyTRepository.FindByCompanyCode(code);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<CompanyT>.Error("Queay data occured error");
+            }
+
+            return JsendResult<CompanyT>.Success(result);
+        }
+        public Jsend<CompanyT> FindComapnyByTaxID(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return JsendResult<CompanyT>.Error("name can't be null");
+            CompanyT result = null;
+            try
+            {
+                result = _uow.CompanyTRepository.FindByTaxID(id);
+                _uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                _logger.Error(ex);
+                return JsendResult<CompanyT>.Error("Queay data occured error");
+            }
+
+            return JsendResult<CompanyT>.Success(result);
+        }
+
         public Jsend<CompanyT> FindCompanyByID(int id)
         {
             CompanyT result = null;

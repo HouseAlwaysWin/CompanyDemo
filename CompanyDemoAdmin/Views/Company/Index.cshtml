@@ -28,7 +28,7 @@
                         <form @@submit.prevent="handleSubmit(companySubmitForm)">
                             <div class="form-group">
                                 <label for="companyName">公司名稱</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
+                                <validation-provider rules="required|isUniqueCompany" v-slot="{ errors }">
                                     <input type="text" class="form-control" id="companyName" v-model="companyInfo.data.companyName" />
                                     <span class="text-danger">{{ errors[0]}}</span>
                                 </validation-provider>
@@ -36,7 +36,7 @@
 
                             <div class="form-group">
                                 <label for="companyCode">代碼</label>
-                                <validation-provider rules="required" v-slot="{ errors }">
+                                <validation-provider rules="required|isUniqueCompanyCode" v-slot="{ errors }">
                                     <input type="text" class="form-control" id="companyCode" v-model="companyInfo.data.companyCode" />
                                     <span class="text-danger">{{ errors[0]}}</span>
                                 </validation-provider>
@@ -53,7 +53,7 @@
 
                             <div class="form-group">
                                 <label for="taxId">統編</label>
-                                <validation-provider rules="required|length:8|numeric" v-slot="{ errors }">
+                                <validation-provider rules="required|length:8|numeric|isUniqueTaxID" v-slot="{ errors }">
                                     <input type="text" class="form-control" id="taxId" v-model="companyInfo.data.taxId" />
                                     <span class="text-danger">{{ errors[0]}}</span>
 
@@ -604,5 +604,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/sweetalert2")
     @Scripts.Render("~/bundles/vue")
+    @Scripts.Render("~/bundles/veevalidate-customize-rule")
     @Scripts.Render("~/bundles/company")
 }

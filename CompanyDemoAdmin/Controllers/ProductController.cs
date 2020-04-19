@@ -33,7 +33,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetProductList occured error"));
+                return Jsend(JsendResult.Error("取得產品發生錯誤"));
             }
         }
 
@@ -49,7 +49,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetProductList occured error"));
+                return Jsend(JsendResult.Error("取得產品發生錯誤"));
             }
         }
 
@@ -66,7 +66,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetProductList occured error"));
+                return Jsend(JsendResult.Error("取得產品發生錯誤"));
             }
         }
 
@@ -83,7 +83,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetProductList occured error"));
+                return Jsend(JsendResult.Error("取得產品發生錯誤"));
             }
         }
 
@@ -123,6 +123,7 @@ namespace CompanyDemoAdmin.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
+                    return Jsend(JsendResult.Error("新增產品發生錯誤"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -148,6 +149,7 @@ namespace CompanyDemoAdmin.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
+                    return Jsend(JsendResult.Error("更新產品發生錯誤"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -157,9 +159,17 @@ namespace CompanyDemoAdmin.Controllers
         [HttpPost]
         public ActionResult DeleteProductByID(int id)
         {
-            var data = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                            $"https://localhost:44319/api/Product", new ProductModel { ProductID = id }, "DELETE");
-            return Jsend(data);
+            try
+            {
+                var data = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
+                                $"https://localhost:44319/api/Product", new ProductModel { ProductID = id }, "DELETE");
+                return Jsend(data);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("刪除產品發生錯誤"));
+            }
         }
     }
 }

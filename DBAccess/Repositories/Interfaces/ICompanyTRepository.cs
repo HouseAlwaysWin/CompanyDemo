@@ -14,6 +14,8 @@ namespace DBAccess.Repositories.Interfaces
         OneToManyMap<CompanyT> FindAllByName(int currentPage, int itemsPerPage, string searchText, bool isDesc = false);
         CompanyT FindByID(int id);
         CompanyT FindByName(string name);
+        CompanyT FindByCompanyCode(string code);
+        CompanyT FindByTaxID(string id);
         void Update(CompanyT entity);
     }
 }

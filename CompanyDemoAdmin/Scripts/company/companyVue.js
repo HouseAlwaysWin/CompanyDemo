@@ -2,6 +2,8 @@
 
 Vue.component('validation-provider', VeeValidate.ValidationProvider);
 Vue.component('validation-observer', VeeValidate.ValidationObserver);
+
+
 VeeValidate.localize({
     zh_TW: {
         names: {
@@ -171,7 +173,30 @@ var companyVue = new Vue({
                 self.loading = false;
                 self.companyFindByID();
             }).catch(function (error) {
-                console.log(error);
+                console.log(error.response.data);
+                var response = error.response.data;
+                switch (response.status) {
+                    case 'error':
+                        Swal.fire(
+                            '錯誤!',
+                            response.message,
+                            'error'
+                        );
+                        break;
+                    case 'failed':
+                        Swal.fire(
+                            '錯誤!',
+                            response.message,
+                            'error'
+                        );
+                        break;
+                    default:
+                        Swal.fire(
+                            '錯誤!',
+                            '發生錯誤',
+                            'error'
+                        );
+                }
                 self.loading = false;
             })
 
@@ -184,7 +209,6 @@ var companyVue = new Vue({
         companySetFormType: function (type, data) {
             var self = this;
             self.companyInfo.modalType = type;
-            console.log(data);
             if (type === 'update') {
                 self.companyInfo.data = {
                     companyID: data.CompanyID,
@@ -227,8 +251,8 @@ var companyVue = new Vue({
                             self.loading = false;
                             self.companyResetData();
                             Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
+                                '刪除!',
+                                '已刪除',
                                 'success'
                             ).then(function (result) {
                                 self.companyFindByID();
@@ -269,7 +293,7 @@ var companyVue = new Vue({
                     self.loading = false;
 
                 }).catch(function (error) {
-                    console.log(error);
+                    console.log(error.data.data);
                     self.loading = false;
                 });
 

@@ -36,7 +36,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -52,7 +52,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -69,7 +69,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -86,7 +86,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetEmployeeList occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -103,7 +103,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("GetListByCompanyID occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -120,7 +120,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("FindAllByEmployeeName occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -136,7 +136,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("FindAllByEmployeeID occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -152,7 +152,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("FindAllByEmployeePhone occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -168,7 +168,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("FindAllByEmployeePosition occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -184,7 +184,7 @@ namespace CompanyDemoAdmin.Controllers
             catch (WebException ex)
             {
                 Console.WriteLine(ex);
-                return Jsend(JsendResult.Error("FindAllByEmployeeBirthday occured error"));
+                return Jsend(JsendResult.Error("取得員工發生錯誤"));
             }
         }
 
@@ -207,6 +207,7 @@ namespace CompanyDemoAdmin.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
+                    return Jsend(JsendResult.Error("新增員工發生錯誤"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -232,6 +233,7 @@ namespace CompanyDemoAdmin.Controllers
                 catch (WebException ex)
                 {
                     Console.WriteLine(ex);
+                    return Jsend(JsendResult.Error("更新員工發生錯誤"));
                 }
             }
             List<ValidationFailure> failures = validateResult.Errors.ToList();
@@ -241,9 +243,17 @@ namespace CompanyDemoAdmin.Controllers
         [HttpPost]
         public ActionResult DeleteEmployeeByID(int id)
         {
-            var data = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
-                            $"{apiDomain}/api/Employee", new EmployeeModel { EmployeeID = id }, "DELETE");
-            return Jsend(data);
+            try
+            {
+                var data = RequestHelper.MakePostWebRequest<EmployeeModel, Jsend<EmployeeModel>>(
+                                $"{apiDomain}/api/Employee", new EmployeeModel { EmployeeID = id }, "DELETE");
+                return Jsend(data);
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine(ex);
+                return Jsend(JsendResult.Error("刪除員工發生錯誤"));
+            }
         }
     }
 }
