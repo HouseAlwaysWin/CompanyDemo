@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace CompanyAdmin.Controllers
 {
+    [Authorize]
     public class ProductController : BaseController
     {
         private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");

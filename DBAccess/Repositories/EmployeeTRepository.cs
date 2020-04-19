@@ -250,10 +250,6 @@ namespace DBAccess.Repositories
             {
                 sqlString = string.Format(sqlString, @"WHERE E.EmployeeName = @EmployeeName {0}");
             }
-            else
-            {
-                sqlString = string.Format(sqlString, string.Empty);
-            }
 
             if (!string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(searchText))
             {
@@ -338,11 +334,6 @@ namespace DBAccess.Repositories
                 }
                 sqlString = string.Format(sqlString, @"WHERE E.EmployeeID = @EmployeeID {0}");
             }
-            else
-            {
-                sqlString = string.Format(sqlString, string.Empty);
-            }
-
 
 
             if (!string.IsNullOrEmpty(companyID) && isInt)
@@ -417,10 +408,6 @@ namespace DBAccess.Repositories
             {
                 sqlString = string.Format(sqlString, @"WHERE E.EmployeePhone = @EmployeePhone {0}");
             }
-            else
-            {
-                sqlString = string.Format(sqlString, string.Empty);
-            }
 
             if (!string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(searchText))
             {
@@ -494,10 +481,6 @@ namespace DBAccess.Repositories
             {
                 sqlString = string.Format(sqlString, @"WHERE E.EmployeePosition = @EmployeePosition {0}");
             }
-            else
-            {
-                sqlString = string.Format(sqlString, string.Empty);
-            }
 
             if (!string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(searchText))
             {
@@ -570,10 +553,6 @@ namespace DBAccess.Repositories
             if (!string.IsNullOrEmpty(searchText))
             {
                 sqlString = string.Format(sqlString, @"WHERE E.BirthdayDate = @BirthdayDate {0}");
-            }
-            else
-            {
-                sqlString = string.Format(sqlString, string.Empty);
             }
 
             if (!string.IsNullOrEmpty(companyID) && !string.IsNullOrEmpty(searchText))

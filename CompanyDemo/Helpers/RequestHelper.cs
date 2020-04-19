@@ -19,6 +19,7 @@ namespace CompanyDemo.Helpers
             {
                 wc.Encoding = Encoding.UTF8;
                 wc.Headers[HttpRequestHeader.ContentType] = contentType;
+                wc.Credentials = new NetworkCredential("martin", "123456");
                 var result = wc.DownloadString(url);
                 return JsonConvert.DeserializeObject<T>(result);
             }
@@ -30,6 +31,7 @@ namespace CompanyDemo.Helpers
             {
                 wc.Encoding = Encoding.UTF8;
                 wc.Headers[HttpRequestHeader.ContentType] = contentType;
+                wc.Credentials = new NetworkCredential("martin", "123456");
                 var jsonData = JsonConvert.SerializeObject(data);
                 var result = wc.UploadString(url, method, jsonData);
                 return JsonConvert.DeserializeObject<O>(result);

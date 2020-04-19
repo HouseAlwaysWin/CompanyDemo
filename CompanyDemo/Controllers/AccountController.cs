@@ -114,15 +114,15 @@ namespace CompanyDemo.Controllers
                         HttpRuntime.Cache["LoggedInUsers"] = loggedInUsers;
                     }
                     var userInfo = UserManager.FindByEmailAsync(model.Email).Result;
-                    if (userInfo.MemberType != 1)
-                    {
-                        _userStore.SetLoginState(User.Identity.Name, false);
-                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                        var loggedInUsers = (Dictionary<string, DateTime>)HttpRuntime.Cache["LoggedInUsers"];
-                        loggedInUsers.Remove(model.Email);
-                        ModelState.AddModelError("", "登入嘗試失試。");
-                        return View(model);
-                    }
+                    //if (userInfo.MemberType != 1)
+                    //{
+                    //    _userStore.SetLoginState(User.Identity.Name, false);
+                    //    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    //    var loggedInUsers = (Dictionary<string, DateTime>)HttpRuntime.Cache["LoggedInUsers"];
+                    //    loggedInUsers.Remove(model.Email);
+                    //    ModelState.AddModelError("", "登入嘗試失試。");
+                    //    return View(model);
+                    //}
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

@@ -28,7 +28,8 @@
         @Html.AntiForgeryToken()
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                @Html.ActionLink("您好 " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @*@Html.ActionLink("您好 " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                您好 @User.Identity.GetUserName()  !
             </li>
             <li class="nav-item">
                 <a href="javascript:document.getElementById('logoutForm').submit()">登出</a>

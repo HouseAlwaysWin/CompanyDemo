@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace EmployeeDemo.Controllers
 {
+    [Authorize]
     public class EmployeeController : BaseController
     {
         private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");

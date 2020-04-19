@@ -429,6 +429,7 @@ namespace DBAccess.Dapper.Identity
                 throw new ArgumentNullException("user");
             }
 
+
             List<string> roles = userRolesTable.FindByUserId(user.Id);
             {
                 if (roles != null)

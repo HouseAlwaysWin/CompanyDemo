@@ -15,6 +15,7 @@ using System.Web.Mvc;
 
 namespace CompanyDemo.Controllers
 {
+    [Authorize]
     public class CompanyController : BaseController
     {
         private ApplicationUserManager _userManager;

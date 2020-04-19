@@ -67,6 +67,15 @@ var memberVue = new Vue({
         self.roleFindAllRoles();
     },
     methods: {
+        memeberTypeText: function (type) {
+            var self = this;
+            switch (type) {
+                case 1:
+                    return "前台會員";
+                case 2:
+                    return "後台會員";
+            }
+        },
         /**重設會員資料狀態 */
         memberResetData: function () {
             var self = this;

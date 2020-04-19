@@ -38,7 +38,7 @@
                             <th>電話號碼</th>
                             <th>會員類型</th>
                             <th>顯示擁有權限</th>
-                            <th>刪除</th>
+                            @*<th>刪除</th>*@
                         </tr>
                     </thead>
                     <tbody v-for="(data,index) in memberInfo.list">
@@ -48,13 +48,13 @@
                             <td>{{ data.Username }}</td>
                             <td>{{ data.Email }}</td>
                             <td>{{ data.PhoneNumber }}</td>
-                            <td>{{ data.MemberType }}</td>
+                            <td>{{ memeberTypeText(data.MemberType) }}</td>
                             <td>
                                 <button type="button" class="btn btn-success" v-on:click="roleShowBtn(data)">顯示權限列表</button>
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-danger" v-on:click="memberDeleteData(data)">刪除</button>
-                            </td>
+                            @*<td>
+                                    <button type="button" class="btn btn-danger" v-on:click="memberDeleteData(data)">刪除</button>
+                                </td>*@
                         </tr>
                     </tbody>
                 </table>
@@ -367,7 +367,7 @@
                             <th>加入</th>
                         </tr>
                     </thead>
-                    <tbody v-for="(data,index) in roleInfo.list">
+                    <tbody>
                         <tr>
                             <td colspan="4">查無權限</td>
                         </tr>

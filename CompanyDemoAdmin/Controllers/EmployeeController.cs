@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace CompanyDemoAdmin.Controllers
 {
+    [Authorize]
     public class EmployeeController : BaseController
     {
         private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");

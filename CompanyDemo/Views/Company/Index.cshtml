@@ -114,6 +114,10 @@
                     </table>
                 </div>
             }
+            else
+            {
+                <h1>權限不足</h1>
+            }
         </div>
     </div>
 
@@ -142,7 +146,7 @@
 
                 <br />
 
-                @if (User.IsInRole(""))
+                @if (User.IsInRole("顯示員工列表"))
                 {
                     <h4 v-if="employeeInfo.mapCompany">{{ employeeInfo.mapCompany.CompanyName }}員工列表</h4>
                     <div class="table-responsive" v-if="employeeInfo.list.length >0">
@@ -220,6 +224,10 @@
 
                         <button type="button" class="btn btn-secondary" v-on:click="backCompanyInfo()">返回</button>
                     </div>
+                }
+                else
+                {
+                    <h1>權限不足</h1>
                 }
             </div>
         </div>

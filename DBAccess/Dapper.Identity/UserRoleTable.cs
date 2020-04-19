@@ -23,6 +23,8 @@ namespace DBAccess.Dapper.Identity
             db = database;
         }
 
+
+
         /// <summary>
         /// Returns a list of user's roles By id
         /// </summary>

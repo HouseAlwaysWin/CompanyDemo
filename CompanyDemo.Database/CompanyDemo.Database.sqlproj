@@ -71,4 +71,12 @@
     <Build Include="dbo\Table\ProductT.sql" />
     <Build Include="dbo\Table\Role.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\Table\InitialDB.sql" />
+  </ItemGroup>
 </Project>

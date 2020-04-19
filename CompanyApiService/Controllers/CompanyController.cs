@@ -1,4 +1,5 @@
 ﻿using CompanyApiService.Models;
+using CompanyApiService.Models.Filters;
 using CompanyApiService.Services.Interfaces;
 using CompanyDemo.Domain.DTOs;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using System.Web.Http;
 
 namespace CompanyApiService.Controllers
 {
+    [BasicAuthentication]
     public class CompanyController : ApiController
     {
         private ICompanyService _companyService;
