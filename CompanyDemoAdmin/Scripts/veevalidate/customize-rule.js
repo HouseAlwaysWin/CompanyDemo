@@ -30,7 +30,7 @@ VeeValidate.extend('isUniqueCompany', {
                     }).catch(function (errors) {
                         console.log(errors);
                     })
-            }, 1000);
+            }, 2000);
         });
     }
 });
@@ -39,13 +39,13 @@ VeeValidate.extend('isUniqueCompany', {
 
 
 /* 檢查Email是否有重複 */
-var typingTimer = 0;
+var uniqueCompanyCodeTimer = 0;
 VeeValidate.extend('isUniqueCompanyCode', {
     message: function (field) { return '公司代碼名稱已重複，請填寫其他的' },
     validate: function (value) {
         return new Promise(function (resolve) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(function () {
+            clearTimeout(uniqueCompanyCodeTimer);
+            uniqueCompanyCodeTimer = setTimeout(function () {
                 return axios.get(
                     '/Company/FindComapnyByCompanyCode',
                     {
@@ -76,14 +76,14 @@ VeeValidate.extend('isUniqueCompanyCode', {
 
 
 
-/* 檢查Email是否有重複 */
-var typingTimer = 0;
+///* 檢查Email是否有重複 */
+var isUniqueTaxIDTimer = 0;
 VeeValidate.extend('isUniqueTaxID', {
     message: function (field) { return '統編名稱已重複，請填寫其他的' },
     validate: function (value) {
         return new Promise(function (resolve) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(function () {
+            clearTimeout(isUniqueTaxIDTimer);
+            isUniqueTaxIDTimer = setTimeout(function () {
                 return axios.get(
                     '/Company/FindComapnyByTaxID',
                     {

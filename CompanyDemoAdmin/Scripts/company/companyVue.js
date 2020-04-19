@@ -144,7 +144,6 @@ var companyVue = new Vue({
         companySubmitForm: function () {
             var self = this;
             var data = self.companyInfo.data;
-            self.loading = true;
 
             var url = '';
             if (self.companyInfo.modalType === 'insert') {
@@ -163,14 +162,14 @@ var companyVue = new Vue({
                 WebsiteURL: data.webUrl,
                 Owner: data.owner
             };
+            self.loading = true;
 
             axios.post(url, postData
             ).then(function (result) {
                 console.log(result);
                 console.log(result.data.data);
                 $("#insertUpdate").modal("hide");
-
-                self.loading = false;
+                self.companyResetData();
                 self.companyFindByID();
             }).catch(function (error) {
                 console.log(error.response.data);
@@ -276,7 +275,7 @@ var companyVue = new Vue({
             } else {
                 url = "/Company/GetCompanyListByName";
             }
-
+            self.loading = true;
             axios.get(url,
                 {
                     params: {
