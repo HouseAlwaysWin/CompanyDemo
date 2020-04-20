@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CompanyDemo.Domain.DTOs;
+using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
@@ -29,6 +30,18 @@ namespace CompanyDemoAdmin.Helpers
                 var jsonData = JsonConvert.SerializeObject(data);
                 var result = wc.UploadString(url, method, jsonData);
                 return JsonConvert.DeserializeObject<O>(result);
+            }
+        }
+
+        public static TokenResult GetToken(string url)
+        {
+            string data = "username=admin@a.com&password=123456&grant_type=password";
+            using (var wc = new WebClient())
+            {
+                wc.Encoding = Encoding.UTF8;
+                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                var result = wc.UploadString(url, data);
+                return JsonConvert.DeserializeObject<TokenResult>(result);
             }
         }
 

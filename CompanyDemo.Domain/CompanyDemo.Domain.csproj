@@ -49,6 +49,7 @@
     <Compile Include="DTOs\JsendResult.cs" />
     <Compile Include="DTOs\ManyToManyMap.cs" />
     <Compile Include="DTOs\OneToManyMap.cs" />
+    <Compile Include="DTOs\TokenResult.cs" />
     <Compile Include="Entities\CompanyT.cs" />
     <Compile Include="Entities\EmployeeT.cs" />
     <Compile Include="Entities\EmployeeTAndCompanyT.cs" />

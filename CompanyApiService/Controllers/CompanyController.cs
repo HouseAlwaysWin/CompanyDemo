@@ -5,11 +5,13 @@ using CompanyDemo.Domain.DTOs;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace CompanyApiService.Controllers
 {
-    [BasicAuthentication]
+    //[BasicAuthentication]
+    [Authorize]
     public class CompanyController : ApiController
     {
         private ICompanyService _companyService;

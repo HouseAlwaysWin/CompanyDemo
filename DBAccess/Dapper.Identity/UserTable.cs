@@ -164,7 +164,14 @@ namespace DBAccess.Dapper.Identity
         /// <returns></returns>
         public string GetPasswordHash(int memberId)
         {
-            return db.Connection.ExecuteScalar<string>("Select PasswordHash from Member where Id = @MemberId", new { MemberId = memberId });
+            var result = db.Connection.ExecuteScalar<string>("Select PasswordHash from Member where Id = @MemberId", new { MemberId = memberId });
+            return result;
+        }
+
+        public string GetPasswordHash(string username)
+        {
+            var result = db.Connection.ExecuteScalar<string>("Select PasswordHash from Member where UserName = @UserName", new { UserName = username });
+            return result;
         }
 
         /// <summary>

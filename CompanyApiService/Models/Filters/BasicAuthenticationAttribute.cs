@@ -63,8 +63,9 @@ namespace CompanyApiService.Models.Filters
                 //Second element of the array is the password
                 string password = usernamePasswordArray[1];
 
+                UserValidate validator = new UserValidate();
                 //call the login method to check the username and password
-                if (UserValidate.Login(username, password))
+                if (validator.ValidateUser(username, password))
                 {
                     var identity = new GenericIdentity(username);
 

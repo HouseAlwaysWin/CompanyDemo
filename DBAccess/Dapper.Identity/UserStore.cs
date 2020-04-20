@@ -508,7 +508,7 @@ namespace DBAccess.Dapper.Identity
         /// <returns></returns>
         public Task<string> GetPasswordHashAsync(TUser user)
         {
-            string passwordHash = userTable.GetPasswordHash(user.Id);
+            string passwordHash = userTable.GetPasswordHash(user.UserName);
 
             return Task.FromResult<string>(passwordHash);
         }

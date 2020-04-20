@@ -4,6 +4,7 @@ using CompanyDemoAdmin.Helpers;
 using CompanyDemoAdmin.Models;
 using CompanyDemoAdmin.Models.Validators;
 using FluentValidation.Results;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,6 +26,9 @@ namespace CompanyDemoAdmin.Controllers
         {
             try
             {
+
+                var token = RequestHelper.GetToken($"{apiDomain}/token");
+
                 var url = $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}";
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
                     $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}");
@@ -76,6 +80,7 @@ namespace CompanyDemoAdmin.Controllers
         {
             try
             {
+
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(
                     $"{apiDomain}/api/Company?id={id}");
                 return Jsend(result);
