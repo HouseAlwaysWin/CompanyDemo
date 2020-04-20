@@ -225,6 +225,7 @@
     <Content Include="Content\element-ui\element-variables.scss" />
     <Content Include="Content\element-ui\fonts\element-icons.ttf" />
     <Content Include="Content\element-ui\fonts\element-icons.woff" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\element-ui\element-ui.js" />
     <Content Include="Scripts\element-ui\locale\zh_TW.js" />

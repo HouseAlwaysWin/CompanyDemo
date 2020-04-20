@@ -76,13 +76,13 @@ namespace DBAccess.Dapper.Identity
                             SELECT COUNT(*) FROM [Role]
                                     WHERE Id NOT IN(
                                     SELECT [RoleId]
-                                      FROM [CompanyDB].[dbo].[MemberRole]
+                                      FROM [dbo].[MemberRole]
                                       WHERE MemberId =@MemberId)
 
                             SELECT * FROM [Role]
                                     WHERE Id NOT IN(
                                     SELECT [RoleId]
-                                      FROM [CompanyDB].[dbo].[MemberRole]
+                                      FROM [dbo].[MemberRole]
                                       WHERE MemberId =@MemberId)
                                 ORDER BY Role.Id
                                 OFFSET @Start ROWS

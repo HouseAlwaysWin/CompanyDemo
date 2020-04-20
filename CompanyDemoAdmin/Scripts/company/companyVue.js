@@ -254,7 +254,7 @@ var companyVue = new Vue({
                                 '已刪除',
                                 'success'
                             ).then(function (result) {
-                                self.companyFindByID();
+                                self.companyFindByID(1);
                             });
 
                         }).catch(function (error) {
@@ -266,8 +266,12 @@ var companyVue = new Vue({
             })
         },
         /**根據ID查詢公司資料 */
-        companyFindByID: function () {
+        companyFindByID: function (page) {
             var self = this;
+
+            if (page) {
+                self.companyInfo.currentPage = page;
+            }
 
             var url = '';
             if (self.companyInfo.selectSearchType === "CompanyID") {
@@ -295,7 +299,6 @@ var companyVue = new Vue({
                     console.log(error.data.data);
                     self.loading = false;
                 });
-
         },
         /** 重設員工資訊 */
         employeeResetInfo: function () {
@@ -620,7 +623,7 @@ var companyVue = new Vue({
                                 '你的資料已刪除',
                                 'success'
                             ).then(function (result) {
-                                self.productFindByCompanyID();
+                                self.productFindByCompanyID(1);
                             });
 
                         }).catch(function (error) {
@@ -669,9 +672,12 @@ var companyVue = new Vue({
         },
 
         /**根據公司ID尋找產品列表 */
-        productFindByCompanyID: function () {
+        productFindByCompanyID: function (page) {
             var self = this;
-            axios.get("https://localhost:44364/Product/GetListByCompanyID", {
+            if (page) {
+                self.companyInfo.currentPage = page;
+            }
+            axios.get("/Product/GetListByCompanyID", {
                 params: {
                     id: self.productInfo.mapCompany.CompanyID,
                     currentPage: self.productInfo.currentPage,

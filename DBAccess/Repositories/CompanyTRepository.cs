@@ -149,8 +149,8 @@ namespace DBAccess.Repositories
             Connection.Execute(@"
               DELETE FROM [EmployeeT] WHERE EmployeeID IN (
               SELECT E.EmployeeID
-              FROM [CompanyDB].[dbo].[CompanyT_EmployeeT] AS CE
-              JOIN [CompanyDB].[dbo].[EmployeeT] AS E ON CE.EmployeeID = E.[EmployeeID]
+              FROM [dbo].[CompanyT_EmployeeT] AS CE
+              JOIN [dbo].[EmployeeT] AS E ON CE.EmployeeID = E.[EmployeeID]
               WHERE CE.CompanyID  = @CompanyID)
               DELETE FROM CompanyT WHERE CompanyID = @CompanyID
                 ",

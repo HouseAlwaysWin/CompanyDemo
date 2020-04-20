@@ -50,6 +50,15 @@
                     self.loading = false;
                 });
         },
+        memeberTypeText: function (type) {
+            var self = this;
+            switch (type) {
+                case 1:
+                    return "前台會員";
+                case 2:
+                    return "後台會員";
+            }
+        }
     },
     computed: {
         usersTotalPages: function () {

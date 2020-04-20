@@ -170,7 +170,7 @@ namespace DBAccess.Repositories
                           ,[Owner]
                           ,[CreatedDate]
                           ,[EditedDate]
-                         FROM [CompanyDB].[dbo].[CompanyT]
+                         FROM [dbo].[CompanyT]
                          WHERE CompanyID = @CompanyID
 ";
 
@@ -400,7 +400,7 @@ namespace DBAccess.Repositories
                           ,[Owner]
                           ,[CreatedDate]
                           ,[EditedDate]
-                         FROM [CompanyDB].[dbo].[CompanyT]
+                         FROM [dbo].[CompanyT]
                          WHERE CompanyID = @CompanyID
 ";
 

@@ -70,6 +70,7 @@
     <Build Include="dbo\Table\MemberRole.sql" />
     <Build Include="dbo\Table\ProductT.sql" />
     <Build Include="dbo\Table\Role.sql" />
+    <None Include="dbo\Table\InitialColumns.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

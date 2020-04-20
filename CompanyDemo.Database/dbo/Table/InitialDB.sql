@@ -109,6 +109,7 @@ INSERT INTO [dbo].[ProductT] ([ProductName],[ProductType],[Price],[Unit]) VALUES
 INSERT INTO [dbo].[ProductT] ([ProductName],[ProductType],[Price],[Unit]) VALUES ('產品JJ','類型J',129,'單位J')
 
 
+DELETE FROM  [dbo].[CompanyT_ProductT] 
 
 INSERT INTO [dbo].[CompanyT_ProductT] ([CompanyID],[ProductID]) VALUES (1,1)
 INSERT INTO [dbo].[CompanyT_ProductT] ([CompanyID],[ProductID]) VALUES (1,2)
@@ -131,6 +132,7 @@ INSERT INTO [dbo].[CompanyT_ProductT] ([CompanyID],[ProductID]) VALUES (9,18)
 INSERT INTO [dbo].[CompanyT_ProductT] ([CompanyID],[ProductID]) VALUES (10,19)
 INSERT INTO [dbo].[CompanyT_ProductT] ([CompanyID],[ProductID]) VALUES (10,20)
 
+DELETE FROM [dbo].[CompanyT_EmployeeT] 
 INSERT INTO [dbo].[CompanyT_EmployeeT] ([CompanyID],[EmployeeID]) VALUES (1,1)
 INSERT INTO [dbo].[CompanyT_EmployeeT] ([CompanyID],[EmployeeID]) VALUES (1,2)
 INSERT INTO [dbo].[CompanyT_EmployeeT] ([CompanyID],[EmployeeID]) VALUES (2,3)
@@ -152,7 +154,7 @@ INSERT INTO [dbo].[CompanyT_EmployeeT] ([CompanyID],[EmployeeID]) VALUES (9,18)
 INSERT INTO [dbo].[CompanyT_EmployeeT] ([CompanyID],[EmployeeID]) VALUES (10,19)
 INSERT INTO [dbo].[CompanyT_EmployeeT] ([CompanyID],[EmployeeID]) VALUES (10,20)
 
-
+DELETE FROM [dbo].[MemberRole] 
 INSERT INTO [dbo].[MemberRole] ([MemberId] ,[RoleId]) VALUES (1,1)
 INSERT INTO [dbo].[MemberRole] ([MemberId] ,[RoleId]) VALUES (1,2)
 INSERT INTO [dbo].[MemberRole] ([MemberId] ,[RoleId]) VALUES (1,3)

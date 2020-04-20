@@ -6,6 +6,7 @@ using CompanyDemoAdmin.Models.Validators;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -15,6 +16,8 @@ namespace CompanyDemoAdmin.Controllers
     [Authorize]
     public class ProductController : BaseController
     {
+        private string apiDomain = ConfigurationManager.AppSettings.Get("ApiDomain");
+
         // GET: Product
         public ActionResult Index()
         {
@@ -27,7 +30,7 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel>>>(
-                    $"https://localhost:44319/api/Product/GetProductListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                    $"{apiDomain}/api/Product/GetProductListByID?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -43,7 +46,7 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel>>>(
-                    $"https://localhost:44319/api/Product/GetProductListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
+                    $"{apiDomain}/api/Product/GetProductListByName?current={page}&itemsPerPages=10&&searchText={searchText}&isDesc={isDesc}&&sortBy={sortBy}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -60,7 +63,7 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<ProductModel>>(
-                    $"https://localhost:44319/api/Product/GetProductByName?name={name}");
+                    $"{apiDomain}/api/Product/GetProductByName?name={name}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -77,7 +80,7 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel>>>(
-                    $"https://localhost:44319/api/Product/?id={id}");
+                    $"{apiDomain}/api/Product/?id={id}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -94,7 +97,7 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<ProductModel, CompanyModel>>>(
-                    $"https://localhost:44319/api/Product/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
+                    $"{apiDomain}/api/Product/GetListByCompanyID?id={id}&currentPage={currentPage}&itemsPerPage=10&isDesc={isDesc}");
                 return Jsend(result);
             }
             catch (WebException ex)
@@ -117,7 +120,7 @@ namespace CompanyDemoAdmin.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                        $"https://localhost:44319/api/Product", data);
+                        $"{apiDomain}/api/Product", data);
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -143,7 +146,7 @@ namespace CompanyDemoAdmin.Controllers
                 try
                 {
                     var result = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                    $"https://localhost:44319/api/Product", data, "PUT");
+                    $"{apiDomain}/api/Product", data, "PUT");
                     return Jsend(result);
                 }
                 catch (WebException ex)
@@ -162,7 +165,7 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
                 var data = RequestHelper.MakePostWebRequest<ProductModel, Jsend<ProductModel>>(
-                                $"https://localhost:44319/api/Product", new ProductModel { ProductID = id }, "DELETE");
+                                $"{apiDomain}/api/Product", new ProductModel { ProductID = id }, "DELETE");
                 return Jsend(data);
             }
             catch (WebException ex)
