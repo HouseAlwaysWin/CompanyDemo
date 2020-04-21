@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CompanyDemoAdmin.Helpers;
 using CompanyDemoAdmin.Models;
 using DBAccess.Dapper.Identity;
 using Microsoft.AspNet.Identity;
@@ -120,6 +121,9 @@ namespace CompanyDemoAdmin.Controllers
                         ModelState.AddModelError("", "登入嘗試失試。");
                         return View(model);
                     }
+                    //string token = RequestHelper.GetToken(model.Email, model.Password).Access_token;
+                    //Session["Token"] = token;
+                    //string tokentest = (string)Session["Token"];
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

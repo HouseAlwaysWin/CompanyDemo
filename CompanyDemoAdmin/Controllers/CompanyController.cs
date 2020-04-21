@@ -27,7 +27,6 @@ namespace CompanyDemoAdmin.Controllers
             try
             {
 
-                var token = RequestHelper.GetToken($"{apiDomain}/token");
 
                 var url = $"{apiDomain}/api/Company/GetCompanyListByID?current={page}&itemsPerPage={itemsPerPage}&&searchText={searchText}&isDesc={isDesc}";
                 var result = RequestHelper.MakeGetWebRequest<Jsend<OneToManyMap<CompanyModel>>>(

@@ -10,8 +10,8 @@ using System.Web.Http;
 
 namespace CompanyApiService.Controllers
 {
-    //[BasicAuthentication]
-    [Authorize]
+    [BasicAuthentication]
+    //[Authorize]
     public class CompanyController : ApiController
     {
         private ICompanyService _companyService;
