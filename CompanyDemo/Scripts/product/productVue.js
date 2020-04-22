@@ -114,8 +114,11 @@ var productVue = new Vue({
 
 
         /**根據公司ID尋找產品列表 */
-        productFindBy: function () {
+        productFindBy: function (page) {
             var self = this;
+            if (page) {
+                self.productInfo.currentPage = page;
+            }
             var searchType = self.productInfo.selectSearchType;
             var url = '';
             switch (searchType) {

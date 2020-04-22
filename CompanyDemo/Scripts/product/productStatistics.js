@@ -127,7 +127,7 @@ var companyVue = new Vue({
 
                 self.companyInfo.selectSearchType = "CompanyName";
                 self.companyInfo.searchText = self.companyInfo.data.CompanyName;
-                self.companyFindBy();
+                self.companyFindBy(1);
             }).catch(function (error) {
                 console.log(error);
                 self.loading = false;
@@ -201,8 +201,12 @@ var companyVue = new Vue({
             })
         },
         /**根據ID查詢公司資料 */
-        companyFindBy: function () {
+        companyFindBy: function (page) {
             var self = this;
+
+            if (page) {
+                self.companyInfo.currentPage = page
+            }
 
             var url = '';
             if (self.companyInfo.selectSearchType === "CompanyID") {
